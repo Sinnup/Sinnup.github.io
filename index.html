@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sinué Flores — Mobile & Automation Engineer. 10+ years building Android apps, CI/CD pipelines, and AI-powered tools.">
+  <title>Sinué Flores — Mobile &amp; Automation Engineer</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e10;
+      --surface: #1a1a1e;
+      --surface-hover: #222226;
+      --border: #2a2a2e;
+      --accent: #f59e0b;
+      --accent-dim: rgba(245, 158, 11, 0.12);
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --text-dim: #71717a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Nav ─────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(14, 14, 16, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .nav-name {
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .nav-name span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .icon-link {
+      display: flex;
+      align-items: center;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .icon-link:hover { color: var(--accent); }
+    .icon-link svg { width: 20px; height: 20px; fill: currentColor; }
+
+    /* ── Layout ──────────────────────────────────────── */
+    main { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 5rem 0; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.85rem;
+    }
+
+    h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      margin-bottom: 2rem;
+    }
+
+    /* ── Hero ────────────────────────────────────────── */
+    #hero {
+      padding: 7rem 0 5rem;
+      min-height: calc(100vh - 60px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.875rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .hero-name {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 1.0;
+      margin-bottom: 1.75rem;
+    }
+    .hero-name .accent { color: var(--accent); }
+
+    .hero-pitch {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 2.25rem;
+      line-height: 1.75;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .tag {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      padding: 0.35rem 0.8rem;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+    .btn-primary { background: var(--accent); color: #0e0e10; }
+    .btn-primary:hover { background: #fbbf24; }
+    .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--surface-hover); border-color: #3a3a3e; }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-number {
+      font-size: 2.2rem;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+    .stat-number span { color: var(--accent); }
+    .stat-label { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.35rem; }
+
+    /* ── Projects ────────────────────────────────────── */
+    #projects { border-top: 1px solid var(--border); }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .filter-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .filter-btn:hover { color: var(--text); border-color: #3a3a3e; }
+    .filter-btn.active {
+      background: var(--accent-dim);
+      border-color: rgba(245, 158, 11, 0.5);
+      color: var(--accent);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, transform 0.25s;
+    }
+    .project-card:hover { border-color: #3a3a3e; transform: translateY(-3px); }
+    .project-card.hidden { display: none; }
+
+    .project-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .project-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 1.25rem;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .chip {
+      background: rgba(255,255,255,0.04);
+      color: var(--text-dim);
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--accent);
+      transition: gap 0.2s;
+      margin-top: auto;
+    }
+    .project-link:hover { gap: 0.6rem; }
+
+    /* ── Stack ───────────────────────────────────────── */
+    #stack { border-top: 1px solid var(--border); }
+
+    .stack-groups {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .stack-group-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .stack-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .stack-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+    }
+
+    /* ── Experience ──────────────────────────────────── */
+    #experience { border-top: 1px solid var(--border); }
+
+    .timeline { position: relative; margin-top: 1rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      padding-left: 2.25rem;
+      padding-bottom: 2.75rem;
+      position: relative;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 10px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--border);
+      border: 2px solid var(--bg);
+    }
+    .timeline-item.current::before { background: var(--accent); }
+
+    .timeline-period { font-size: 0.75rem; color: var(--text-dim); font-weight: 500; margin-bottom: 0.3rem; }
+    .timeline-role { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.02em; }
+    .timeline-company { font-size: 0.875rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
+    .timeline-summary { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* ── Contact ─────────────────────────────────────── */
+    #contact { border-top: 1px solid var(--border); }
+
+    .contact-subtext {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 500px;
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .contact-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .contact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      transition: border-color 0.2s, transform 0.2s;
+      min-width: 220px;
+    }
+    .contact-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .contact-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--accent-dim);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-icon svg { width: 18px; height: 18px; fill: var(--accent); }
+
+    .contact-label { font-size: 0.72rem; color: var(--text-dim); margin-bottom: 0.15rem; }
+    .contact-value { font-size: 0.9rem; font-weight: 600; }
+
+    /* ── Footer ──────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    /* ── Fade-in ─────────────────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ── Mobile ──────────────────────────────────────── */
+    @media (max-width: 640px) {
+      main { padding: 0 1.25rem; }
+      nav { padding: 0 1.25rem; }
+      section { padding: 3.5rem 0; }
+      #hero { padding: 4rem 0 3rem; min-height: auto; }
+      .hero-stats { gap: 2rem; }
+      .hide-mobile { display: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .stack-groups { grid-template-columns: 1fr 1fr; gap: 1.75rem; }
+      .contact-card { min-width: unset; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-name">Sinué<span>.</span></div>
+    <div class="nav-links">
+      <a href="#projects" class="hide-mobile">Projects</a>
+      <a href="#experience" class="hide-mobile">Experience</a>
+      <a href="#contact" class="hide-mobile">Contact</a>
+      <a href="https://github.com/Sinnup" target="_blank" rel="noopener" class="icon-link" aria-label="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/sinue-calderon/?locale=en" target="_blank" rel="noopener" class="icon-link" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-eyebrow">Mobile &amp; Automation Engineer</div>
+    <h1 class="hero-name">Sinué<br><span class="accent">Flores.</span></h1>
+    <p class="hero-pitch">
+      10+ years building production Android apps, CI/CD pipelines, and AI-powered tools.
+      I turn complex mobile and automation problems into reliable, scalable solutions.
+    </p>
+    <div class="hero-tags">
+      <span class="tag">Kotlin</span>
+      <span class="tag">Jetpack Compose</span>
+      <span class="tag">CI/CD</span>
+      <span class="tag">AI Agents</span>
+      <span class="tag">Azure DevOps</span>
+      <span class="tag">Data Analysis</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="https://www.linkedin.com/in/sinue-calderon/?locale=en" target="_blank" rel="noopener" class="btn btn-primary">View LinkedIn</a>
+      <a href="https://github.com/Sinnup" target="_blank" rel="noopener" class="btn btn-secondary">GitHub</a>
+      <a href="#contact" class="btn btn-secondary">Contact me</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-number">10<span>+</span></div>
+        <div class="stat-label">Years of experience</div>
+      </div>
+      <div>
+        <div class="stat-number">2<span>+</span></div>
+        <div class="stat-label">Years leading teams</div>
+      </div>
+      <div>
+        <div class="stat-number">5<span>+</span></div>
+        <div class="stat-label">Independent projects</div>
+      </div>
+      <div>
+        <div class="stat-number">94<span>%</span></div>
+        <div class="stat-label">CI/CD pipeline stability raised at Global Payments</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <span class="section-label">Work</span>
+    <h2>Projects</h2>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="mobile">Mobile</button>
+      <button class="filter-btn" data-filter="ai">AI</button>
+      <button class="filter-btn" data-filter="data">Data</button>
+      <button class="filter-btn" data-filter="web">Web</button>
+    </div>
+
+    <div class="projects-grid">
+
+      <div class="project-card fade-in" data-tags="mobile,ai">
+        <div class="project-icon">🪁</div>
+        <div class="project-title">Papalote</div>
+        <div class="project-desc">AI-powered no-code app builder for Android. Describe what you want in plain language and get a fully functional, styled app — instantly. Built with an agentic pipeline, Kotlin, and a locally bundled Material 3 design system.</div>
+        <div class="chip-row">
+          <span class="chip">Kotlin</span>
+          <span class="chip">Jetpack Compose</span>
+          <span class="chip">Koog</span>
+          <span class="chip">DeepSeek</span>
+          <span class="chip">WebView</span>
+          <span class="chip">Firebase</span>
+        </div>
+        <span class="project-link" style="color: var(--text-dim); cursor: default; font-weight: 500;">Play Store — coming soon</span>
+      </div>
+
+      <div class="project-card fade-in" data-tags="mobile,ai">
+        <div class="project-icon">🐶</div>
+        <div class="project-title">Doggito poio</div>
+        <div class="project-desc">Android app that identifies dog breeds from photos using an on-device AI model — fully offline, no cloud calls, instant results on any Android 8+ device.</div>
+        <div class="chip-row">
+          <span class="chip">Kotlin</span>
+          <span class="chip">Android</span>
+          <span class="chip">On-device ML</span>
+        </div>
+        <span class="project-link" style="color: var(--text-dim); cursor: default; font-weight: 500;">Play Store — coming soon</span>
+      </div>
+
+      <div class="project-card fade-in" data-tags="data">
+        <div class="project-icon">🚲</div>
+        <div class="project-title">EcoBici Data Analysis</div>
+        <div class="project-desc">Interactive analysis of Mexico City's public bike-sharing system. Explores usage patterns, station demand, and trip behavior across the city using open government data.</div>
+        <div class="chip-row">
+          <span class="chip">R</span>
+          <span class="chip">Data Visualization</span>
+          <span class="chip">Firebase Hosting</span>
+        </div>
+        <a class="project-link" href="https://ecobici-data-analysis-with-r.web.app/" target="_blank" rel="noopener">View live →</a>
+      </div>
+
+      <div class="project-card fade-in" data-tags="data">
+        <div class="project-icon">📊</div>
+        <div class="project-title">COVID-19 Mexico Charts</div>
+        <div class="project-desc">Epidemiological analysis of Mexico's COVID-19 open dataset — infection trends, comorbidities (diabetes, obesity, hypertension), age ranges, and death outcomes visualized with Python.</div>
+        <div class="chip-row">
+          <span class="chip">Python</span>
+          <span class="chip">pandas</span>
+          <span class="chip">matplotlib</span>
+          <span class="chip">seaborn</span>
+        </div>
+        <a class="project-link" href="https://covid-19-mexico-charts.web.app" target="_blank" rel="noopener">View live →</a>
+      </div>
+
+      <div class="project-card fade-in" data-tags="ai,web">
+        <div class="project-icon">📄</div>
+        <div class="project-title">TramitesAI</div>
+        <div class="project-desc">Web tool that helps users retrieve Mexican personal documents without depending on an official API — powered by AI agents and context engineering techniques.</div>
+        <div class="chip-row">
+          <span class="chip">AI Agents</span>
+          <span class="chip">Context Engineering</span>
+          <span class="chip">Web</span>
+        </div>
+        <span class="project-link" style="color: var(--text-dim); cursor: default; font-weight: 500;">In development</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack">
+    <span class="section-label">Skills</span>
+    <h2>Tech Stack</h2>
+    <div class="stack-groups">
+      <div class="fade-in">
+        <div class="stack-group-title">Mobile</div>
+        <div class="stack-chips">
+          <span class="stack-chip">Kotlin</span>
+          <span class="stack-chip">Java</span>
+          <span class="stack-chip">Jetpack Compose</span>
+          <span class="stack-chip">Android SDK</span>
+          <span class="stack-chip">KMP</span>
+          <span class="stack-chip">Ionic</span>
+        </div>
+      </div>
+      <div class="fade-in">
+        <div class="stack-group-title">CI/CD &amp; Build</div>
+        <div class="stack-chips">
+          <span class="stack-chip">Azure DevOps</span>
+          <span class="stack-chip">Jenkins</span>
+          <span class="stack-chip">Gradle</span>
+          <span class="stack-chip">JFrog Artifactory</span>
+          <span class="stack-chip">Nexus</span>
+          <span class="stack-chip">Git</span>
+        </div>
+      </div>
+      <div class="fade-in">
+        <div class="stack-group-title">AI &amp; Agents</div>
+        <div class="stack-chips">
+          <span class="stack-chip">Claude</span>
+          <span class="stack-chip">DeepSeek</span>
+          <span class="stack-chip">Koog</span>
+          <span class="stack-chip">RAG</span>
+          <span class="stack-chip">Context Engineering</span>
+          <span class="stack-chip">Gemini</span>
+        </div>
+      </div>
+      <div class="fade-in">
+        <div class="stack-group-title">Data</div>
+        <div class="stack-chips">
+          <span class="stack-chip">Python</span>
+          <span class="stack-chip">R</span>
+          <span class="stack-chip">pandas</span>
+          <span class="stack-chip">SQL</span>
+          <span class="stack-chip">matplotlib</span>
+          <span class="stack-chip">seaborn</span>
+        </div>
+      </div>
+      <div class="fade-in">
+        <div class="stack-group-title">Backend</div>
+        <div class="stack-chips">
+          <span class="stack-chip">Spring Boot</span>
+          <span class="stack-chip">Hapi.js</span>
+          <span class="stack-chip">Firebase</span>
+          <span class="stack-chip">REST APIs</span>
+          <span class="stack-chip">Docker</span>
+        </div>
+      </div>
+      <div class="fade-in">
+        <div class="stack-group-title">Quality</div>
+        <div class="stack-chips">
+          <span class="stack-chip">Espresso</span>
+          <span class="stack-chip">MockK / Mockito</span>
+          <span class="stack-chip">JaCoCo</span>
+          <span class="stack-chip">SonarQube</span>
+          <span class="stack-chip">EMV L3</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <span class="section-label">Background</span>
+    <h2>Experience</h2>
+    <div class="timeline">
+
+      <div class="timeline-item current fade-in">
+        <div class="timeline-period">Jan 2026 — Present</div>
+        <div class="timeline-role">Context Engineer · Freelance</div>
+        <div class="timeline-company">Independent — Mexico City</div>
+        <div class="timeline-summary">Building AI-powered Android and web products: an on-device AI app builder (Papalote), a dog breed recognition app (Doggito poio), and AI agent pipelines for automation and data retrieval use cases.</div>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-period">Mar 2024 — Dec 2025</div>
+        <div class="timeline-role">Lead Android Terminal Development</div>
+        <div class="timeline-company">Global Payments Inc. — Mexico City</div>
+        <div class="timeline-summary">Led Android POS development (Unified Payment Application) for Verifone terminals. Raised CI/CD pipeline stability from 20% to 94%. Performed EMV L3 certification for Visa, Mastercard, and Amex. Reduced team bugs 50%+ by introducing AI-assisted code review workflows.</div>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-period">Nov 2021 — Dec 2022</div>
+        <div class="timeline-role">Senior Android Developer</div>
+        <div class="timeline-company">Kavak · via Globant — Mexico City</div>
+        <div class="timeline-summary">Raised app stability from 80% to 98% (Crashlytics). Migrated MVVM→MVI, LiveData→Kotlin Flows. Unit test coverage up to 90%. Cut worker support calls from 15 to 5/week. Improved worker satisfaction from 76% to 94%.</div>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-period">Sep 2019 — Jun 2020</div>
+        <div class="timeline-role">Senior Android Developer</div>
+        <div class="timeline-company">Nike · via Aptivist — Beaverton, Oregon</div>
+        <div class="timeline-summary">Features on Nike Run Club wearable and mobile apps. Centralized Gradle build configuration. Contributed to Nike's internal open-source DevOps library. Used JFrog Artifactory for dependency management.</div>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-period">Oct 2016 — May 2019</div>
+        <div class="timeline-role">Full Stack Developer</div>
+        <div class="timeline-company">Walmart Tech — Mexico City</div>
+        <div class="timeline-summary">Android + REST web services for internal operations apps used across MX, CA, CN, UK, and Latam. Used Nexus for dependency management. Grew the app from a niche utility to a daily-use essential for merchandising operations. Applied unsupervised learning scripts in R and Python.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <span class="section-label">Get in touch</span>
+    <h2>Contact</h2>
+    <p class="contact-subtext">
+      Open to senior Android, mobile engineering, and automation roles.<br>Let's build something together.
+    </p>
+    <div class="contact-grid">
+
+      <a href="mailto:sinue.floresc@gmail.com" class="contact-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value">sinue.floresc@gmail.com</div>
+        </div>
+      </a>
+
+      <a href="https://www.linkedin.com/in/sinue-calderon/?locale=en" target="_blank" rel="noopener" class="contact-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-value">sinue-calderon</div>
+        </div>
+      </a>
+
+      <a href="https://github.com/Sinnup" target="_blank" rel="noopener" class="contact-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">GitHub</div>
+          <div class="contact-value">Sinnup</div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Sinué Flores · 2026
+</footer>
+
+<script>
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Project filter
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.project-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      cards.forEach(card => {
+        const tags = card.dataset.tags.split(',');
+        card.classList.toggle('hidden', filter !== 'all' && !tags.includes(filter));
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
