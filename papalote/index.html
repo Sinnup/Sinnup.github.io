@@ -224,6 +224,9 @@
 
     .screenshot-frame .placeholder-icon { font-size: 2rem; }
 
+    #demo { border-top: 1px solid var(--border); }
+    .demo-video { display: block; max-width: 320px; width: 100%; border-radius: 20px; border: 1px solid var(--border); background: #000; }
+
     /* ── Features ────────────────────────────────────── */
     #features { border-top: 1px solid var(--border); }
 
@@ -401,30 +404,33 @@
     <h2>Screenshots</h2>
     <div class="screenshots-scroll fade-in">
       <div class="screenshot-frame">
-        <div class="placeholder-icon">🎨</div>
-        <div>Starter gallery</div>
+        <img src="media/01-starters.jpg" alt="Starter gallery" loading="lazy">
       </div>
       <div class="screenshot-frame">
-        <div class="placeholder-icon">✅</div>
-        <div>Generated app running</div>
+        <img src="media/02-generated-app.jpg" alt="Generated app running" loading="lazy">
       </div>
       <div class="screenshot-frame">
-        <div class="placeholder-icon">💬</div>
-        <div>Chat panel</div>
+        <img src="media/03-actions-menu.jpg" alt="Actions menu" loading="lazy">
       </div>
       <div class="screenshot-frame">
-        <div class="placeholder-icon">📚</div>
-        <div>Saved apps library</div>
+        <img src="media/04-library.jpg" alt="Saved apps library" loading="lazy">
       </div>
       <div class="screenshot-frame">
-        <div class="placeholder-icon">🌙</div>
-        <div>Appearance settings</div>
+        <img src="media/05-appearance.jpg" alt="Appearance settings" loading="lazy">
       </div>
       <div class="screenshot-frame">
-        <div class="placeholder-icon">👍</div>
-        <div>Feedback screen</div>
+        <img src="media/06-feedback.jpg" alt="Feedback screen" loading="lazy">
       </div>
     </div>
+  </section>
+
+  <!-- DEMO -->
+  <section id="demo">
+    <span class="section-label">Demo</span>
+    <h2>See it in action</h2>
+    <video class="demo-video fade-in" controls playsinline preload="metadata" poster="media/02-generated-app.jpg">
+      <source src="media/papalote-demo.mp4" type="video/mp4">
+    </video>
   </section>
 
   <!-- FEATURES -->
