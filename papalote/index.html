@@ -184,45 +184,52 @@
     .btn-secondary:hover { background: var(--surface-hover); border-color: #3a3a3e; }
     .btn-disabled { background: var(--surface); color: var(--text-dim); border: 1px solid var(--border); cursor: default; }
 
-    /* ── Screenshots ─────────────────────────────────── */
-    #screenshots { border-top: 1px solid var(--border); }
+    /* ── Funcionalidades ─────────────────────────────── */
+    #funcionalidades { border-top: 1px solid var(--border); }
 
-    .screenshots-scroll {
-      display: flex;
-      gap: 1rem;
-      overflow-x: auto;
-      padding-bottom: 1rem;
-      scrollbar-width: thin;
-      scrollbar-color: var(--border) transparent;
+
+    .func-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.5rem;
     }
 
-    .screenshot-frame {
-      flex-shrink: 0;
-      width: 200px;
-      height: 355px;
+    .func-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 16px;
+      padding: 1.25rem;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      color: var(--text-dim);
-      font-size: 0.75rem;
-      text-align: center;
-      padding: 1rem;
+      gap: 1rem;
+    }
+
+    .phone {
+      background: #000;
+      border: 3px solid #2f2f35;
+      border-radius: 24px;
+      padding: 6px;
+      aspect-ratio: 1080 / 2354;
+      width: 100%;
+      max-width: 200px;
+      margin: 0 auto;
       overflow: hidden;
     }
+    .phone img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 17px; }
 
-    .screenshot-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 18px;
+    .func-num {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border-radius: 6px;
+      padding: 0.1rem 0.5rem;
+      margin-bottom: 0.4rem;
     }
-
-    .screenshot-frame .placeholder-icon { font-size: 2rem; }
+    .func-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
+    .func-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
 
     #demo { border-top: 1px solid var(--border); }
     .demo-video { display: block; max-width: 320px; width: 100%; border-radius: 20px; border: 1px solid var(--border); background: #000; }
@@ -398,35 +405,179 @@
     </div>
   </section>
 
-  <!-- SCREENSHOTS -->
-  <section id="screenshots">
-    <span class="section-label">Previews</span>
-    <h2>Screenshots</h2>
-    <div class="screenshots-scroll fade-in">
-      <div class="screenshot-frame">
-        <img src="media/01-welcome.jpg" alt="Welcome screen" loading="lazy">
-      </div>
-      <div class="screenshot-frame">
-        <img src="media/02-prompt.jpg" alt="Describe the app" loading="lazy">
-      </div>
-      <div class="screenshot-frame">
-        <img src="media/03-generating.jpg" alt="Agent building the app" loading="lazy">
-      </div>
-      <div class="screenshot-frame">
-        <img src="media/04-charadas-app.jpg" alt="Generated charades game" loading="lazy">
-      </div>
-      <div class="screenshot-frame">
-        <img src="media/05-calculator-app.jpg" alt="Generated tip calculator" loading="lazy">
-      </div>
-      <div class="screenshot-frame">
-        <img src="media/06-saved-apps.jpg" alt="Saved apps library" loading="lazy">
-      </div>
-      <div class="screenshot-frame">
-        <img src="media/07-appearance.jpg" alt="Appearance settings" loading="lazy">
-      </div>
-      <div class="screenshot-frame">
-        <img src="media/08-feedback.jpg" alt="Feedback screen" loading="lazy">
-      </div>
+  <!-- FUNCIONALIDADES -->
+  <section id="funcionalidades">
+    <span class="section-label">Papalote Features</span>
+    <h2>Let your creativity fly... Create what you need, right away</h2>
+    <div class="func-grid">
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/01.jpg" alt="One sentence, one app" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">01</span>
+          <h3 class="func-title">One sentence, one app</h3>
+          <p class="func-desc">Papalote opens with a single idea: describe what you want and get a real, working app. Quick shortcuts — habits, tips, expenses, notes — get you started in one tap.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/02.jpg" alt="Describe your idea" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">02</span>
+          <h3 class="func-title">Describe your idea</h3>
+          <p class="func-desc">The floating chat opens when you need it. Write in your own words what app you want — no templates, no code.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/03.jpg" alt="Name it your way" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">03</span>
+          <h3 class="func-title">Name it your way</h3>
+          <p class="func-desc">Every app is saved automatically. Rename it any time, e.g. “Punto de venta La estación del Antojo”.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/04.jpg" alt="Your app library" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">04</span>
+          <h3 class="func-title">Your app library</h3>
+          <p class="func-desc">All your creations in one place, with a counter in the bar. Switch between them in one tap, or duplicate, share, rename and delete them.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/05.jpg" alt="Duplicate as a template" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">05</span>
+          <h3 class="func-title">Duplicate as a template</h3>
+          <p class="func-desc">Want to try a change without risking your app? Make a copy in one tap and experiment with a variant.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/06.jpg" alt="Add to your home screen" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">06</span>
+          <h3 class="func-title">Add to your home screen</h3>
+          <p class="func-desc">Pin any app to your Android home screen and open it like any other app on your phone.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/07.jpg" alt="Delete with confirmation" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">07</span>
+          <h3 class="func-title">Delete with confirmation</h3>
+          <p class="func-desc">A clear prompt keeps you from losing an app with a stray tap. You decide whether it goes.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/08.jpg" alt="Share your app as a project" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">08</span>
+          <h3 class="func-title">Share your app as a project</h3>
+          <p class="func-desc">Send your app via WhatsApp, Telegram, Drive or email as a Papalote project file. Whoever receives it can import it and keep editing.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/09.jpg" alt="Share it as HTML" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">09</span>
+          <h3 class="func-title">Share it as HTML</h3>
+          <p class="func-desc">Recipient doesn't have Papalote? Export a single HTML file that opens in any browser, offline, with your data included.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/10.jpg" alt="Your opinion counts" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">10</span>
+          <h3 class="func-title">Your opinion counts</h3>
+          <p class="func-desc">In-app feedback: thumbs up or down, an optional note, and the history of what you've already sent.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/11.jpg" alt="Everything at hand" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">11</span>
+          <h3 class="func-title">Everything at hand</h3>
+          <p class="func-desc">One menu for the essentials: appearance, share, export and import projects, fix the current app, start from scratch, run in background and send feedback.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/12.jpg" alt="Your app, full screen" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">12</span>
+          <h3 class="func-title">Your app, full screen</h3>
+          <p class="func-desc">The generated app takes over the whole screen and the chat folds into a discreet bar. Here, a point of sale with search, categories, cart and bottom navigation.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/13.jpg" alt="Theme and color, your way" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">13</span>
+          <h3 class="func-title">Theme and color, your way</h3>
+          <p class="func-desc">Pick Auto, Light or Dark mode and an accent color for each app. Change the look without regenerating anything.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/14.jpg" alt="As detailed as you want" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">14</span>
+          <h3 class="func-title">As detailed as you want</h3>
+          <p class="func-desc">Write long prompts with rules, scores and even phone sensors. Here, a charades game with players, topics, round timer and final ranking.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/15.jpg" alt="Watch it progress" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">15</span>
+          <h3 class="func-title">Watch it progress</h3>
+          <p class="func-desc">A live panel shows which stage your app is in — reading your idea, building it, reviewing it, applying the theme — with a timer in view.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/16.jpg" alt="If it takes a while, it tells you" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">16</span>
+          <h3 class="func-title">If it takes a while, it tells you</h3>
+          <p class="func-desc">Complex designs take a bit longer. Papalote explains it with a clear message while it keeps working.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/17.jpg" alt="Builds in the background" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">17</span>
+          <h3 class="func-title">Builds in the background</h3>
+          <p class="func-desc">Leave the app or lock the screen: a notification tracks progress and generation keeps going on its own.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/18.jpg" alt="Review and polish" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">18</span>
+          <h3 class="func-title">Review and polish</h3>
+          <p class="func-desc">After building, a reviewer agent checks the design and “polishes the details” before saving, so the app comes out ready to use.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/19.jpg" alt="Your app, ready to use" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">19</span>
+          <h3 class="func-title">Your app, ready to use</h3>
+          <p class="func-desc">The result: “Charadas en grupo”, with player, topic and word setup, turn duration and rounds, plus section navigation.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/20.jpg" alt="Another idea, another app" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">20</span>
+          <h3 class="func-title">Another idea, another app</h3>
+          <p class="func-desc">Papalote understands English and Spanish. A short sentence like “Create a tip calculator…” is enough to get started.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/21.jpg" alt="Works from the first tap" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">21</span>
+          <h3 class="func-title">Works from the first tap</h3>
+          <p class="func-desc">Number pad, tip percentages, history and settings: the calculator works from the first screen, and everything is editable.</p>
+        </div>
+      </article>
     </div>
   </section>
 
