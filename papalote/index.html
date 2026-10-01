@@ -234,40 +234,6 @@
     #demo { border-top: 1px solid var(--border); }
     .demo-video { display: block; max-width: 320px; width: 100%; border-radius: 20px; border: 1px solid var(--border); background: #000; }
 
-    /* ── Features ────────────────────────────────────── */
-    #features { border-top: 1px solid var(--border); }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-    }
-
-    .feature-icon {
-      font-size: 1.75rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .feature-title {
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.4rem;
-    }
-
-    .feature-desc {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
     /* ── Stack ───────────────────────────────────────── */
     #stack { border-top: 1px solid var(--border); }
 
@@ -588,54 +554,6 @@
     <video class="demo-video fade-in" controls playsinline preload="metadata" poster="media/04-charadas-app.jpg">
       <source src="media/papalote-demo.mp4" type="video/mp4">
     </video>
-  </section>
-
-  <!-- FEATURES -->
-  <section id="features">
-    <span class="section-label">Features</span>
-    <h2>What it does</h2>
-    <div class="features-grid">
-      <div class="feature-card fade-in">
-        <div class="feature-icon">⚡</div>
-        <div class="feature-title">Instant generation</div>
-        <div class="feature-desc">Type what you want. An agentic pipeline designs, builds, validates, and delivers a complete, interactive app — no back-and-forth required.</div>
-      </div>
-      <div class="feature-card fade-in">
-        <div class="feature-icon">💬</div>
-        <div class="feature-title">Conversational editing</div>
-        <div class="feature-desc">Don't like something? Just say what to change. The agent updates the same app in-place, keeping your data and progress intact.</div>
-      </div>
-      <div class="feature-card fade-in">
-        <div class="feature-icon">📚</div>
-        <div class="feature-title">Multi-app library</div>
-        <div class="feature-desc">Every app you build is auto-saved. Rename, duplicate, pin to your home screen, or switch between apps with one tap.</div>
-      </div>
-      <div class="feature-card fade-in">
-        <div class="feature-icon">🎨</div>
-        <div class="feature-title">Per-app theming</div>
-        <div class="feature-desc">Each app gets a random Material 3 accent color. Override it or switch light/dark per-app, independently of the system theme.</div>
-      </div>
-      <div class="feature-card fade-in">
-        <div class="feature-icon">📤</div>
-        <div class="feature-title">Share & export</div>
-        <div class="feature-desc">Export any app as a single self-contained HTML file — opens fully styled in any browser, offline, with your data seeded in.</div>
-      </div>
-      <div class="feature-card fade-in">
-        <div class="feature-icon">🔒</div>
-        <div class="feature-title">Runs offline</div>
-        <div class="feature-desc">Generated apps run fully offline. The design system (Tailwind + Material 3) is locally bundled — no CDN, no network required after build.</div>
-      </div>
-      <div class="feature-card fade-in">
-        <div class="feature-icon">🌙</div>
-        <div class="feature-title">Background generation</div>
-        <div class="feature-desc">Lock your screen mid-generation. A foreground service + wake locks keep the agent running and notify you when your app is ready.</div>
-      </div>
-      <div class="feature-card fade-in">
-        <div class="feature-icon">🧩</div>
-        <div class="feature-title">Home screen widget</div>
-        <div class="feature-desc">A widget shows your saved apps at a glance. Tap to open any app instantly, or hit + to start a new one from your launcher.</div>
-      </div>
-    </div>
   </section>
 
   <!-- STACK -->
