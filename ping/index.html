@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ping — an Android app that auto-replies to Marketplace buyers asking if an item is still available. No Meta API, no business profile, no server.">
+  <title>Ping — Marketplace Auto-Reply · Sinué Flores</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230e0e10'/><text y='.9em' font-family='system-ui,sans-serif' font-size='80' text-anchor='middle' x='50'>💬</text></svg>">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e10;
+      --surface: #1a1a1e;
+      --surface-hover: #222226;
+      --border: #2a2a2e;
+      --accent: #3b82f6;
+      --accent-dim: rgba(59, 130, 246, 0.12);
+      --text: #ffffff;
+      --text-muted: #c8c8d0;
+      --text-dim: #9a9aa8;
+    }
+
+    html { scroll-behavior: smooth; font-size: 19px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Nav ─────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(14, 14, 16, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    .nav-name {
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .nav-name span { color: var(--accent); }
+
+    /* ── Layout ──────────────────────────────────────── */
+    main { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 3rem 0; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.85rem;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Hero ────────────────────────────────────────── */
+    #hero {
+      padding: 3rem 0 2.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.875rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .hero-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-name {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 1.0;
+      margin-bottom: 1.25rem;
+    }
+    .hero-name .accent { color: var(--accent); }
+
+    .hero-pitch {
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      color: var(--text-muted);
+      max-width: 640px;
+      margin-bottom: 1.75rem;
+      line-height: 1.75;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .meta-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .meta-pill strong { color: var(--text); }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+    .btn-primary { background: var(--accent); color: #0e0e10; }
+    .btn-primary:hover { background: #60a5fa; }
+    .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--surface-hover); border-color: #3a3a3e; }
+    .btn-disabled { background: var(--surface); color: var(--text-dim); border: 1px solid var(--border); cursor: default; }
+
+    /* ── Funcionalidades ─────────────────────────────── */
+    #funcionalidades { border-top: 1px solid var(--border); }
+
+
+    .func-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .func-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .phone {
+      background: #000;
+      border: 3px solid #2f2f35;
+      border-radius: 24px;
+      padding: 6px;
+      aspect-ratio: 1080 / 2354;
+      width: 100%;
+      max-width: 200px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .phone img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 17px; }
+
+    .func-num {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border-radius: 6px;
+      padding: 0.1rem 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+    .func-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
+    .func-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+    #demo { border-top: 1px solid var(--border); }
+    .demo-video { display: block; max-width: 300px; aspect-ratio: 882 / 1920; width: 100%; border-radius: 20px; border: 1px solid var(--border); background: #000; }
+
+    /* ── Stack ───────────────────────────────────────── */
+    #stack { border-top: 1px solid var(--border); }
+
+    .stack-groups {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 2rem;
+    }
+
+    .stack-group-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .stack-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .stack-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+    }
+
+    /* ── Architecture ────────────────────────────────── */
+    #architecture { border-top: 1px solid var(--border); }
+
+    .arch-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .arch-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .arch-item-icon {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .arch-item-title {
+      font-size: 0.925rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    .arch-item-desc {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* ── Footer ──────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    footer a { color: var(--accent); }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Fade-in ─────────────────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ── Mobile ──────────────────────────────────────── */
+    @media (max-width: 640px) {
+      main { padding: 0 1.25rem; }
+      nav { padding: 0 1.25rem; }
+      section { padding: 2.25rem 0; }
+      #hero { padding: 2rem 0 1.5rem; }
+      .stack-groups { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  
+    .hero-banner { display: block; width: 100%; max-width: 640px; border-radius: 14px; border: 1px solid var(--border); margin-top: 2rem; }
+
+
+    /* ── Screenshots ─────────────────────────────────── */
+    #screenshots { border-top: 1px solid var(--border); }
+    .func-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.5rem; }
+    .func-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+    .phone { background: #000; border: 3px solid #2f2f35; border-radius: 24px; padding: 6px; aspect-ratio: 1080 / 2354; width: 100%; max-width: 200px; margin: 0 auto; overflow: hidden; }
+    .phone img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 17px; }
+    .func-num { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent); background: var(--accent-dim); border-radius: 6px; padding: 0.1rem 0.5rem; margin-bottom: 0.4rem; }
+    .func-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
+    .func-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-back">← Portfolio</a>
+    <div class="nav-name">Sinué<span>.</span></div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-eyebrow">Android · Kotlin · Notification automation</div>
+    <div class="hero-icon">💬</div>
+    <h1 class="hero-name">Ping<span class="accent">.</span></h1>
+    <p class="hero-pitch">
+      Ping is an Android app that automatically answers Marketplace buyers who ask whether an item is
+      still available. It works for <strong>any Marketplace seller</strong> — personal or business
+      account — with no registered Meta business profile, no API and no server. Install it on the
+      phone that is signed in to the seller's Messenger, grant one permission, and it is ready.
+    </p>
+    <div class="hero-meta">
+      <div class="meta-pill"><strong>Platform</strong> Android</div>
+      <div class="meta-pill"><strong>Channels</strong> Messenger · WhatsApp Business</div>
+      <div class="meta-pill"><strong>Setup</strong> One permission, no server</div>
+      <div class="meta-pill"><strong>Distribution</strong> Personal use (sideload)</div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="why">
+    <span class="section-label">Why</span>
+    <h2>Close sales sooner, without chasing anyone</h2>
+    <ul class="arch-list">
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">⚡</div>
+        <div>
+          <div class="arch-item-title">Reply while the buyer is still interested</div>
+          <div class="arch-item-desc">Ping was built to close sales as soon as possible: the buyer gets an answer and a proposal to arrange the delivery right away, without the seller being intrusive or insistent.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">🔁</div>
+        <div>
+          <div class="arch-item-title">Handles the repetitive part</div>
+          <div class="arch-item-desc">People ask "is it still available?" all the time, but many are just browsing. Ping takes care of that repetitive first reply so the seller can focus on the buyers who actually follow up.</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- DEMO -->
+  <section id="demo">
+    <span class="section-label">Demo</span>
+    <h2>Ping in action</h2>
+    <video class="demo-video fade-in" src="media/demo.mp4" controls preload="metadata" playsinline width="441" height="960"></video>
+  </section>
+
+  <!-- SCREENSHOTS -->
+  <section id="screenshots">
+    <span class="section-label">Screenshots</span>
+    <h2>Reply, configure, give feedback</h2>
+    <div class="func-grid">
+      <div class="func-card fade-in">
+        <div class="phone"><img src="media/reply-sent.png" alt="A Marketplace buyer asks if the item is available and Ping answers with the buyer's first name" loading="lazy"></div>
+        <div>
+          <span class="func-num">01</span>
+          <div class="func-title">Instant reply to the buyer</div>
+          <p class="func-desc">A buyer asks "sigue disponible?" and Ping answers from the Messenger notification, greeting them by first name and proposing a delivery.</p>
+        </div>
+      </div>
+      <div class="func-card fade-in">
+        <div class="phone"><img src="media/setup.jpg" alt="Ping onboarding screen showing notification access granted and operating days" loading="lazy"></div>
+        <div>
+          <span class="func-num">02</span>
+          <div class="func-title">One-step setup</div>
+          <p class="func-desc">Grant Notification Access once and you are done. Choose the days you make deliveries so "today or tomorrow" offers are only sent when they can be met.</p>
+        </div>
+      </div>
+      <div class="func-card fade-in">
+        <div class="phone"><img src="media/settings.jpg" alt="Ping settings: same-day cutoff time, custom messages and feedback" loading="lazy"></div>
+        <div>
+          <span class="func-num">03</span>
+          <div class="func-title">Cutoff time and custom messages</div>
+          <p class="func-desc">Set a same-day cutoff hour, optionally use your own messages instead of the built-in ones, and send feedback from inside the app.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack">
+    <span class="section-label">Tech Stack</span>
+    <h2>Tech Stack</h2>
+    <div class="stack-groups fade-in">
+      <div>
+        <div class="stack-group-title">App</div>
+        <div class="stack-chips">
+          <span class="stack-chip">Kotlin</span>
+          <span class="stack-chip">Jetpack Compose</span>
+          <span class="stack-chip">Clean Architecture</span>
+          <span class="stack-chip">Manual DI</span>
+        </div>
+      </div>
+      <div>
+        <div class="stack-group-title">Android</div>
+        <div class="stack-chips">
+          <span class="stack-chip">NotificationListenerService</span>
+          <span class="stack-chip">RemoteInput</span>
+          <span class="stack-chip">PendingIntent</span>
+          <span class="stack-chip">SharedPreferences</span>
+        </div>
+      </div>
+      <div>
+        <div class="stack-group-title">Telemetry &amp; Feedback</div>
+        <div class="stack-chips">
+          <span class="stack-chip">Firebase Analytics</span>
+          <span class="stack-chip">Anonymous Auth</span>
+          <span class="stack-chip">Cloud Firestore</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="architecture">
+    <span class="section-label">How it works</span>
+    <h2>No API, no server</h2>
+    <ul class="arch-list">
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">🔔</div>
+        <div>
+          <div class="arch-item-title">Reads notifications, not the Meta API</div>
+          <div class="arch-item-desc">A background notification listener watches Messenger and WhatsApp Business. When an incoming message contains "disponible", Ping answers through the notification's own inline-reply action — so it needs no business profile, tokens or backend.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">🎲</div>
+        <div>
+          <div class="arch-item-title">Replies that feel human</div>
+          <div class="arch-item-desc">Each reply is picked at random from several wordings, addressed by the buyer's first name and sent after a short typing delay. Users can also provide their own messages.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">📅</div>
+        <div>
+          <div class="arch-item-title">Schedule-aware</div>
+          <div class="arch-item-desc">Variants promising delivery "today or tomorrow" are only used when both days are operating days and it is before the same-day cutoff; otherwise a generic reply is sent.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">🛟</div>
+        <div>
+          <div class="arch-item-title">Never double-replies, recovers missed messages</div>
+          <div class="arch-item-desc">A persisted record of delivered replies prevents duplicates, and a reconnect catch-up answers messages that arrived while the OS had the listener killed.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">🔒</div>
+        <div>
+          <div class="arch-item-title">Privacy-safe</div>
+          <div class="arch-item-desc">Message text and buyer names never leave the phone; telemetry only carries counts, booleans and channel labels. Because inline-reply automation is outside Google Play policy, Ping is for personal use and is not published on the Play Store.</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <span>Ping · Built by <a href="../index.html">Sinué Flores</a> · 2026</span>
+  <span>Kotlin · Jetpack Compose · Firebase</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
