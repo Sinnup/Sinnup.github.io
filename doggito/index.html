@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Doggito poio (Dogedex) — Android app that identifies dog breeds in real time from the camera using an on-device TensorFlow Lite model. Fully offline.">
+  <title>Doggito poio — Dog Breed Identifier · Sinué Flores</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230e0e10'/><text y='.9em' font-family='system-ui,sans-serif' font-size='80' text-anchor='middle' x='50'>🐶</text></svg>"><rect width='100' height='100' rx='22' fill='%230e0e10'/><text y='.9em' font-family='system-ui,sans-serif' font-size='80' text-anchor='middle' x='50'>🪁</text></svg>">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e10;
+      --surface: #1a1a1e;
+      --surface-hover: #222226;
+      --border: #2a2a2e;
+      --accent: #f59e0b;
+      --accent-dim: rgba(245, 158, 11, 0.12);
+      --text: #ffffff;
+      --text-muted: #c8c8d0;
+      --text-dim: #9a9aa8;
+    }
+
+    html { scroll-behavior: smooth; font-size: 19px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Nav ─────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(14, 14, 16, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    .nav-name {
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+    .nav-name span { color: var(--accent); }
+
+    /* ── Layout ──────────────────────────────────────── */
+    main { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 3rem 0; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.85rem;
+    }
+
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Hero ────────────────────────────────────────── */
+    #hero {
+      padding: 3rem 0 2.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.875rem;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .hero-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-name {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      line-height: 1.0;
+      margin-bottom: 1.25rem;
+    }
+    .hero-name .accent { color: var(--accent); }
+
+    .hero-pitch {
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      color: var(--text-muted);
+      max-width: 640px;
+      margin-bottom: 1.75rem;
+      line-height: 1.75;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .meta-pill {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .meta-pill strong { color: var(--text); }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+    .btn-primary { background: var(--accent); color: #0e0e10; }
+    .btn-primary:hover { background: #fbbf24; }
+    .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--surface-hover); border-color: #3a3a3e; }
+    .btn-disabled { background: var(--surface); color: var(--text-dim); border: 1px solid var(--border); cursor: default; }
+
+    /* ── Funcionalidades ─────────────────────────────── */
+    #funcionalidades { border-top: 1px solid var(--border); }
+
+
+    .func-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .func-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .phone {
+      background: #000;
+      border: 3px solid #2f2f35;
+      border-radius: 24px;
+      padding: 6px;
+      aspect-ratio: 1080 / 2354;
+      width: 100%;
+      max-width: 200px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .phone img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 17px; }
+
+    .func-num {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border-radius: 6px;
+      padding: 0.1rem 0.5rem;
+      margin-bottom: 0.4rem;
+    }
+    .func-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
+    .func-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+    #demo { border-top: 1px solid var(--border); }
+    .demo-video { display: block; max-width: 320px; width: 100%; border-radius: 20px; border: 1px solid var(--border); background: #000; }
+
+    /* ── Stack ───────────────────────────────────────── */
+    #stack { border-top: 1px solid var(--border); }
+
+    .stack-groups {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 2rem;
+    }
+
+    .stack-group-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .stack-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .stack-chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+    }
+
+    /* ── Architecture ────────────────────────────────── */
+    #architecture { border-top: 1px solid var(--border); }
+
+    .arch-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .arch-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .arch-item-icon {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .arch-item-title {
+      font-size: 0.925rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.01em;
+    }
+
+    .arch-item-desc {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    /* ── Footer ──────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    footer a { color: var(--accent); }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Fade-in ─────────────────────────────────────── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* ── Mobile ──────────────────────────────────────── */
+    @media (max-width: 640px) {
+      main { padding: 0 1.25rem; }
+      nav { padding: 0 1.25rem; }
+      section { padding: 2.25rem 0; }
+      #hero { padding: 2rem 0 1.5rem; }
+      .stack-groups { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  
+    .hero-banner { display: block; width: 100%; max-width: 640px; border-radius: 14px; border: 1px solid var(--border); margin-top: 2rem; }
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-back">← Portfolio</a>
+    <div class="nav-name">Sinué<span>.</span></div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-eyebrow">Android · On-device ML · Offline</div>
+    <div class="hero-icon">🐶</div>
+    <h1 class="hero-name">Doggito poio<span class="accent">.</span></h1>
+    <p class="hero-pitch">
+      Point your camera at a dog and find out its breed in real time. A TensorFlow Lite model runs
+      entirely on your phone — no accounts, no cloud calls, no internet needed — and every dog you
+      recognize is added to your own collection.
+    </p>
+    <div class="hero-meta">
+      <div class="meta-pill"><strong>Platform</strong> Android 7+</div>
+      <div class="meta-pill"><strong>Status</strong> Available on Google Play</div>
+      <div class="meta-pill"><strong>Package</strong> com.espert.dogedex</div>
+      <div class="meta-pill"><strong>Version</strong> 1.1.0</div>
+    </div>
+    <div class="hero-ctas">
+      <a href="https://play.google.com/store/apps/details?id=com.espert.dogedex" target="_blank" rel="noopener" class="btn btn-primary">Get it on Google Play</a>
+      <a href="https://github.com/Sinnup/Doggito-poio" target="_blank" rel="noopener" class="btn btn-secondary">GitHub</a>
+    </div>
+    <img class="hero-banner" src="media/feature-graphic.png" alt="Dogedex — identify dog breeds in real time" width="1024" height="500">
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <span class="section-label">Features</span>
+    <h2>Scan, collect, explore</h2>
+    <ul class="arch-list">
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">📷</div>
+        <div>
+          <div class="arch-item-title">Real-time breed recognition</div>
+          <div class="arch-item-desc">Live camera scanning with on-screen hints and a confidence percentage. When the model is unsure, you can see the most probable breeds instead of a single guess.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">📚</div>
+        <div>
+          <div class="arch-item-title">Your dog collection</div>
+          <div class="arch-item-desc">Every recognized dog is saved to a collection you can browse in a grid, with an empty state that guides you to your first scan.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">🐕</div>
+        <div>
+          <div class="arch-item-title">Breed details</div>
+          <div class="arch-item-desc">Open any dog to see its photo and characteristics, all bundled with the app so nothing needs to be downloaded.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">✈️</div>
+        <div>
+          <div class="arch-item-title">Fully offline and private</div>
+          <div class="arch-item-desc">All dog data and images ship with the app and live in a local database. There is no backend, no sign-up and no tracking.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">👋</div>
+        <div>
+          <div class="arch-item-title">Onboarding and accessibility</div>
+          <div class="arch-item-desc">A first-run walkthrough explains how scanning works, and the interface carries accessibility labels and adapts to phones, tablets and rotation.</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack">
+    <span class="section-label">Engineering</span>
+    <h2>Tech Stack</h2>
+    <div class="stack-groups fade-in">
+      <div>
+        <div class="stack-group-title">Android</div>
+        <div class="stack-chips">
+          <span class="stack-chip">Kotlin</span>
+          <span class="stack-chip">Jetpack Compose</span>
+          <span class="stack-chip">Material 3</span>
+          <span class="stack-chip">Navigation Compose</span>
+          <span class="stack-chip">Android SDK 24+</span>
+        </div>
+      </div>
+      <div>
+        <div class="stack-group-title">Machine Learning</div>
+        <div class="stack-chips">
+          <span class="stack-chip">TensorFlow Lite</span>
+          <span class="stack-chip">On-device inference</span>
+          <span class="stack-chip">CameraX</span>
+        </div>
+      </div>
+      <div>
+        <div class="stack-group-title">Architecture</div>
+        <div class="stack-chips">
+          <span class="stack-chip">MVI</span>
+          <span class="stack-chip">Hilt</span>
+          <span class="stack-chip">Coroutines + StateFlow</span>
+          <span class="stack-chip">Multi-module</span>
+        </div>
+      </div>
+      <div>
+        <div class="stack-group-title">Data</div>
+        <div class="stack-chips">
+          <span class="stack-chip">Room</span>
+          <span class="stack-chip">DataStore</span>
+          <span class="stack-chip">Coil</span>
+          <span class="stack-chip">Offline-first assets</span>
+        </div>
+      </div>
+      <div>
+        <div class="stack-group-title">Build / Quality</div>
+        <div class="stack-chips">
+          <span class="stack-chip">Gradle</span>
+          <span class="stack-chip">KSP</span>
+          <span class="stack-chip">GitHub Actions</span>
+          <span class="stack-chip">JUnit</span>
+          <span class="stack-chip">Turbine</span>
+          <span class="stack-chip">Fakes over mocks</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section id="architecture">
+    <span class="section-label">Architecture</span>
+    <h2>How it's built</h2>
+    <ul class="arch-list">
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">🧩</div>
+        <div>
+          <div class="arch-item-title">Three modules, one direction</div>
+          <div class="arch-item-desc"><code>:app</code> holds screens and navigation, <code>:camera</code> holds the classifier and camera code with no UI, and <code>:core</code> holds the database, models, theme and shared composables. Dependencies only point toward <code>:core</code>.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">🔁</div>
+        <div>
+          <div class="arch-item-title">MVI on every screen</div>
+          <div class="arch-item-desc">Each screen is a pure function of an immutable <code>UiState</code> held in a <code>StateFlow</code>. User intents are <code>UiAction</code>s, and one-shot events like navigation go through a <code>UiEffect</code> channel, never through state.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">🧪</div>
+        <div>
+          <div class="arch-item-title">Testable by design</div>
+          <div class="arch-item-desc">Repositories sit behind interfaces (<code>DogTasks</code>, <code>ClassifierTasks</code>) so tests inject fakes. Errors travel as a sealed <code>ResponseStatus</code> and messages are resolved through a DI abstraction, keeping ViewModels free of Android context.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon">📦</div>
+        <div>
+          <div class="arch-item-title">Offline-first data</div>
+          <div class="arch-item-desc">On first launch the dog dataset is read from assets into Room and the images are unpacked to local storage, so every later launch works without a connection.</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <span>Doggito poio · Built by <a href="../index.html">Sinué Flores</a> · 2026</span>
+  <span>Kotlin · Jetpack Compose · TensorFlow Lite · Room</span>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
