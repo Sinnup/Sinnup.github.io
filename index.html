@@ -209,6 +209,91 @@
     .stat-number span { color: var(--accent); }
     .stat-label { font-size: 0.8rem; color: var(--text-dim); margin-top: 0.35rem; }
 
+    /* ── Enterprise ──────────────────────────────────── */
+    #enterprise { border-top: 1px solid var(--border); }
+
+    .enterprise-intro {
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: -1rem 0 2.5rem;
+      line-height: 1.75;
+    }
+
+    .enterprise-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .enterprise-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      transition: border-color 0.2s, transform 0.25s;
+    }
+    .enterprise-card:hover { border-color: rgba(245,158,11,.5); transform: translateY(-3px); }
+
+    .logo-tile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 128px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      overflow: hidden;
+    }
+    .logo-tile img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.25s;
+    }
+    .logo-tile:hover img { transform: scale(1.06); }
+    .logo-tile.logo-icon { background: #000; padding: 0; }
+    .logo-tile.logo-icon img { height: 100%; width: auto; max-width: none; }
+
+    .enterprise-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .enterprise-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .enterprise-links a {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .enterprise-links a:hover { text-decoration: underline; }
+
+    .remarkable {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .remarkable-item {
+      border-left: 3px solid var(--accent);
+      padding-left: 1.1rem;
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.3;
+    }
+    .remarkable-item span { color: var(--accent); }
+
     /* ── Projects ────────────────────────────────────── */
     #projects { border-top: 1px solid var(--border); }
 
@@ -446,6 +531,7 @@
 
     /* ── Mobile ──────────────────────────────────────── */
     @media (max-width: 640px) {
+      .enterprise-grid, .remarkable { grid-template-columns: 1fr; }
       main { padding: 0 1.25rem; }
       nav { padding: 0 1.25rem; }
       section { padding: 2.25rem 0; }
@@ -464,6 +550,7 @@
   <div class="nav-inner">
     <div class="nav-name">Sinué<span>.</span></div>
     <div class="nav-links">
+      <a href="#enterprise" class="hide-mobile">Enterprise</a>
       <a href="#projects" class="hide-mobile">Projects</a>
       <a href="#experience" class="hide-mobile">Experience</a>
       <a href="#contact" class="hide-mobile">Contact</a>
@@ -517,6 +604,66 @@
         <div class="stat-number">94<span>%</span></div>
         <div class="stat-label">CI/CD pipeline stability raised at Global Payments</div>
       </div>
+    </div>
+  </section>
+
+  <!-- ENTERPRISE -->
+  <section id="enterprise">
+    <span class="section-label">Enterprise</span>
+    <h2>Shipped inside<br>big companies</h2>
+    <p class="enterprise-intro">Products delivered from definition to production for these enterprises.</p>
+
+    <div class="enterprise-grid">
+      <div class="enterprise-card fade-in">
+        <a class="logo-tile" href="https://tech.walmart.com/content/walmart-global-tech/en_us.html" target="_blank" rel="noopener" aria-label="Walmart Global Tech">
+          <img src="assets/logos/walmart.webp" alt="Walmart Global Tech" loading="lazy">
+        </a>
+        <p class="enterprise-desc">Internal hybrid mobile apps for iOS and Android, plus backend, CI/CD, monitoring and data analysis. Mentored the team along the way.</p>
+        <div class="chip-row"><span class="chip">Hybrid mobile</span><span class="chip">Backend</span><span class="chip">CI/CD</span><span class="chip">Monitoring</span><span class="chip">Data analysis</span><span class="chip">Mentoring</span></div>
+      </div>
+      <div class="enterprise-card fade-in">
+        <a class="logo-tile logo-icon" href="https://www.nike.com/mx/nrc-app" target="_blank" rel="noopener" aria-label="Nike Run Club">
+          <img src="assets/logos/nike-nrc.png" alt="Nike Run Club" loading="lazy">
+        </a>
+        <p class="enterprise-desc">NRC app for Android: architecture, continuous integration and monitoring, with team mentoring.</p>
+        <div class="chip-row"><span class="chip">Android</span><span class="chip">Architecture</span><span class="chip">CI</span><span class="chip">Monitoring</span><span class="chip">Mentoring</span></div>
+          <div class="enterprise-links"><a href="https://play.google.com/store/apps/details?id=com.nike.plusgps&hl=en" target="_blank" rel="noopener">View on Google Play →</a></div>
+      </div>
+      <div class="enterprise-card fade-in">
+        <a class="logo-tile" href="https://www.profuturo.mx/" target="_blank" rel="noopener" aria-label="Profuturo">
+          <img src="assets/logos/profuturo.svg" alt="Profuturo" loading="lazy">
+        </a>
+        <p class="enterprise-desc">Android app for Afore management, plus an internal Android app for user registration with a Zebra fingerprint biometrics reader.</p>
+        <div class="chip-row"><span class="chip">Android</span><span class="chip">Biometrics</span><span class="chip">Zebra</span></div>
+          <div class="enterprise-links"><a href="https://play.google.com/store/apps/details?id=com.Sitio&hl=es_MX" target="_blank" rel="noopener">View on Google Play →</a></div>
+      </div>
+      <div class="enterprise-card fade-in">
+        <a class="logo-tile" href="https://ine.mx/" target="_blank" rel="noopener" aria-label="Instituto Nacional Electoral">
+          <img src="assets/logos/ine.png" alt="Instituto Nacional Electoral" loading="lazy">
+        </a>
+        <p class="enterprise-desc">Supervision of backend work and continuous integration, with team mentoring.</p>
+        <div class="chip-row"><span class="chip">Backend</span><span class="chip">CI</span><span class="chip">Mentoring</span></div>
+      </div>
+      <div class="enterprise-card fade-in">
+        <a class="logo-tile" href="https://www.kavak.com/mx" target="_blank" rel="noopener" aria-label="Kavak">
+          <img src="assets/logos/kavak.jpg" alt="Kavak" loading="lazy">
+        </a>
+        <p class="enterprise-desc">Internal native Android app: architecture, continuous integration and monitoring, with team mentoring.</p>
+        <div class="chip-row"><span class="chip">Android</span><span class="chip">Architecture</span><span class="chip">CI</span><span class="chip">Monitoring</span><span class="chip">Mentoring</span></div>
+      </div>
+      <div class="enterprise-card fade-in">
+        <a class="logo-tile" href="https://www.globalpayments.com/es-es" target="_blank" rel="noopener" aria-label="Global Payments">
+          <img src="assets/logos/global-payments.svg" alt="Global Payments" loading="lazy">
+        </a>
+        <p class="enterprise-desc">Card Present Android app for Verifone Point of Sale (Unified Payment Application). Architecture, CI/CD and monitoring, as dev team manager and mentor.</p>
+        <div class="chip-row"><span class="chip">Android</span><span class="chip">Payments</span><span class="chip">CI/CD</span><span class="chip">Monitoring</span><span class="chip">Team lead</span></div>
+      </div>
+    </div>
+
+    <div class="remarkable">
+      <div class="remarkable-item fade-in">People I mentor <span>get promoted.</span></div>
+      <div class="remarkable-item fade-in">Projects stabilized, with <span>better dev and user experience.</span></div>
+      <div class="remarkable-item fade-in">Automation-oriented, <span>AI-first</span> solutions for an empathetic client experience.</div>
     </div>
   </section>
 
