@@ -339,6 +339,16 @@
   
     .hero-banner { display: block; width: 100%; max-width: 640px; border-radius: 14px; border: 1px solid var(--border); margin-top: 2rem; }
 
+
+    /* ── Screenshots ─────────────────────────────────── */
+    #screenshots { border-top: 1px solid var(--border); }
+    .func-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1.5rem; }
+    .func-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+    .phone { background: #000; border: 3px solid #2f2f35; border-radius: 24px; padding: 6px; aspect-ratio: 1080 / 2354; width: 100%; max-width: 200px; margin: 0 auto; overflow: hidden; }
+    .phone img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 17px; }
+    .func-num { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent); background: var(--accent-dim); border-radius: 6px; padding: 0.1rem 0.5rem; margin-bottom: 0.4rem; }
+    .func-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
+    .func-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -375,47 +385,84 @@
     <img class="hero-banner" src="media/feature-graphic.png" alt="Dogedex — identify dog breeds in real time" width="1024" height="500">
   </section>
 
-  <!-- FEATURES -->
-  <section id="features">
-    <span class="section-label">Features</span>
+  <!-- SCREENSHOTS -->
+  <section id="screenshots">
+    <span class="section-label">Dogedex in action</span>
     <h2>Scan, collect, explore</h2>
-    <ul class="arch-list">
-      <li class="arch-item fade-in">
-        <div class="arch-item-icon">📷</div>
-        <div>
-          <div class="arch-item-title">Real-time breed recognition</div>
-          <div class="arch-item-desc">Live camera scanning with on-screen hints and a confidence percentage. When the model is unsure, you can see the most probable breeds instead of a single guess.</div>
+    <div class="func-grid">
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/01.jpg" alt="Identify any dog" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">01</span>
+          <h3 class="func-title">Identify any dog</h3>
+          <p class="func-desc">Onboarding starts with the core idea: point the camera at a dog and Dogedex recognizes its breed in seconds.</p>
         </div>
-      </li>
-      <li class="arch-item fade-in">
-        <div class="arch-item-icon">📚</div>
-        <div>
-          <div class="arch-item-title">Your dog collection</div>
-          <div class="arch-item-desc">Every recognized dog is saved to a collection you can browse in a grid, with an empty state that guides you to your first scan.</div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/02.jpg" alt="Works offline" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">02</span>
+          <h3 class="func-title">Works offline</h3>
+          <p class="func-desc">Recognition happens on your device with a TensorFlow Lite model, so it needs no internet connection and sends nothing to the cloud.</p>
         </div>
-      </li>
-      <li class="arch-item fade-in">
-        <div class="arch-item-icon">🐕</div>
-        <div>
-          <div class="arch-item-title">Breed details</div>
-          <div class="arch-item-desc">Open any dog to see its photo and characteristics, all bundled with the app so nothing needs to be downloaded.</div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/03.jpg" alt="Build your collection" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">03</span>
+          <h3 class="func-title">Build your collection</h3>
+          <p class="func-desc">Save every dog you meet and grow your own Dogedex. Skip the walkthrough at any time; it only shows once.</p>
         </div>
-      </li>
-      <li class="arch-item fade-in">
-        <div class="arch-item-icon">✈️</div>
-        <div>
-          <div class="arch-item-title">Fully offline and private</div>
-          <div class="arch-item-desc">All dog data and images ship with the app and live in a local database. There is no backend, no sign-up and no tracking.</div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/04.jpg" alt="An empty collection, ready to fill" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">04</span>
+          <h3 class="func-title">An empty collection, ready to fill</h3>
+          <p class="func-desc">Every breed has a numbered slot. Until you find a dog, the grid waits with a friendly hint to start scanning.</p>
         </div>
-      </li>
-      <li class="arch-item fade-in">
-        <div class="arch-item-icon">👋</div>
-        <div>
-          <div class="arch-item-title">Onboarding and accessibility</div>
-          <div class="arch-item-desc">A first-run walkthrough explains how scanning works, and the interface carries accessibility labels and adapts to phones, tablets and rotation.</div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/05.jpg" alt="Live scanning" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">05</span>
+          <h3 class="func-title">Live scanning</h3>
+          <p class="func-desc">The camera view tells you when a dog is in frame and how confident the model is, here an 81% match. Tap the camera button to identify it.</p>
         </div>
-      </li>
-    </ul>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/06.jpg" alt="Breed card" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">06</span>
+          <h3 class="func-title">Breed card</h3>
+          <p class="func-desc">The recognized breed opens as a card with its number, life expectancy, temperament, group, and weight and height for females and males.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/07.jpg" alt="Not your dog? See other options" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">07</span>
+          <h3 class="func-title">Not your dog? See other options</h3>
+          <p class="func-desc">When the model is unsure, tap to see the other most probable breeds with their photos and pick the right one.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/08.jpg" alt="Your collection grows" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">08</span>
+          <h3 class="func-title">Your collection grows</h3>
+          <p class="func-desc">The identified breed fills its slot in the grid with its photo, while the rest stay numbered until you find them.</p>
+        </div>
+      </article>
+      <article class="func-card fade-in">
+        <div class="phone"><img src="media/funcionalidades/09.jpg" alt="Revisit any dog" loading="lazy"></div>
+        <div class="func-body">
+          <span class="func-num">09</span>
+          <h3 class="func-title">Revisit any dog</h3>
+          <p class="func-desc">Open a collected dog at any time to read its details again, all stored on your phone and available offline.</p>
+        </div>
+      </article>
+    </div>
   </section>
 
   <!-- STACK -->
