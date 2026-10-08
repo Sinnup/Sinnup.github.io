@@ -917,7 +917,7 @@
     </p>
     <div class="contact-grid">
 
-      <a href="mailto:sinue.floresc@gmail.com" class="contact-card">
+      <a href="mailto:sinue.floresc@gmail.com" class="contact-card" id="email-link">
         <div class="contact-icon">
           <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
         </div>
@@ -947,6 +947,16 @@
         </div>
       </a>
 
+      <a href="https://sinuesalvador.wordpress.com/blog/" target="_blank" rel="noopener" class="contact-card">
+        <div class="contact-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+        </div>
+        <div>
+          <div class="contact-label">Blog</div>
+          <div class="contact-value">sinuesalvador.wordpress.com</div>
+        </div>
+      </a>
+
     </div>
   </section>
 
@@ -955,6 +965,31 @@
 <footer>
   Sinué Flores · 2026
 </footer>
+
+<script>
+  // Email: open the default mail handler; if nothing opens, copy the address
+  (function () {
+    const link = document.getElementById('email-link');
+    if (!link) return;
+    const valueEl = link.querySelector('.contact-value');
+    const address = link.getAttribute('href').replace('mailto:', '');
+    link.addEventListener('click', () => {
+      let handled = false;
+      const mark = () => { handled = true; };
+      window.addEventListener('blur', mark, { once: true });
+      document.addEventListener('visibilitychange', mark, { once: true });
+      setTimeout(async () => {
+        window.removeEventListener('blur', mark);
+        document.removeEventListener('visibilitychange', mark);
+        if (handled) return;
+        try { await navigator.clipboard.writeText(address); } catch (e) {}
+        const original = valueEl.textContent;
+        valueEl.textContent = 'Copied: ' + address;
+        setTimeout(() => { valueEl.textContent = original; }, 3000);
+      }, 1200);
+    });
+  })();
+</script>
 
 <script>
   // Fade-in on scroll
