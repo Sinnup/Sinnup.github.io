@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Doggito poio (Dogedex) — Android app that identifies dog breeds in real time from the camera using an on-device TensorFlow Lite model. Fully offline.">
   <title>Doggito poio — Dog Breed Identifier · Sinué Flores</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230e0e10'/><text y='.9em' font-family='system-ui,sans-serif' font-size='80' text-anchor='middle' x='50'>🐶</text></svg>"><rect width='100' height='100' rx='22' fill='%230e0e10'/><text y='.9em' font-family='system-ui,sans-serif' font-size='80' text-anchor='middle' x='50'>🪁</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/fav-paw.svg">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -118,6 +118,12 @@
       height: 2px;
       background: var(--accent);
       border-radius: 2px;
+    }
+
+    .hero-icon img {
+      width: 4rem;
+      height: 4rem;
+      display: block;
     }
 
     .hero-icon {
@@ -284,6 +290,12 @@
       align-items: flex-start;
     }
 
+    .arch-item-icon img {
+      width: 1.25rem;
+      height: 1.25rem;
+      display: block;
+    }
+
     .arch-item-icon {
       font-size: 1.25rem;
       flex-shrink: 0;
@@ -365,7 +377,7 @@
   <!-- HERO -->
   <section id="hero">
     <div class="hero-eyebrow">Android · On-device ML · Offline</div>
-    <div class="hero-icon">🐶</div>
+    <div class="hero-icon"><img src="../assets/icons/paw.svg" alt="" aria-hidden="true"></div>
     <h1 class="hero-name">Doggito poio<span class="accent">.</span></h1>
     <p class="hero-pitch">
       Point your camera at a dog and find out its breed in real time. A TensorFlow Lite model runs
@@ -526,28 +538,28 @@
     <h2>How it's built</h2>
     <ul class="arch-list">
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">🧩</div>
+        <div class="arch-item-icon"><img src="../assets/icons/puzzle.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Three modules, one direction</div>
           <div class="arch-item-desc"><code>:app</code> holds screens and navigation, <code>:camera</code> holds the classifier and camera code with no UI, and <code>:core</code> holds the database, models, theme and shared composables. Dependencies only point toward <code>:core</code>.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">🔁</div>
+        <div class="arch-item-icon"><img src="../assets/icons/repeat.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">MVI on every screen</div>
           <div class="arch-item-desc">Each screen is a pure function of an immutable <code>UiState</code> held in a <code>StateFlow</code>. User intents are <code>UiAction</code>s, and one-shot events like navigation go through a <code>UiEffect</code> channel, never through state.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">🧪</div>
+        <div class="arch-item-icon"><img src="../assets/icons/flask.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Testable by design</div>
           <div class="arch-item-desc">Repositories sit behind interfaces (<code>DogTasks</code>, <code>ClassifierTasks</code>) so tests inject fakes. Errors travel as a sealed <code>ResponseStatus</code> and messages are resolved through a DI abstraction, keeping ViewModels free of Android context.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">📦</div>
+        <div class="arch-item-icon"><img src="../assets/icons/package.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Offline-first data</div>
           <div class="arch-item-desc">On first launch the dog dataset is read from assets into Room and the images are unpacked to local storage, so every later launch works without a connection.</div>

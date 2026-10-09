@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Ping — an Android app that auto-replies to Marketplace buyers asking if an item is still available. No Meta API, no business profile, no server.">
   <title>Ping — Marketplace Auto-Reply · Sinué Flores</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230e0e10'/><text y='.9em' font-family='system-ui,sans-serif' font-size='80' text-anchor='middle' x='50'>💬</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/fav-message.svg">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -118,6 +118,12 @@
       height: 2px;
       background: var(--accent);
       border-radius: 2px;
+    }
+
+    .hero-icon img {
+      width: 4rem;
+      height: 4rem;
+      display: block;
     }
 
     .hero-icon {
@@ -284,6 +290,12 @@
       align-items: flex-start;
     }
 
+    .arch-item-icon img {
+      width: 1.25rem;
+      height: 1.25rem;
+      display: block;
+    }
+
     .arch-item-icon {
       font-size: 1.25rem;
       flex-shrink: 0;
@@ -365,7 +377,7 @@
   <!-- HERO -->
   <section id="hero">
     <div class="hero-eyebrow">Android · Kotlin · Notification automation</div>
-    <div class="hero-icon">💬</div>
+    <div class="hero-icon"><img src="../assets/icons/message.svg" alt="" aria-hidden="true"></div>
     <h1 class="hero-name">Ping<span class="accent">.</span></h1>
     <p class="hero-pitch">
       Ping is an Android app that automatically answers Marketplace buyers who ask whether an item is
@@ -387,14 +399,14 @@
     <h2>Close sales sooner, without chasing anyone</h2>
     <ul class="arch-list">
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">⚡</div>
+        <div class="arch-item-icon"><img src="../assets/icons/zap.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Reply while the buyer is still interested</div>
           <div class="arch-item-desc">Ping was built to close sales as soon as possible: the buyer gets an answer and a proposal to arrange the delivery right away, without the seller being intrusive or insistent.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">🔁</div>
+        <div class="arch-item-icon"><img src="../assets/icons/repeat.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Handles the repetitive part</div>
           <div class="arch-item-desc">People ask "is it still available?" all the time, but many are just browsing. Ping takes care of that repetitive first reply so the seller can focus on the buyers who actually follow up.</div>
@@ -482,35 +494,35 @@
     <h2>No API, no server</h2>
     <ul class="arch-list">
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">🔔</div>
+        <div class="arch-item-icon"><img src="../assets/icons/bell.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Reads notifications, not the Meta API</div>
           <div class="arch-item-desc">A background notification listener watches Messenger and WhatsApp Business. When an incoming message contains "disponible", Ping answers through the notification's own inline-reply action — so it needs no business profile, tokens or backend.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">🎲</div>
+        <div class="arch-item-icon"><img src="../assets/icons/dice.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Replies that feel human</div>
           <div class="arch-item-desc">Each reply is picked at random from several wordings, addressed by the buyer's first name and sent after a short typing delay. Users can also provide their own messages.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">📅</div>
+        <div class="arch-item-icon"><img src="../assets/icons/calendar.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Schedule-aware</div>
           <div class="arch-item-desc">Variants promising delivery "today or tomorrow" are only used when both days are operating days and it is before the same-day cutoff; otherwise a generic reply is sent.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">🛟</div>
+        <div class="arch-item-icon"><img src="../assets/icons/life-buoy.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Never double-replies, recovers missed messages</div>
           <div class="arch-item-desc">A persisted record of delivered replies prevents duplicates, and a reconnect catch-up answers messages that arrived while the OS had the listener killed.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">🔒</div>
+        <div class="arch-item-icon"><img src="../assets/icons/lock.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Privacy-safe</div>
           <div class="arch-item-desc">Message text and buyer names never leave the phone; telemetry only carries counts, booleans and channel labels. Because inline-reply automation is outside Google Play policy, Ping is for personal use and is not published on the Play Store.</div>

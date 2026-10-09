@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Papalote — AI-powered no-code app builder for Android. Describe any app in plain words and get a real, working one instantly.">
   <title>Papalote — AI App Builder · Sinué Flores</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230e0e10'/><text y='.9em' font-family='system-ui,sans-serif' font-size='80' text-anchor='middle' x='50'>🪁</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/fav-kite.svg">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -118,6 +118,12 @@
       height: 2px;
       background: var(--accent);
       border-radius: 2px;
+    }
+
+    .hero-icon img {
+      width: 4rem;
+      height: 4rem;
+      display: block;
     }
 
     .hero-icon {
@@ -284,6 +290,12 @@
       align-items: flex-start;
     }
 
+    .arch-item-icon img {
+      width: 1.25rem;
+      height: 1.25rem;
+      display: block;
+    }
+
     .arch-item-icon {
       font-size: 1.25rem;
       flex-shrink: 0;
@@ -352,7 +364,7 @@
   <!-- HERO -->
   <section id="hero">
     <div class="hero-eyebrow">Android · AI · No-code</div>
-    <div class="hero-icon">🪁</div>
+    <div class="hero-icon"><img src="../assets/icons/kite.svg" alt="" aria-hidden="true"></div>
     <h1 class="hero-name">Papalote<span class="accent">.</span></h1>
     <p class="hero-pitch">
       AI-powered no-code app builder for Android. Describe any app in plain words — a habit tracker,
@@ -620,35 +632,35 @@
     <h2>How it's built</h2>
     <ul class="arch-list">
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">🤖</div>
+        <div class="arch-item-icon"><img src="../assets/icons/bot.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Koog AI Agent</div>
           <div class="arch-item-desc">A Koog <code>AIAgent</code> runs a multi-role pipeline (Architect → Builder → Reviewer → Fixer → Finalizer). A deterministic <code>HtmlValidator</code> enforces hard invariants (shell, offline, no-gradient) with zero extra tokens — violations trigger a single targeted repair call, never a loop.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">⚙️</div>
+        <div class="arch-item-icon"><img src="../assets/icons/settings.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Background-safe foreground service</div>
           <div class="arch-item-desc"><code>GenerationService</code> is a started foreground service that survives screen lock on aggressive OEM power managers (OnePlus, Oppo, Xiaomi). A <code>withContext(NonCancellable)</code> finalize block guarantees delivery even if the service tears down mid-run. The real fix on aggressive OEMs is the "Allow background activity" per-app toggle — the app surfaces a one-time prompt for it.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">🎨</div>
+        <div class="arch-item-icon"><img src="../assets/icons/palette.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Locally bundled design system</div>
           <div class="arch-item-desc">Generated apps use a Material 3 + Tailwind system served from <code>assets/web/</code> via <code>WebViewAssetLoader</code> — fully offline. Light/dark and accent are stamped via <code>data-theme</code>/<code>data-accent</code> attributes on <code>&lt;html&gt;</code> at generation time and re-stamped live when the system theme changes.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">💾</div>
+        <div class="arch-item-icon"><img src="../assets/icons/database.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Per-app state persistence</div>
           <div class="arch-item-desc">A <code>@JavascriptInterface</code> bridge wraps the generated app's <code>render()</code> to push <code>JSON.stringify(state)</code> to native on every change. State is restored via <code>Object.assign(state, saved); render()</code> on page load — surviving app switches and process restarts.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">📊</div>
+        <div class="arch-item-icon"><img src="../assets/icons/chart.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Privacy-first analytics</div>
           <div class="arch-item-desc">21 typed events via a backend-agnostic <code>Analytics</code> interface backed by Firebase. <code>AnalyticsSchema</code> (pure, no Android deps) is the single source of truth — unit-tested to enforce that payloads carry only lengths/counts/flags/enums, never prompt or HTML text.</div>

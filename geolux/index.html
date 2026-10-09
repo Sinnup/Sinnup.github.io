@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Geolux — a sketch CRUD for locations built with Google Maps and Firebase. It extracts the GPS coordinates from a photo to relate the picture to a specific place.">
   <title>Geolux — Photo-based Location CRUD · Sinué Flores</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230e0e10'/><text y='.9em' font-family='system-ui,sans-serif' font-size='80' text-anchor='middle' x='50'>📍</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/fav-map-pin.svg">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -118,6 +118,12 @@
       height: 2px;
       background: var(--accent);
       border-radius: 2px;
+    }
+
+    .hero-icon img {
+      width: 4rem;
+      height: 4rem;
+      display: block;
     }
 
     .hero-icon {
@@ -284,6 +290,12 @@
       align-items: flex-start;
     }
 
+    .arch-item-icon img {
+      width: 1.25rem;
+      height: 1.25rem;
+      display: block;
+    }
+
     .arch-item-icon {
       font-size: 1.25rem;
       flex-shrink: 0;
@@ -365,7 +377,7 @@
   <!-- HERO -->
   <section id="hero">
     <div class="hero-eyebrow">Ionic · Google Maps · Firebase</div>
-    <div class="hero-icon">📍</div>
+    <div class="hero-icon"><img src="../assets/icons/map-pin.svg" alt="" aria-hidden="true"></div>
     <h1 class="hero-name">Geolux<span class="accent">.</span></h1>
     <p class="hero-pitch">
       Geolux is a sketch solution: a CRUD for locations using Google Maps and Firebase for storing
@@ -432,21 +444,21 @@
     <h2>From photo to place</h2>
     <ul class="arch-list">
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">📷</div>
+        <div class="arch-item-icon"><img src="../assets/icons/camera.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Photo in, coordinates out</div>
           <div class="arch-item-desc">Photos carry GPS metadata in their EXIF tags. Geolux reads it from the image to get the exact latitude and longitude, so there is no need to type or pick the position by hand.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">🗺️</div>
+        <div class="arch-item-icon"><img src="../assets/icons/map.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Locations on Google Maps</div>
           <div class="arch-item-desc">Each location is drawn on a Google Map, tying the stored information to a real place and its photo.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
-        <div class="arch-item-icon">🔥</div>
+        <div class="arch-item-icon"><img src="../assets/icons/flame.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Firebase for data and files</div>
           <div class="arch-item-desc">Location records and their related files are stored in Firebase, giving the CRUD (create, read, update, delete) a persistent cloud backend.</div>
