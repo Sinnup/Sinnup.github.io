@@ -302,6 +302,10 @@
       margin-top: 0.1rem;
     }
 
+    .arch-item > div:not(.arch-item-icon) {
+      min-width: 0;
+    }
+
     .arch-item-title {
       font-size: 0.925rem;
       font-weight: 700;
@@ -310,6 +314,7 @@
     }
 
     .arch-item-desc {
+      overflow-wrap: anywhere;
       font-size: 0.825rem;
       color: var(--text-muted);
       line-height: 1.55;
