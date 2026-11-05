@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Field notes from riding for Soy Rappi in October 2026: 16 UX and reliability issues, root-cause hypotheses, fixes from product to Kotlin, and a dark theme that keeps the brand.">
-  <title>Soy Rappi Field Notes · Sinué Flores</title>
+  <meta name="description" content="Notas de campo de mis turnos en Soy Rappi en octubre de 2026: 17 problemas de UX y confiabilidad, hipótesis de causa, arreglos desde producto hasta Kotlin y un tema oscuro que respeta la marca.">
+  <title>Notas de campo Soy Rappi · Sinué Flores</title>
   <link rel="icon" type="image/svg+xml" href="../assets/icons/fav-bike.svg">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -129,7 +129,7 @@
 
     .shot { display: block; width: 100%; background: #000; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; cursor: zoom-in; padding: 0; position: relative; }
     .shot img { display: block; width: 100%; height: auto; }
-    .shot::after { content: 'Click to enlarge'; position: absolute; left: 8px; bottom: 8px; font-size: 0.65rem; font-weight: 600; background: rgba(14,14,16,0.85); color: var(--text-muted); padding: 0.15rem 0.5rem; border-radius: 5px; opacity: 0; transition: opacity 0.2s; }
+    .shot::after { content: 'Toca para ampliar'; position: absolute; left: 8px; bottom: 8px; font-size: 0.65rem; font-weight: 600; background: rgba(14,14,16,0.85); color: var(--text-muted); padding: 0.15rem 0.5rem; border-radius: 5px; opacity: 0; transition: opacity 0.2s; }
     .shot:hover::after, .shot:focus-visible::after { opacity: 1; }
     .shot:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     .shot-cap { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.5rem; line-height: 1.45; }
@@ -231,7 +231,7 @@
       background: var(--m-bg); color: var(--m-on); font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; line-height: 1.3;
       display: flex; flex-direction: column;
     }
-    /* Light: palette observed in the app, fixes applied */
+    /* Claro: paleta observada en la app, con arreglos aplicados */
     .scr.light {
       --m-bg: #F3F5F6; --m-s1: #FFFFFF; --m-s2: #EEF1F2; --m-s3: #FFFFFF; --m-on: #1B1D1F; --m-var: #5A636B;
       --m-primary: #C8372A; --m-cta: #FE5B4A; --m-on-cta: #1F0A05; --m-pc: #FFE3DD; --m-on-pc: #5A1F14;
@@ -240,7 +240,7 @@
       --m-outline: #D5DADD; --m-sb: #1B1D1F;
       --map-land: #ECEEEA; --map-road: #FFFFFF; --map-art: #F7E7C6; --map-water: #BFDCEB; --map-park: #D4EBD1; --map-route: #E2483A; --map-casing: #FFFFFF;
     }
-    /* Dark: proposed tokens */
+    /* Oscuro: tokens propuestos */
     .scr.dark {
       --m-bg: #161412; --m-s1: #1E1B19; --m-s2: #252220; --m-s3: #2D2926; --m-on: #EDE6E3; --m-var: #B9AFAA;
       --m-primary: #FF8A75; --m-cta: #FF5A47; --m-on-cta: #1F0A05; --m-pc: #5A1F14; --m-on-pc: #FFDAD2;
@@ -371,7 +371,7 @@
       .issues-table td.idc { grid-column: 1; }
       .issues-table td.sv { grid-column: 2; }
       .issues-table td.t, .issues-table td.fx, .issues-table td.ev { grid-column: 1 / -1; }
-      .issues-table td.fx::before { content: 'First fix: '; color: var(--text); font-weight: 650; }
+      .issues-table td.fx::before { content: 'Primer arreglo: '; color: var(--text); font-weight: 650; }
       .issues-table td.ev .dash { display: none; }
     }
     @media (max-width: 640px) {
@@ -400,7 +400,7 @@
 
 <nav>
   <div class="nav-inner">
-    <a href="../index.html" class="nav-back">← Portfolio</a>
+    <a href="../index.html" class="nav-back">← Portafolio</a>
     <div class="nav-name">Sinué<span>.</span></div>
   </div>
 </nav>
@@ -409,94 +409,94 @@
 
   <!-- HERO -->
   <section id="hero">
-    <div class="hero-eyebrow">Field notes · Android · UX</div>
+    <div class="hero-eyebrow">Notas de campo · Android · UX</div>
     <div class="hero-icon"><img src="../assets/icons/bike.svg" alt="" aria-hidden="true"></div>
-    <h1 class="hero-name">What broke on my<br>Soy Rappi shifts<span class="accent">.</span></h1>
+    <h1 class="hero-name">Lo que falló en mis<br>turnos de Soy Rappi<span class="accent">.</span></h1>
     <p class="hero-pitch">
-      In October 2026 I worked real deliveries in CDMX with the Soy Rappi courier app. I'm an Android engineer,
-      so I kept recording whenever something got in my way. This page is what I found: 16 issues, why I think
-      they happen, and how I would help fix them, from the product decision down to the Kotlin.
+      En octubre de 2026 hice entregas reales en la CDMX con la app de repartidores Soy Rappi. Soy ingeniero Android,
+      así que cada vez que algo me estorbaba, lo grababa. Aquí está lo que encontré: 17 problemas, por qué creo que
+      pasan y cómo ayudaría a resolverlos, desde la decisión de producto hasta el código en Kotlin.
     </p>
     <div class="hero-meta">
-      <div class="meta-pill"><strong>When</strong> Oct 7–28, 2026</div>
-      <div class="meta-pill"><strong>Where</strong> CDMX, one Android phone</div>
-      <div class="meta-pill"><strong>Evidence</strong> 19 screenshots · 15 recordings</div>
-      <div class="meta-pill"><strong>Output</strong> 16 issues · dark theme proposal</div>
+      <div class="meta-pill"><strong>Cuándo</strong> 7 al 28 de oct. de 2026</div>
+      <div class="meta-pill"><strong>Dónde</strong> CDMX, un teléfono Android</div>
+      <div class="meta-pill"><strong>Evidencia</strong> 19 capturas · 15 grabaciones</div>
+      <div class="meta-pill"><strong>Resultado</strong> 17 problemas · propuesta de tema oscuro</div>
     </div>
   </section>
 
   <!-- CONTEXT -->
   <section id="context">
-    <span class="section-label">Context</span>
-    <h2>Why I did this, and how</h2>
+    <span class="section-label">Contexto</span>
+    <h2>Por qué lo hice y cómo</h2>
     <p class="lead">
-      Most UX reviews happen at a desk. These happened on the street, with an order running and a customer waiting.
-      That changes what matters: a two-second delay on a splash screen is a minor annoyance at home, and a real problem
-      at a red light when you need the delivery address.
+      Casi todas las revisiones de UX se hacen en un escritorio. Estas las hice en la calle, con un pedido en curso y un cliente esperando.
+      Eso cambia lo que importa: dos segundos de más en la pantalla de inicio en tu casa son una molestia; en un semáforo,
+      cuando necesitas la dirección de entrega, son un problema de verdad.
     </p>
     <p class="lead">
-      I want the app to be better for the people who use it every day. Nothing here is meant as
-      a takedown. Every issue comes with a proposal I'd be glad to build.
+      Quiero que la app sea mejor para la gente que la usa todos los días. Nada de esto busca exhibir a nadie.
+      Cada problema viene con una propuesta que me encantaría construir.
     </p>
     <div class="grid-3">
       <div class="card fade-in">
         <span class="step-num">01</span>
-        <h3>Capture on real shifts</h3>
-        <p>Screenshots and screen recordings taken on my own phone while working, between Oct 7 and Oct 28. No test accounts, no staged flows.</p>
+        <h3>Capturar en turnos reales</h3>
+        <p>Capturas y grabaciones de pantalla tomadas en mi propio teléfono mientras trabajaba, del 7 al 28 de octubre. Sin cuentas de prueba ni flujos armados.</p>
       </div>
       <div class="card fade-in">
         <span class="step-num">02</span>
-        <h3>Catalogue with timestamps</h3>
-        <p>I sampled each recording at one frame every two seconds and tied every finding to a source and a moment in it. Related findings were grouped into 16 issues.</p>
+        <h3>Catalogar con marcas de tiempo</h3>
+        <p>Saqué un fotograma cada dos segundos de cada grabación y amarré cada hallazgo a una fuente y a un momento. Junté los hallazgos relacionados en 17 problemas.</p>
       </div>
       <div class="card fade-in">
         <span class="step-num">03</span>
-        <h3>Rate by impact on a rider</h3>
-        <p>Severity is about the courier on the street, not about how ugly something looks. For each issue I wrote what I saw, the impact, a root-cause hypothesis and a fix at three levels.</p>
+        <h3>Calificar por impacto en quien reparte</h3>
+        <p>La severidad se mide por lo que le pasa al repartidor en la calle, no por qué tan feo se ve algo. Para cada problema escribí lo que vi, el impacto, una hipótesis de la causa y un arreglo en tres niveles.</p>
       </div>
     </div>
     <div class="note fade-in">
-      <strong>To be clear:</strong> I have no access to Rappi's code, logs or backend. Everything I describe as observed
-      is visible in my captures. Root causes are hypotheses from the outside and would need client logs and network traces
-      to confirm. Several flows were captured once, so I can't speak to how often they happen. Personal data (courier and customer
-      names, addresses, order numbers) is covered with solid boxes or pixelation, and screens with IDs or faces were left out entirely.
+      <strong>Para que quede claro:</strong> no tengo acceso al código, los logs ni el backend de Rappi. Todo lo que describo como observado
+      se ve en mis capturas. Las causas son hipótesis desde fuera y habría que confirmarlas con logs del cliente y trazas de red.
+      Varios flujos los capturé una sola vez, así que no puedo decir qué tan seguido pasan. Los datos personales (nombres de repartidores
+      y clientes, direcciones, números de pedido) están tapados con recuadros sólidos o pixelados, y dejé fuera por completo las pantallas con identificaciones o caras.
     </div>
   </section>
 
   <!-- SUMMARY -->
   <section id="summary">
-    <span class="section-label">Summary</span>
-    <h2>16 issues, five themes</h2>
+    <span class="section-label">Resumen</span>
+    <h2>17 problemas, cinco temas</h2>
     <div class="sev-row fade-in">
-      <div class="sev-tile" style="--c: var(--p0)"><div class="n">1</div><div class="k">P0</div><div class="d">Blocks work or a delivery in progress</div></div>
-      <div class="sev-tile" style="--c: var(--p1)"><div class="n">5</div><div class="k">P1</div><div class="d">Costs money or real time, or is a safety risk</div></div>
-      <div class="sev-tile" style="--c: var(--p2)"><div class="n">6</div><div class="k">P2</div><div class="d">Broken or confusing, with a workaround</div></div>
-      <div class="sev-tile" style="--c: var(--p3)"><div class="n">4</div><div class="k">P3</div><div class="d">Polish</div></div>
+      <div class="sev-tile" style="--c: var(--p0)"><div class="n">1</div><div class="k">P0</div><div class="d">Bloquea el trabajo o una entrega en curso</div></div>
+      <div class="sev-tile" style="--c: var(--p1)"><div class="n">5</div><div class="k">P1</div><div class="d">Cuesta dinero o tiempo real, o es un riesgo de seguridad</div></div>
+      <div class="sev-tile" style="--c: var(--p2)"><div class="n">7</div><div class="k">P2</div><div class="d">Roto o confuso, pero se puede rodear</div></div>
+      <div class="sev-tile" style="--c: var(--p3)"><div class="n">4</div><div class="k">P3</div><div class="d">Detalles de pulido</div></div>
     </div>
     <div class="grid-3">
       <div class="card theme-card fade-in">
-        <h3>Resilience at startup and offline</h3>
-        <p>The app waits on the network before it shows you an order you already have. Offline and in-delivery states contradict each other on the same screen.</p>
+        <h3>Resiliencia al arrancar y sin conexión</h3>
+        <p>La app espera a la red antes de mostrarte un pedido que ya tienes. Los estados "sin conexión" y "en entrega" se contradicen en la misma pantalla.</p>
         <div class="ids"><a class="id-chip" href="#iss-01">ISS-01</a><a class="id-chip" href="#iss-04">ISS-04</a><a class="id-chip" href="#more">ISS-09</a><a class="id-chip" href="#more">ISS-10</a></div>
       </div>
       <div class="card theme-card fade-in">
-        <h3>Money consistency</h3>
-        <p>Debt showed as -$30.16, $0.00 and -$557.00 on different screens within minutes. Orders that dead-end don't tell you whether you get paid or penalized.</p>
+        <h3>Dinero que no cuadra</h3>
+        <p>La deuda apareció como -$30.16, $0.00 y -$557.00 en distintas pantallas con minutos de diferencia. Los pedidos que se atoran no te dicen si te van a pagar o a penalizar.</p>
         <div class="ids"><a class="id-chip" href="#iss-03">ISS-03</a><a class="id-chip" href="#iss-05">ISS-05</a></div>
       </div>
       <div class="card theme-card fade-in">
-        <h3>Error surfaces leaking internals</h3>
-        <p>Raw backend messages in English, literal HTML and Markdown in chat, an internal store code, and generic error screens with no way forward.</p>
+        <h3>Errores que dejan ver las tripas</h3>
+        <p>Mensajes del backend en inglés y sin procesar, HTML y Markdown literales en el chat, un código interno de tienda y pantallas de error genéricas sin salida.</p>
         <div class="ids"><a class="id-chip" href="#iss-02">ISS-02</a><a class="id-chip" href="#more">ISS-07</a><a class="id-chip" href="#more">ISS-10</a><a class="id-chip" href="#more">ISS-13</a></div>
       </div>
       <div class="card theme-card fade-in">
-        <h3>Ride-safe interactions</h3>
-        <p>Navigation opens in car mode, chat needs free typing, CTAs hide under the nav bar, and reconnecting asks for a selfie every time.</p>
-        <div class="ids"><a class="id-chip" href="#iss-06">ISS-06</a><a class="id-chip" href="#more">ISS-08</a><a class="id-chip" href="#more">ISS-12</a><a class="id-chip" href="#more">ISS-15</a></div>
+        <h3>Interacciones seguras en ruta</h3>
+        <p>La navegación abre en modo auto, el chat obliga a escribir, los botones se esconden bajo la barra de navegación, reconectarte pide selfie cada vez y una encuesta de 12 pasos aparece en plena ruta.</p>
+        <div class="ids"><a class="id-chip" href="#iss-06">ISS-06</a><a class="id-chip" href="#more">ISS-08</a><a class="id-chip" href="#more">ISS-12</a><a class="id-chip" href="#more">ISS-15</a><a class="id-chip" href="#iss-17">ISS-17</a></div>
       </div>
       <div class="card theme-card fade-in">
-        <h3>Copy and i18n</h3>
-        <p>"Opcional" on a required step, English strings in a Spanish UI, typos, three time formats, and notifications that say nothing.</p>
+        <h3>Textos e i18n</h3>
+        <p>"Opcional" en un paso obligatorio, textos en inglés en una interfaz en español, faltas de ortografía, tres formatos de hora y notificaciones que no dicen nada.</p>
         <div class="ids"><a class="id-chip" href="#more">ISS-11</a><a class="id-chip" href="#more">ISS-13</a><a class="id-chip" href="#more">ISS-16</a></div>
       </div>
     </div>
@@ -505,44 +505,44 @@
   <!-- P0 / P1 -->
   <section id="issues">
     <span class="section-label">P0 · P1</span>
-    <h2>The ones that cost time and money</h2>
-    <p class="lead">Each card shows what I saw and what I think is behind it. Open "How I'd fix it" for the plan at three levels: product and process, architecture, and code.</p>
+    <h2>Los que cuestan tiempo y dinero</h2>
+    <p class="lead">Cada tarjeta muestra lo que vi y lo que creo que hay detrás. Abre "Cómo lo arreglaría" para ver el plan en tres niveles: producto y proceso, arquitectura y código.</p>
 
     <div class="issues">
 
       <!-- ISS-01 -->
       <article class="issue fade-in" id="iss-01">
-        <div class="issue-head"><span class="issue-id">ISS-01</span><span class="sev p0">P0</span><span class="issue-tag">Startup</span></div>
-        <h3>Stuck on "Verificando actualización" in the middle of a delivery</h3>
+        <div class="issue-head"><span class="issue-id">ISS-01</span><span class="sev p0">P0</span><span class="issue-tag">Arranque</span></div>
+        <h3>Atorado en "Verificando actualización" a media entrega</h3>
         <div class="issue-body">
           <div class="issue-media">
-            <button class="shot" type="button" data-cap="ISS-01 · The splash screen stuck on 'Verificando actualización' while a delivery was in progress.">
-              <img src="media/03-startup-stuck-verifying-update.jpg" alt="Soy Rappi splash screen with the text Verificando actualización and a thin progress line" loading="lazy" width="540" height="1178">
+            <button class="shot" type="button" data-cap="ISS-01 · La pantalla de inicio atorada en 'Verificando actualización' con una entrega en curso.">
+              <img src="media/03-startup-stuck-verifying-update.jpg" alt="Pantalla de inicio de Soy Rappi con el texto Verificando actualización y una línea de progreso delgada" loading="lazy" width="540" height="1178">
             </button>
-            <p class="shot-cap">About 36 seconds into the wait.</p>
+            <p class="shot-cap">Unos 36 segundos de espera.</p>
           </div>
           <div class="issue-text">
-            <div><div class="blk-label">What happens</div>
-              <p>On a cold start the splash shows the logo, a thin progress line and "Verificando actualización", and it never finishes. I waited about 36 seconds, killed the app from Recents, relaunched and got the same splash. The app reached "En camino al cliente" only at about 1:25 into the recording. A delivery was in progress the whole time.</p></div>
-            <div><div class="blk-label">Impact on the courier</div>
-              <p>Around a minute and a half with no address, no chat and no "Llegué" button, while the ETA clock keeps running. That can mean a late penalty, and it means stopping in traffic to fight with the phone.</p></div>
-            <div><div class="blk-label hyp">Hypothesis</div>
-              <p>The startup gate blocks navigation until a network call finishes (an in-app update check, or a forced-update and remote-config fetch) and that call has no timeout and no fallback. On a congested connection it hangs. Killing the app doesn't help because the gate runs again on every cold start. The active order is probably not stored locally, so nothing can render before the network answers.</p></div>
+            <div><div class="blk-label">Qué pasa</div>
+              <p>En un arranque en frío, la pantalla de inicio muestra el logo, una línea de progreso delgada y "Verificando actualización", y nunca termina. Esperé unos 36 segundos, cerré la app desde Recientes, la volví a abrir y salió la misma pantalla. La app llegó a "En camino al cliente" hasta el minuto 1:25 de la grabación. Todo ese tiempo tenía una entrega en curso.</p></div>
+            <div><div class="blk-label">Impacto en el repartidor</div>
+              <p>Cerca de minuto y medio sin dirección, sin chat y sin botón de "Llegué", mientras el reloj de la hora estimada sigue corriendo. Eso puede terminar en una penalización por retraso, y significa detenerte en pleno tráfico a pelearte con el teléfono.</p></div>
+            <div><div class="blk-label hyp">Hipótesis</div>
+              <p>Hay una compuerta de arranque que bloquea la navegación hasta que termina una llamada de red (la revisión de actualización in-app, o la de actualización forzada y remote config), y esa llamada no tiene timeout ni plan B. Con una conexión saturada, se queda colgada. Cerrar la app no sirve porque la compuerta se vuelve a ejecutar en cada arranque en frío. Lo más probable es que el pedido activo no se guarde localmente, así que no hay nada que mostrar antes de que responda la red.</p></div>
           </div>
         </div>
         <details class="fix">
-          <summary>How I'd fix it</summary>
+          <summary>Cómo lo arreglaría</summary>
           <div class="fix-inner">
-            <div class="level high"><div class="level-name">High <span>product · UX · process</span></div>
-              <p>Never block access to an active order. "Update available" becomes a banner. Only a version the server flags as critical can block, and only when no order is active. Track cold start to first interactive frame, with a separate number for cold starts during an active order.</p></div>
-            <div class="level med"><div class="level-name">Medium <span>architecture</span></div>
+            <div class="level high"><div class="level-name">Alto <span>producto · UX · proceso</span></div>
+              <p>Nunca bloquear el acceso a un pedido activo. "Hay una actualización" pasa a ser un banner. Solo una versión que el servidor marque como crítica puede bloquear, y solo si no hay pedido activo. Medir el tiempo del arranque en frío al primer fotograma interactivo, con un número aparte para los arranques en frío durante un pedido activo.</p></div>
+            <div class="level med"><div class="level-name">Medio <span>arquitectura</span></div>
               <ul>
-                <li>Persist the active order in Room through an <code>OrderRepository</code> and render from the database first.</li>
-                <li>Run the update and config check in the background with a hard 3 s timeout.</li>
-                <li>Bind <code>setKeepOnScreenCondition</code> to local readiness only.</li>
-                <li>Add breadcrumbs (<code>startup_gate_start</code>, <code>startup_gate_timeout</code>) to Crashlytics or Sentry.</li>
+                <li>Guardar el pedido activo en Room a través de un <code>OrderRepository</code> y pintar primero desde la base de datos.</li>
+                <li>Hacer la revisión de actualización y de configuración en segundo plano, con un timeout estricto de 3 s.</li>
+                <li>Amarrar <code>setKeepOnScreenCondition</code> solo a que lo local esté listo.</li>
+                <li>Agregar breadcrumbs (<code>startup_gate_start</code>, <code>startup_gate_timeout</code>) a Crashlytics o Sentry.</li>
               </ul></div>
-            <div class="level low"><div class="level-name">Low <span>Kotlin</span></div>
+            <div class="level low"><div class="level-name">Bajo <span>Kotlin</span></div>
 <pre><code class="kt">class StartupViewModel(
     private val orders: OrderRepository,
     private val updates: UpdateChecker,
@@ -552,7 +552,7 @@
 
     init {
         viewModelScope.launch {
-            orders.activeOrderLocal().first()   // Room, no network needed
+            orders.activeOrderLocal().first()   // Room, no necesita red
             ready.value = true
         }
         viewModelScope.launch {
@@ -572,41 +572,41 @@ installSplashScreen().setKeepOnScreenCondition { !vm.ready.value }</code></pre><
 
       <!-- ISS-02 -->
       <article class="issue fade-in" id="iss-02">
-        <div class="issue-head"><span class="issue-id">ISS-02</span><span class="sev p1">P1</span><span class="issue-tag">Errors · i18n</span></div>
-        <h3>A raw backend error, in English, on the queue screen</h3>
+        <div class="issue-head"><span class="issue-id">ISS-02</span><span class="sev p1">P1</span><span class="issue-tag">Errores · i18n</span></div>
+        <h3>Un error crudo del backend, en inglés, en la pantalla de la fila</h3>
         <div class="issue-body">
           <div class="issue-media">
-            <button class="shot" type="button" data-cap="ISS-02 · 'The storekeeper is not trusted from any geo point.' shown as a red snackbar, next to the auto-accept pill and the debt banner.">
-              <img src="media/02-backend-error-leaked-in-english.jpg" alt="Virtual queue screen with a red snackbar reading The storekeeper is not trusted from any geo point" loading="lazy" width="540" height="1178">
+            <button class="shot" type="button" data-cap="ISS-02 · 'The storekeeper is not trusted from any geo point.' en un snackbar rojo, junto al aviso de autoaceptación y el banner de deuda.">
+              <img src="media/02-backend-error-leaked-in-english.jpg" alt="Pantalla de fila virtual con un snackbar rojo que dice The storekeeper is not trusted from any geo point" loading="lazy" width="540" height="1178">
             </button>
-            <p class="shot-cap">Three messages at once, none of them telling me what to do.</p>
+            <p class="shot-cap">Tres mensajes a la vez y ninguno me dice qué hacer.</p>
           </div>
           <div class="issue-text">
-            <div><div class="blk-label">What happens</div>
-              <p>In the virtual queue for a restaurant ("Estás avanzando en la fila") a red snackbar stays on screen: <strong>"The storekeeper is not trusted from any geo point."</strong> At the same time an orange pill says auto-accept was turned on when I joined the queue, and a banner says "Menos pedidos por tu deuda".</p></div>
-            <div><div class="blk-label">Impact on the courier</div>
-              <p>I couldn't tell if I was in the queue, banned from that point, or supposed to move. That is waiting time with no feedback. "Storekeeper" looks like internal vocabulary for the courier role.</p></div>
-            <div><div class="blk-label hyp">Hypothesis</div>
-              <p>The server's <code>message</code> field is displayed as is, with no mapping from error code to localized copy. The backend probably checked my position against the hub's geofence and rejected it. That's a legitimate state. It just needs a message I can act on, like "you're outside the pickup zone, move closer".</p></div>
+            <div><div class="blk-label">Qué pasa</div>
+              <p>En la fila virtual de un restaurante ("Estás avanzando en la fila") se queda en pantalla un snackbar rojo: <strong>"The storekeeper is not trusted from any geo point."</strong> Al mismo tiempo, un aviso naranja dice que se activó la autoaceptación al entrar a la fila, y un banner dice "Menos pedidos por tu deuda".</p></div>
+            <div><div class="blk-label">Impacto en el repartidor</div>
+              <p>No supe si estaba en la fila, si me habían bloqueado en ese punto o si tenía que moverme. Es tiempo de espera sin ninguna respuesta. "Storekeeper" parece vocabulario interno para el rol del repartidor.</p></div>
+            <div><div class="blk-label hyp">Hipótesis</div>
+              <p>El campo <code>message</code> del servidor se muestra tal cual, sin traducir el código de error a un texto localizado. Lo más seguro es que el backend comparó mi ubicación con la geocerca del punto y la rechazó. Es un estado legítimo; solo necesita un mensaje con el que pueda hacer algo, como "estás fuera de la zona de recolección, acércate".</p></div>
           </div>
         </div>
         <details class="fix">
-          <summary>How I'd fix it</summary>
+          <summary>Cómo lo arreglaría</summary>
           <div class="fix-inner">
-            <div class="level high"><div class="level-name">High <span>product · UX · process</span></div>
+            <div class="level high"><div class="level-name">Alto <span>producto · UX · proceso</span></div>
               <ul>
-                <li>A copy guide for errors: what happened, why, and what to do next.</li>
-                <li>No raw server text in production builds.</li>
-                <li>A string catalogue owned by product, with an <code>es-MX</code> linter in CI for accents and tone.</li>
-                <li>Geofence errors show the distance and a "Show me where" action.</li>
+                <li>Una guía de redacción para errores: qué pasó, por qué y qué hacer ahora.</li>
+                <li>Cero texto crudo del servidor en builds de producción.</li>
+                <li>Un catálogo de textos a cargo de producto, con un linter de <code>es-MX</code> en CI que revise acentos y tono.</li>
+                <li>Los errores de geocerca muestran la distancia y una acción de "Muéstrame dónde".</li>
               </ul></div>
-            <div class="level med"><div class="level-name">Medium <span>architecture</span></div>
+            <div class="level med"><div class="level-name">Medio <span>arquitectura</span></div>
               <ul>
-                <li>Errors carry a stable <code>code</code>; the client maps it to a sealed <code>DomainError</code>.</li>
-                <li>Unknown codes fall back to a localized generic message and get logged with the raw payload, which is never shown.</li>
-                <li>Truly dynamic server strings come with a <code>locale</code> and are translated server-side.</li>
+                <li>Los errores traen un <code>code</code> estable; el cliente lo convierte en un <code>DomainError</code> sellado.</li>
+                <li>Los códigos desconocidos caen en un mensaje genérico localizado y se registran con el payload original, que nunca se muestra.</li>
+                <li>Los textos que de verdad son dinámicos llegan con un <code>locale</code> y se traducen en el servidor.</li>
               </ul></div>
-            <div class="level low"><div class="level-name">Low <span>Kotlin · Compose</span></div>
+            <div class="level low"><div class="level-name">Bajo <span>Kotlin · Compose</span></div>
 <pre><code class="kt">sealed interface DomainError {
     data class OutsideGeofence(val meters: Int, val hub: LatLng) : DomainError
     data object Network : DomainError
@@ -632,47 +632,47 @@ fun DomainError.message(): String = when (this) {
 
       <!-- ISS-03 -->
       <article class="issue fade-in" id="iss-03">
-        <div class="issue-head"><span class="issue-id">ISS-03</span><span class="sev p1">P1</span><span class="issue-tag">Money</span></div>
-        <h3>Debt and balance disagree across screens, and with support</h3>
+        <div class="issue-head"><span class="issue-id">ISS-03</span><span class="sev p1">P1</span><span class="issue-tag">Dinero</span></div>
+        <h3>La deuda y el saldo no coinciden entre pantallas, ni con soporte</h3>
         <div class="issue-body wide-media">
           <div class="issue-media wide">
-            <button class="shot" type="button" data-cap="ISS-03 · Home says the pending-balance limit is reached at -$30.16; Mis finanzas says total debt is $0.00. Captured minutes apart.">
-              <img src="media/04-debt-balance-mismatch.jpg" alt="Two screens side by side: home card with Balance actual -$30.16 and limit reached, and Mis finanzas showing Deuda total $0.00" loading="lazy" width="720" height="777">
+            <button class="shot" type="button" data-cap="ISS-03 · El inicio dice que se alcanzó el límite de saldo pendiente con -$30.16; Mis finanzas dice que la deuda total es $0.00. Capturas con minutos de diferencia.">
+              <img src="media/04-debt-balance-mismatch.jpg" alt="Dos pantallas lado a lado: la tarjeta de inicio con Balance actual -$30.16 y límite alcanzado, y Mis finanzas con Deuda total $0.00" loading="lazy" width="720" height="777">
             </button>
-            <p class="shot-cap">Same session, minutes apart.</p>
+            <p class="shot-cap">Misma sesión, minutos de diferencia.</p>
           </div>
           <div class="issue-text">
-            <div><div class="blk-label">What happens</div>
-              <p>Within a few minutes of one recording:</p>
+            <div><div class="blk-label">Qué pasa</div>
+              <p>En unos cuantos minutos de una misma grabación:</p>
               <ul>
-                <li><strong>Home:</strong> "Balance actual: -$30.16. Alcanzaste el límite de saldo pendiente", which blocks cash orders.</li>
+                <li><strong>Inicio:</strong> "Balance actual: -$30.16. Alcanzaste el límite de saldo pendiente", lo que bloquea los pedidos en efectivo.</li>
                 <li><strong>Mis finanzas, Deuda total:</strong> $0.00.</li>
-                <li><strong>Debt detail:</strong> -$397.90 for cash received and -$557.00 for a cancelled order.</li>
-                <li><strong>Support bot:</strong> it had already removed the debt with an adjustment of $557.00 MXN.</li>
+                <li><strong>Detalle de la deuda:</strong> -$397.90 por efectivo recibido y -$557.00 por un pedido cancelado.</li>
+                <li><strong>Bot de soporte:</strong> ya había quitado la deuda con un ajuste de $557.00 MXN.</li>
               </ul>
-              <p>Later that evening the queue still said "Menos pedidos por tu deuda". The next night the balance was +$8.69.</p></div>
-            <div><div class="blk-label">Impact on the courier</div>
-              <p>This is my money, and it decides whether I get cash orders, so it decides what I earn. Three numbers with no reconciliation break trust fast and push people to support.</p></div>
-            <div><div class="blk-label hyp">Hypothesis</div>
-              <p>Each screen reads from a different source: the home card from a wallet or limits endpoint, Mis finanzas from a cut-off ledger aggregate, the detail from transaction rows. Caching differs per screen, nothing invalidates after a support adjustment, and no screen has an "adjustment pending" state.</p></div>
+              <p>Esa misma noche, la fila seguía diciendo "Menos pedidos por tu deuda". A la noche siguiente el saldo era de +$8.69.</p></div>
+            <div><div class="blk-label">Impacto en el repartidor</div>
+              <p>Es mi dinero, y define si me llegan pedidos en efectivo, o sea, cuánto gano. Tres cifras que no cuadran acaban rápido con la confianza y mandan a la gente a soporte.</p></div>
+            <div><div class="blk-label hyp">Hipótesis</div>
+              <p>Cada pantalla lee de una fuente distinta: la tarjeta de inicio de un endpoint de wallet o de límites, Mis finanzas de un agregado del ledger con fecha de corte, y el detalle de las filas de transacciones. Cada pantalla cachea a su manera, nada se invalida después de un ajuste de soporte y ninguna pantalla tiene un estado de "ajuste pendiente".</p></div>
           </div>
         </div>
         <details class="fix">
-          <summary>How I'd fix it</summary>
+          <summary>Cómo lo arreglaría</summary>
           <div class="fix-inner">
-            <div class="level high"><div class="level-name">High <span>product · UX · process</span></div>
+            <div class="level high"><div class="level-name">Alto <span>producto · UX · proceso</span></div>
               <ul>
-                <li>One balance everywhere, "Saldo", with debt shown as a part of it.</li>
-                <li>"Ajuste en proceso" with an ETA right after a support adjustment.</li>
-                <li>Every banner that restricts orders links to the exact transactions behind it.</li>
+                <li>Un solo saldo en todas partes, "Saldo", con la deuda como parte de él.</li>
+                <li>"Ajuste en proceso" con tiempo estimado justo después de un ajuste de soporte.</li>
+                <li>Cada banner que restringe pedidos enlaza a las transacciones exactas que lo causan.</li>
               </ul></div>
-            <div class="level med"><div class="level-name">Medium <span>architecture</span></div>
+            <div class="level med"><div class="level-name">Medio <span>arquitectura</span></div>
               <ul>
-                <li>A <code>WalletRepository</code> exposing <code>StateFlow&lt;Wallet&gt;</code> from one endpoint (or a BFF aggregate) that carries a <code>ledgerVersion</code>. Every screen observes it.</li>
-                <li>Invalidate on push: <code>wallet.updated</code>, support adjustment, order cancellation.</li>
-                <li>Track "conflicting balance shown" when home and ledger versions differ.</li>
+                <li>Un <code>WalletRepository</code> que expone un <code>StateFlow&lt;Wallet&gt;</code> desde un solo endpoint (o un agregado en un BFF) con un <code>ledgerVersion</code>. Todas las pantallas lo observan.</li>
+                <li>Invalidar con push: <code>wallet.updated</code>, ajuste de soporte, cancelación de pedido.</li>
+                <li>Registrar "saldo contradictorio mostrado" cuando las versiones del inicio y del ledger no coinciden.</li>
               </ul></div>
-            <div class="level low"><div class="level-name">Low <span>Kotlin</span></div>
+            <div class="level low"><div class="level-name">Bajo <span>Kotlin</span></div>
 <pre><code class="kt">data class Wallet(
     val balance: Money, val debt: Money, val cashLimitReached: Boolean,
     val pending: List&lt;Adjustment&gt;, val ledgerVersion: Long,
@@ -690,7 +690,7 @@ class WalletRepository(
 
     suspend fun refresh() {
         val w = api.wallet()
-        dao.upsertIfNewer(w)   // ignore responses older than the stored ledgerVersion
+        dao.upsertIfNewer(w)   // ignora respuestas más viejas que el ledgerVersion guardado
     }
 }</code></pre></div>
           </div>
@@ -699,40 +699,40 @@ class WalletRepository(
 
       <!-- ISS-04 -->
       <article class="issue fade-in" id="iss-04">
-        <div class="issue-head"><span class="issue-id">ISS-04</span><span class="sev p1">P1</span><span class="issue-tag">State</span></div>
-        <h3>Offline and on a delivery at the same time, and auto-accept turns itself on</h3>
+        <div class="issue-head"><span class="issue-id">ISS-04</span><span class="sev p1">P1</span><span class="issue-tag">Estado</span></div>
+        <h3>Desconectado y en entrega al mismo tiempo, y la autoaceptación se prende sola</h3>
         <div class="issue-body">
           <div class="issue-media">
-            <button class="shot" type="button" data-cap="ISS-04 · Two stacked toolbars: 'Estás desconectado' and 'En camino'. The contract card says 'Opcional' on a required step (ISS-11).">
-              <img src="media/07-offline-state-double-toolbar.jpg" alt="Home screen with two stacked toolbars, one saying Estás desconectado and one saying En camino" loading="lazy" width="720" height="1569">
+            <button class="shot" type="button" data-cap="ISS-04 · Dos barras superiores encimadas: 'Estás desconectado' y 'En camino'. La tarjeta del contrato dice 'Opcional' en un paso obligatorio (ISS-11).">
+              <img src="media/07-offline-state-double-toolbar.jpg" alt="Pantalla de inicio con dos barras superiores encimadas, una dice Estás desconectado y otra dice En camino" loading="lazy" width="720" height="1569">
             </button>
-            <p class="shot-cap">Two toolbars, two different truths.</p>
+            <p class="shot-cap">Dos barras, dos verdades distintas.</p>
           </div>
           <div class="issue-text">
-            <div><div class="blk-label">What happens</div>
+            <div><div class="blk-label">Qué pasa</div>
               <ul>
-                <li>Two toolbars stacked on home: "Estás desconectado" with its toggle, and right below it "En camino" with its own menu and help icons.</li>
-                <li>The connect screen showed auto-accept <strong>off</strong>. Right after connecting, home said "Autoaceptación activa".</li>
-                <li>Joining a virtual queue showed "Se encendió la Auto aceptación al entrar a la fila". It was switched on as a side effect.</li>
+                <li>Dos barras encimadas en el inicio: "Estás desconectado" con su switch, y justo abajo "En camino" con sus propios íconos de menú y ayuda.</li>
+                <li>La pantalla para conectarse mostraba la autoaceptación <strong>apagada</strong>. Justo después de conectarme, el inicio decía "Autoaceptación activa".</li>
+                <li>Al entrar a una fila virtual salió "Se encendió la Auto aceptación al entrar a la fila". Se prendió como efecto secundario.</li>
               </ul></div>
-            <div><div class="blk-label">Impact on the courier</div>
-              <p>Auto-accept assigns orders you didn't choose, and rejecting them hurts the acceptance rate that decides your tier. That's a consent problem and an earnings problem.</p></div>
-            <div><div class="blk-label hyp">Hypothesis</div>
-              <p>Connection, order phase and preferences live in separate holders instead of one session state. The server enforces "queue implies auto-accept", but the toggle isn't driven by server state, so it shows a stale local value. The double toolbar looks like two fragments or NavHosts attached for different states, with the old one never removed.</p></div>
+            <div><div class="blk-label">Impacto en el repartidor</div>
+              <p>La autoaceptación te asigna pedidos que no elegiste, y rechazarlos baja la tasa de aceptación que define tu nivel. Es un problema de consentimiento y de ganancias.</p></div>
+            <div><div class="blk-label hyp">Hipótesis</div>
+              <p>La conexión, la fase del pedido y las preferencias viven en lugares separados en vez de en un solo estado de sesión. El servidor impone "fila implica autoaceptación", pero el switch no se alimenta del estado del servidor, así que muestra un valor local viejo. La doble barra parece de dos fragments o NavHosts montados para estados distintos, y el viejo nunca se quita.</p></div>
           </div>
         </div>
         <details class="fix">
-          <summary>How I'd fix it</summary>
+          <summary>Cómo lo arreglaría</summary>
           <div class="fix-inner">
-            <div class="level high"><div class="level-name">High <span>product · UX · process</span></div>
-              <p>Auto-accept is opt-in and never switches on silently. If a queue needs it, ask: "Para entrar a la fila se activará Auto aceptación. ¿Continuar?" Show the current state in one place, the top bar.</p></div>
-            <div class="level med"><div class="level-name">Medium <span>architecture</span></div>
+            <div class="level high"><div class="level-name">Alto <span>producto · UX · proceso</span></div>
+              <p>La autoaceptación es opcional y nunca se prende sin avisar. Si una fila la necesita, se pregunta: "Para entrar a la fila se activará Auto aceptación. ¿Continuar?" El estado actual se muestra en un solo lugar, la barra superior.</p></div>
+            <div class="level med"><div class="level-name">Medio <span>arquitectura</span></div>
               <ul>
-                <li>One <code>SessionState</code> (connection × order phase × preferences) in a <code>SessionStore</code>, server-authoritative, with optimistic local intents.</li>
-                <li>Exactly one top bar rendered from that state.</li>
-                <li>If a policy overrides a preference, the response says so (<code>autoAccept=true</code> plus a <code>reason</code>) and the UI shows the reason.</li>
+                <li>Un solo <code>SessionState</code> (conexión × fase del pedido × preferencias) en un <code>SessionStore</code>, con el servidor como fuente de verdad e intenciones locales optimistas.</li>
+                <li>Exactamente una barra superior, pintada desde ese estado.</li>
+                <li>Si una política se impone a una preferencia, la respuesta lo dice (<code>autoAccept=true</code> más un <code>reason</code>) y la interfaz muestra el motivo.</li>
               </ul></div>
-            <div class="level low"><div class="level-name">Low <span>Kotlin · Compose</span></div>
+            <div class="level low"><div class="level-name">Bajo <span>Kotlin · Compose</span></div>
 <pre><code class="kt">data class SessionState(
     val connection: Connection = Connection.Offline,
     val phase: OrderPhase = OrderPhase.Idle,
@@ -745,13 +745,13 @@ fun reduce(s: SessionState, e: SessionEvent): SessionState = when (e) {
         connection = e.connection, phase = e.phase,
         autoAccept = Pref(e.autoAccept,
             if (e.autoAcceptReason != null) Source.Policy else Source.User, e.autoAcceptReason))
-    SessionEvent.WentOffline -&gt; s.copy(connection = Connection.Offline) // phase kept: a delivery can be active offline
+    SessionEvent.WentOffline -&gt; s.copy(connection = Connection.Offline) // se conserva la fase: puede haber entrega activa sin conexión
     else -&gt; s
 }
 
 @Composable
 fun SessionTopBar(s: SessionState) = when {
-    s.phase is OrderPhase.Active &amp;&amp; s.connection == Connection.Offline -&gt; OfflineDuringDeliveryBar(s.phase) // one bar, not two
+    s.phase is OrderPhase.Active &amp;&amp; s.connection == Connection.Offline -&gt; OfflineDuringDeliveryBar(s.phase) // una barra, no dos
     s.connection == Connection.Offline -&gt; OfflineBar()
     else -&gt; PhaseBar(s.phase)
 }</code></pre></div>
@@ -761,40 +761,40 @@ fun SessionTopBar(s: SessionState) = when {
 
       <!-- ISS-05 -->
       <article class="issue fade-in" id="iss-05">
-        <div class="issue-head"><span class="issue-id">ISS-05</span><span class="sev p1">P1</span><span class="issue-tag">Order flow · Money</span></div>
-        <h3>Orders that dead-end, and orders that disappear without a word</h3>
+        <div class="issue-head"><span class="issue-id">ISS-05</span><span class="sev p1">P1</span><span class="issue-tag">Flujo del pedido · Dinero</span></div>
+        <h3>Pedidos que se atoran, y pedidos que desaparecen sin decir nada</h3>
         <div class="issue-body no-media">
           <div class="issue-text">
-            <p class="no-shot">Captured in about six minutes of recordings. Not published here because they show the customer chat.</p>
-            <div><div class="blk-label">What happens</div>
+            <p class="no-shot">Capturado en unos seis minutos de grabaciones. No lo publico porque se ve el chat con el cliente.</p>
+            <div><div class="blk-label">Qué pasa</div>
               <ul>
-                <li>At a convenience store, none of the 5 requested items were in stock. The customer wrote that the app wouldn't let them cancel; cancelling on my side meant a penalty; support told the customer to wait until the estimated delivery time passed. The screen stayed at "0/5 Seleccionados" with "Tengo los productos" disabled. Nothing in the app models this situation.</li>
-                <li>I reported it under "Situaciones con la tienda", where a photo is mandatory and the camera preview was almost black. After "Un momento por favor, estamos consultando el sistema" the app went back to 0/5, and about 10 seconds later jumped to "Buscando pedidos". No confirmation, no outcome, nothing about penalty or compensation.</li>
-                <li>Other captures: an order cancelled because the kitchen was slow, with me asking how to recover the money, and a "¿por qué no puedes finalizar el pedido?" menu.</li>
+                <li>En una tienda de conveniencia no había ninguno de los 5 productos del pedido. El cliente me escribió que la app no lo dejaba cancelar; si yo cancelaba, me penalizaban; soporte le dijo al cliente que esperara a que pasara la hora estimada de entrega. La pantalla se quedó en "0/5 Seleccionados" con "Tengo los productos" deshabilitado. Nada en la app contempla esta situación.</li>
+                <li>Lo reporté en "Situaciones con la tienda", donde la foto es obligatoria y la vista previa de la cámara salía casi negra. Después de "Un momento por favor, estamos consultando el sistema", la app regresó a 0/5 y unos 10 segundos después saltó a "Buscando pedidos". Sin confirmación, sin resultado, nada sobre penalización o compensación.</li>
+                <li>Otras capturas: un pedido cancelado porque la cocina se tardó, conmigo preguntando cómo recuperar el dinero, y un menú de "¿por qué no puedes finalizar el pedido?".</li>
               </ul></div>
-            <div><div class="blk-label">Impact on the courier</div>
-              <p>Unpaid waiting, possible penalties and more support load. The worst part is not knowing how it ended.</p></div>
-            <div><div class="blk-label hyp">Hypothesis</div>
-              <p>The order state machine has no state for "store can't fulfil" or "reported, under review". Reassignment arrives as a plain "order removed" event with no <code>reason</code>, so the client just navigates home. The report call is probably not idempotent, and the client probably doesn't wait for a ticket id.</p></div>
+            <div><div class="blk-label">Impacto en el repartidor</div>
+              <p>Espera que nadie paga, posibles penalizaciones y más carga para soporte. Lo peor es no saber cómo terminó.</p></div>
+            <div><div class="blk-label hyp">Hipótesis</div>
+              <p>La máquina de estados del pedido no tiene un estado para "la tienda no puede surtir" ni para "reportado, en revisión". La reasignación llega como un simple evento de "pedido removido" sin <code>reason</code>, así que el cliente solo navega al inicio. La llamada del reporte probablemente no es idempotente, y el cliente probablemente no espera a recibir un id de ticket.</p></div>
           </div>
         </div>
         <details class="fix">
-          <summary>How I'd fix it</summary>
+          <summary>Cómo lo arreglaría</summary>
           <div class="fix-inner">
-            <div class="level high"><div class="level-name">High <span>product · UX · process</span></div>
+            <div class="level high"><div class="level-name">Alto <span>producto · UX · proceso</span></div>
               <ul>
-                <li>First-class exits with a guaranteed outcome: "La tienda no tiene ningún producto" (no penalty, plus a waiting fee after N minutes), "Cocina demorada &gt; X min", "El cliente pidió otra dirección".</li>
-                <li>Every report returns a visible ticket with status and outcome.</li>
-                <li>When an order is removed, a full-screen explanation: why, whether I'm paid anything, whether there's a penalty.</li>
+                <li>Salidas de primera clase con un resultado garantizado: "La tienda no tiene ningún producto" (sin penalización, y con pago por espera después de N minutos), "Cocina demorada &gt; X min", "El cliente pidió otra dirección".</li>
+                <li>Cada reporte regresa un ticket visible con su estado y su resultado.</li>
+                <li>Cuando se remueve un pedido, una pantalla completa que explique por qué, si me pagan algo y si hay penalización.</li>
               </ul></div>
-            <div class="level med"><div class="level-name">Medium <span>architecture</span></div>
+            <div class="level med"><div class="level-name">Medio <span>arquitectura</span></div>
               <ul>
-                <li>Extend the state machine with <code>Blocked(reason)</code> and <code>UnderReview(ticketId)</code>.</li>
-                <li>Send reports through WorkManager with an idempotency key, so a retry can't duplicate or race the reassignment.</li>
-                <li>Server pushes <code>order.removed{reason, compensation, penalty}</code>; the client renders it before going home.</li>
-                <li>CameraX with torch and exposure hints for the mandatory photo.</li>
+                <li>Agregar a la máquina de estados <code>Blocked(reason)</code> y <code>UnderReview(ticketId)</code>.</li>
+                <li>Mandar los reportes por WorkManager con una llave de idempotencia, para que un reintento no duplique ni se cruce con la reasignación.</li>
+                <li>El servidor manda <code>order.removed{reason, compensation, penalty}</code>; el cliente lo muestra antes de ir al inicio.</li>
+                <li>CameraX con linterna y ajustes de exposición para la foto obligatoria.</li>
               </ul></div>
-            <div class="level low"><div class="level-name">Low <span>Kotlin</span></div>
+            <div class="level low"><div class="level-name">Bajo <span>Kotlin</span></div>
 <pre><code class="kt">sealed interface OrderPhase {
     data object Idle : OrderPhase
     data class Picking(val id: String, val found: Int, val total: Int) : OrderPhase
@@ -805,53 +805,53 @@ fun SessionTopBar(s: SessionState) = when {
 
 class SubmitReportWorker(ctx: Context, p: WorkerParameters) : CoroutineWorker(ctx, p) {
     override suspend fun doWork(): Result {
-        val key = inputData.getString("idempotencyKey")!!   // UUID created when the report is drafted
+        val key = inputData.getString("idempotencyKey")!!   // UUID creado al redactar el reporte
         return runCatching { api.submitReport(key, inputData.toReport()) }
             .fold({ Result.success(workDataOf("ticketId" to it.ticketId)) },
                   { if (runAttemptCount &lt; 5) Result.retry() else Result.failure() })
     }
 }
 // enqueueUniqueWork("report-$orderId", ExistingWorkPolicy.KEEP, request)
-//   with setBackoffCriteria(EXPONENTIAL, 10, SECONDS)</code></pre></div>
+//   con setBackoffCriteria(EXPONENTIAL, 10, SECONDS)</code></pre></div>
           </div>
         </details>
       </article>
 
       <!-- ISS-06 -->
       <article class="issue fade-in" id="iss-06">
-        <div class="issue-head"><span class="issue-id">ISS-06</span><span class="sev p1">P1</span><span class="issue-tag">Safety · Navigation</span></div>
-        <h3>Navigation hand-off and chat aren't built for riding</h3>
+        <div class="issue-head"><span class="issue-id">ISS-06</span><span class="sev p1">P1</span><span class="issue-tag">Seguridad · Navegación</span></div>
+        <h3>El paso a la navegación y el chat no están pensados para ir en moto</h3>
         <div class="issue-body no-media">
           <div class="issue-text">
-            <p class="no-shot">Captured in screen recordings. Stills not published here.</p>
-            <div><div class="blk-label">What happens</div>
+            <p class="no-shot">Capturado en grabaciones de pantalla. No publico fotogramas aquí.</p>
+            <div><div class="blk-label">Qué pasa</div>
               <ul>
-                <li>Tapping "Navegar" opens a Maps-or-Waze chooser even though Maps was already selected. Google Maps then opens in <strong>car mode (22 min)</strong> and I switch to motorcycle mode (<strong>13 min</strong>) by hand.</li>
-                <li>With turn-by-turn running in picture-in-picture, I'm typing long free-text replies to a customer about a disagreement over the cash total.</li>
-                <li>"¡Vas tarde!" banners sit on top of the map, and one soft warning showed at 2:26 for an ETA window that ended at 2:23.</li>
+                <li>Al tocar "Navegar" se abre un selector de Maps o Waze aunque ya había elegido Maps. Después Google Maps abre en <strong>modo auto (22 min)</strong> y tengo que cambiar a modo moto (<strong>13 min</strong>) a mano.</li>
+                <li>Con la navegación paso a paso en picture-in-picture, estoy escribiendo respuestas largas a un cliente por un desacuerdo con el total en efectivo.</li>
+                <li>Los banners de "¡Vas tarde!" tapan el mapa, y un aviso apareció a las 2:26 para una ventana de entrega que terminaba a las 2:23.</li>
               </ul></div>
-            <div><div class="blk-label">Impact on the courier</div>
-              <p>Extra taps and a slower route, since car mode was about 1.7 times slower here. Typing near or while riding is a safety issue.</p></div>
-            <div><div class="blk-label hyp">Hypothesis</div>
-              <p>The navigation intent is built without a travel mode (<code>mode=l</code> selects two-wheeler in Google Maps) and the app preference isn't saved. Chat has no quick replies or structured actions like "Confirm total" or "Item unavailable".</p></div>
+            <div><div class="blk-label">Impacto en el repartidor</div>
+              <p>Toques de más y una ruta más lenta: aquí el modo auto era como 1.7 veces más lento. Escribir justo antes de arrancar o en movimiento es un tema de seguridad.</p></div>
+            <div><div class="blk-label hyp">Hipótesis</div>
+              <p>El intent de navegación se arma sin modo de viaje (<code>mode=l</code> elige dos ruedas en Google Maps) y la app elegida no se guarda. El chat no tiene respuestas rápidas ni acciones estructuradas como "Confirmar total" o "Producto no disponible".</p></div>
           </div>
         </div>
         <details class="fix">
-          <summary>How I'd fix it</summary>
+          <summary>Cómo lo arreglaría</summary>
           <div class="fix-inner">
-            <div class="level high"><div class="level-name">High <span>product · UX · process</span></div>
+            <div class="level high"><div class="level-name">Alto <span>producto · UX · proceso</span></div>
               <ul>
-                <li>Remember the navigation app and open it in one tap, in two-wheeler or bicycle mode to match the vehicle chosen at connect.</li>
-                <li>Quick replies in chat ("Voy en camino", "Llegué", "Producto agotado: ¿reemplazo?", "Confirma el total: $X") plus voice-to-text.</li>
-                <li>Show the cash total and payment method on the order card from acceptance onward. My captures don't show whether that exists today.</li>
-                <li>Shrink "¡Vas tarde!" to a compact chip while speed is above 10 km/h.</li>
+                <li>Recordar la app de navegación y abrirla con un toque, en modo dos ruedas o bici según el vehículo que elegiste al conectarte.</li>
+                <li>Respuestas rápidas en el chat ("Voy en camino", "Llegué", "Producto agotado: ¿reemplazo?", "Confirma el total: $X") y dictado por voz.</li>
+                <li>Mostrar el total en efectivo y el método de pago en la tarjeta del pedido desde que lo aceptas. En mis capturas no se ve si eso ya existe.</li>
+                <li>Reducir "¡Vas tarde!" a un chip compacto cuando vas a más de 10 km/h.</li>
               </ul></div>
-            <div class="level med"><div class="level-name">Medium <span>architecture</span></div>
+            <div class="level med"><div class="level-name">Medio <span>arquitectura</span></div>
               <ul>
-                <li>Preferred navigation app in DataStore; vehicle mapped to Google Maps <code>mode</code> (d, b, l, w) and the Waze deep link.</li>
-                <li>Motion from the Activity Recognition API or fused-location speed. While moving: free text off, quick replies and voice on.</li>
+                <li>App de navegación preferida en DataStore; el vehículo se traduce al <code>mode</code> de Google Maps (d, b, l, w) y al deep link de Waze.</li>
+                <li>Movimiento con la Activity Recognition API o la velocidad de fused location. En movimiento: sin texto libre, con respuestas rápidas y voz.</li>
               </ul></div>
-            <div class="level low"><div class="level-name">Low <span>Kotlin · Compose</span></div>
+            <div class="level low"><div class="level-name">Bajo <span>Kotlin · Compose</span></div>
 <pre><code class="kt">fun navIntent(dest: LatLng, app: NavApp, vehicle: Vehicle): Intent = when (app) {
     NavApp.GoogleMaps -&gt; Intent(Intent.ACTION_VIEW,
         Uri.parse("google.navigation:q=${dest.latitude},${dest.longitude}&amp;mode=${vehicle.gmapsMode}"))
@@ -876,108 +876,199 @@ fun ChatInput(isMoving: Boolean, quickReplies: List&lt;String&gt;, onSend: (Stri
   <!-- P2 / P3 -->
   <section id="more">
     <span class="section-label">P2 · P3</span>
-    <h2>Broken states and polish</h2>
-    <p class="lead">Smaller on their own, but they add up over a full shift. Thumbnails open the full screenshot.</p>
+    <h2>Estados rotos y detalles</h2>
+    <p class="lead">Solos parecen menores, pero en un turno completo se van sumando. Las miniaturas abren la captura completa.</p>
 
     <div class="table-wrap fade-in">
       <table class="issues-table">
-        <thead><tr><th>ID</th><th>Sev</th><th>What I saw</th><th>First fix</th><th>Evidence</th></tr></thead>
+        <thead><tr><th>ID</th><th>Sev.</th><th>Lo que vi</th><th>Primer arreglo</th><th>Evidencia</th></tr></thead>
         <tbody>
           <tr>
             <td class="idc">ISS-07</td><td class="sv"><span class="sev p2">P2</span></td>
-            <td class="t"><strong>Raw markup in messages</strong>The anti-fraud warning renders as literal <code>&lt;html&gt;&lt;b&gt;ADVERTENCIA:&lt;/b&gt;…</code>, and the support bot shows <code>**$557.00 MXN**</code> with the asterisks.</td>
-            <td class="fx">A <code>contentType</code> on every message and a sanitizing renderer. Fraud warnings get their own styled component, not a chat bubble.</td>
+            <td class="t"><strong>Marcado crudo en los mensajes</strong>El aviso antifraude aparece como <code>&lt;html&gt;&lt;b&gt;ADVERTENCIA:&lt;/b&gt;…</code> literal, y el bot de soporte muestra <code>**$557.00 MXN**</code> con todo y asteriscos.</td>
+            <td class="fx">Un <code>contentType</code> en cada mensaje y un renderizador que sanitice. Los avisos de fraude tienen su propio componente con estilo, no una burbuja de chat.</td>
             <td class="ev"><div class="thumbs">
-              <button class="thumb" type="button" data-full="media/01-chat-raw-html-markup.jpg" data-cap="ISS-07 · The fraud warning in chat, shown as raw HTML tags."><img src="media/01-chat-raw-html-markup.jpg" alt="Chat with a system message showing raw HTML tags" loading="lazy"></button>
-              <button class="thumb" type="button" data-full="media/05-support-bot-raw-markdown.jpg" data-cap="ISS-07 · The support bot shows Markdown asterisks around $557.00 MXN."><img src="media/05-support-bot-raw-markdown.jpg" alt="Support bot message with visible Markdown asterisks" loading="lazy"></button>
+              <button class="thumb" type="button" data-full="media/01-chat-raw-html-markup.jpg" data-cap="ISS-07 · El aviso de fraude en el chat, con las etiquetas HTML a la vista."><img src="media/01-chat-raw-html-markup.jpg" alt="Chat con un mensaje del sistema que muestra etiquetas HTML sin procesar" loading="lazy"></button>
+              <button class="thumb" type="button" data-full="media/05-support-bot-raw-markdown.jpg" data-cap="ISS-07 · El bot de soporte muestra asteriscos de Markdown alrededor de $557.00 MXN."><img src="media/05-support-bot-raw-markdown.jpg" alt="Mensaje del bot de soporte con asteriscos de Markdown visibles" loading="lazy"></button>
             </div></td>
           </tr>
           <tr>
             <td class="idc">ISS-08</td><td class="sv"><span class="sev p2">P2</span></td>
-            <td class="t"><strong>Insets clip or hide CTAs</strong>"Continuar" under the 3-button nav bar, disabled state at 1.41:1 contrast, keyboard over the questions, "ENVIAR OPINIÓN" cut off, "Navegar" clipped by the bottom sheet, a "Llegaste" card over the title.</td>
-            <td class="fx">Primary CTAs live in an inset-aware bottom bar, never inside scrolling content. QA matrix: 3-button and gesture nav, font scale 1.3, keyboard open.</td>
+            <td class="t"><strong>Los insets cortan o esconden botones</strong>"Continuar" debajo de la barra de navegación de 3 botones (en la encuesta de <a href="#iss-17">ISS-17</a>), estado deshabilitado con contraste de 1.41:1, el teclado encima de las preguntas, "ENVIAR OPINIÓN" cortado, "Navegar" recortado por el bottom sheet y una tarjeta de "Llegaste" encima del título.</td>
+            <td class="fx">Los botones principales van en una barra inferior que respeta los insets, nunca dentro del contenido que se desplaza. Matriz de QA: navegación de 3 botones y por gestos, escala de fuente 1.3, teclado abierto.</td>
             <td class="ev"><div class="thumbs">
-              <button class="thumb" type="button" data-full="media/06-cta-under-nav-bar-and-typo.jpg" data-cap="ISS-08 · 'Continuar' drawn under the navigation bar; low-contrast disabled state; typo 'algùn' (ISS-13)."><img src="media/06-cta-under-nav-bar-and-typo.jpg" alt="Survey screen with the Continuar button under the navigation bar" loading="lazy"></button>
-              <button class="thumb" type="button" data-full="media/10-arrival-overlay-clipped-cta.jpg" data-cap="ISS-08 · The 'Llegaste' card covers the title and 'Navegar' is clipped by the bottom sheet. Map pixelated for privacy."><img src="media/10-arrival-overlay-clipped-cta.jpg" alt="Arrival overlay covering the title and a clipped Navegar button" loading="lazy"></button>
+              <button class="thumb" type="button" data-full="media/06-cta-under-nav-bar-and-typo.jpg" data-cap="ISS-08 · 'Continuar' dibujado debajo de la barra de navegación; estado deshabilitado con poco contraste; la falta 'algùn' (ISS-13). Es el paso 2 de 12 de la encuesta (ISS-17)."><img src="media/06-cta-under-nav-bar-and-typo.jpg" alt="Pantalla de encuesta con el botón Continuar debajo de la barra de navegación" loading="lazy"></button>
+              <button class="thumb" type="button" data-full="media/10-arrival-overlay-clipped-cta.jpg" data-cap="ISS-08 · La tarjeta de 'Llegaste' tapa el título y el bottom sheet recorta 'Navegar'. Mapa pixelado por privacidad."><img src="media/10-arrival-overlay-clipped-cta.jpg" alt="Aviso de llegada que tapa el título y un botón Navegar recortado" loading="lazy"></button>
             </div></td>
           </tr>
           <tr>
             <td class="idc">ISS-09</td><td class="sv"><span class="sev p2">P2</span></td>
-            <td class="t"><strong>Map opens on the wrong continent</strong>"En camino al cliente" starts on Africa and Europe with a spinner, then jumps to CDMX. Same under "Buscando pedidos".</td>
-            <td class="fx">Seed the camera from the last known location, fall back to the city centroid, animate to the order bounds when ready.</td>
+            <td class="t"><strong>El mapa abre en otro continente</strong>"En camino al cliente" arranca mostrando África y Europa con un spinner, y luego salta a la CDMX. Lo mismo en "Buscando pedidos".</td>
+            <td class="fx">Iniciar la cámara en la última ubicación conocida, si no hay, en el centro de la ciudad, y animar hacia los límites del pedido cuando estén listos.</td>
             <td class="ev"><div class="thumbs">
-              <button class="thumb" type="button" data-full="media/08-map-camera-world-fallback.jpg" data-cap="ISS-09 · The map shows a world view while the order loads."><img src="media/08-map-camera-world-fallback.jpg" alt="Map zoomed out to Africa and Europe while loading" loading="lazy"></button>
+              <button class="thumb" type="button" data-full="media/08-map-camera-world-fallback.jpg" data-cap="ISS-09 · El mapa muestra una vista del mundo mientras carga el pedido."><img src="media/08-map-camera-world-fallback.jpg" alt="Mapa alejado mostrando África y Europa mientras carga" loading="lazy"></button>
             </div></td>
           </tr>
           <tr>
             <td class="idc">ISS-10</td><td class="sv"><span class="sev p2">P2</span></td>
-            <td class="t"><strong>Help center dead states</strong>Every thread previews the same CSAT text, categories greyed out with no reason, a sub-list stuck on a skeleton, a generic error with only "Refrescar", a bot handoff in English.</td>
-            <td class="fx">Every disabled item says why. Thread previews show topic and order. Errors tell "sin conexión" apart from "nuestro problema" and offer another channel.</td>
+            <td class="t"><strong>Estados muertos en el centro de ayuda</strong>Todas las conversaciones muestran el mismo texto de CSAT como vista previa, categorías en gris sin explicación, una sublista atorada en un skeleton, un error genérico con solo "Refrescar" y un traspaso del bot en inglés.</td>
+            <td class="fx">Todo elemento deshabilitado dice por qué. Las vistas previas muestran el tema y el pedido. Los errores distinguen "sin conexión" de "nuestro problema" y ofrecen otro canal.</td>
             <td class="ev"><div class="thumbs">
-              <button class="thumb" type="button" data-full="media/09-support-bot-english-handoff.jpg" data-cap="ISS-10 · The bot hands off to a human with an English error message."><img src="media/09-support-bot-english-handoff.jpg" alt="Support chat with an English handoff message" loading="lazy"></button>
+              <button class="thumb" type="button" data-full="media/09-support-bot-english-handoff.jpg" data-cap="ISS-10 · El bot pasa la conversación a una persona con un mensaje de error en inglés."><img src="media/09-support-bot-english-handoff.jpg" alt="Chat de soporte con un mensaje de traspaso en inglés" loading="lazy"></button>
             </div></td>
           </tr>
           <tr>
             <td class="idc">ISS-11</td><td class="sv"><span class="sev p2">P2</span></td>
-            <td class="t"><strong>Contradictory copy, contract dead end</strong>"Opcional · Firma el contrato para comenzar a repartir". The flow ends on a blank screen with a spinner. The tier table truncates to "DIAMAN…".</td>
-            <td class="fx">The badge must agree with the copy. Contract flows get timeout and error states, plus "Continuar después".</td>
+            <td class="t"><strong>Textos que se contradicen, contrato sin salida</strong>"Opcional · Firma el contrato para comenzar a repartir". El flujo termina en una pantalla en blanco con un spinner. La tabla de niveles corta el texto en "DIAMAN…".</td>
+            <td class="fx">La etiqueta tiene que coincidir con el texto. Los flujos del contrato llevan estados de timeout y error, y un "Continuar después".</td>
             <td class="ev"><div class="thumbs">
-              <button class="thumb" type="button" data-full="media/07-offline-state-double-toolbar.jpg" data-cap="ISS-11 · 'Opcional' on the step that is required to start delivering."><img src="media/07-offline-state-double-toolbar.jpg" alt="Contract card labeled Opcional" loading="lazy"></button>
+              <button class="thumb" type="button" data-full="media/07-offline-state-double-toolbar.jpg" data-cap="ISS-11 · 'Opcional' en el paso que es obligatorio para empezar a repartir."><img src="media/07-offline-state-double-toolbar.jpg" alt="Tarjeta del contrato marcada como Opcional" loading="lazy"></button>
             </div></td>
           </tr>
           <tr>
             <td class="idc">ISS-12</td><td class="sv"><span class="sev p2">P2</span></td>
-            <td class="t"><strong>Reconnect friction</strong>Every connect asks for transport mode, the T&amp;C checkbox and a full liveness selfie. About 35 seconds, with a helmet and gloves on.</td>
-            <td class="fx">Risk-based step-up: selfie on a new device, a long gap or an anomaly signal. T&amp;C accepted once per version.</td>
-            <td class="ev"><span class="dash">Not published (shows my face)</span></td>
+            <td class="t"><strong>Fricción al reconectarte</strong>Cada vez que te conectas te pide el modo de transporte, la casilla de términos y condiciones y una selfie completa de prueba de vida. Unos 35 segundos, con casco y guantes puestos.</td>
+            <td class="fx">Verificación según el riesgo: selfie con un dispositivo nuevo, después de mucho tiempo sin conectarte o ante una señal rara. Términos aceptados una sola vez por versión.</td>
+            <td class="ev"><span class="dash">No publicado (se ve mi cara)</span></td>
           </tr>
           <tr>
             <td class="idc">ISS-13</td><td class="sv"><span class="sev p3">P3</span></td>
-            <td class="t"><strong>i18n and content quality</strong>English strings, typos ("algùn", "facil", "proporciono"), an internal store code ("MEX_10MEX50SBF_Express"), and three time formats on one phone. P2 where it shows up in an error path.</td>
-            <td class="fx">An <code>es-MX</code> string linter in CI and <code>DateTimeFormatter.ofLocalizedTime</code> instead of a hard-coded pattern.</td>
+            <td class="t"><strong>i18n y calidad del contenido</strong>Textos en inglés, faltas de ortografía ("algùn" en la encuesta de <a href="#iss-17">ISS-17</a>, "facil", "proporciono"), un código interno de tienda ("MEX_10MEX50SBF_Express") y tres formatos de hora en el mismo teléfono. P2 cuando aparece en un flujo de error.</td>
+            <td class="fx">Un linter de textos <code>es-MX</code> en CI y <code>DateTimeFormatter.ofLocalizedTime</code> en vez de un patrón fijo en el código.</td>
             <td class="ev"><div class="thumbs">
-              <button class="thumb" type="button" data-full="media/06-cta-under-nav-bar-and-typo.jpg" data-cap="ISS-13 · 'algùn' with a grave accent."><img src="media/06-cta-under-nav-bar-and-typo.jpg" alt="Survey with the typo algùn" loading="lazy"></button>
+              <button class="thumb" type="button" data-full="media/06-cta-under-nav-bar-and-typo.jpg" data-cap="ISS-13 · 'algùn' con acento grave, en la encuesta de ISS-17."><img src="media/06-cta-under-nav-bar-and-typo.jpg" alt="Encuesta con la falta de ortografía algùn" loading="lazy"></button>
             </div></td>
           </tr>
           <tr>
             <td class="idc">ISS-14</td><td class="sv"><span class="sev p3">P3</span></td>
-            <td class="t"><strong>Shopper picking</strong>A 2–4 s spinner per item, the numeric keyboard stays open after navigating, and the previous screen cross-fades on top of the list.</td>
-            <td class="fx">Optimistic confirmation with a picking outbox synced by WorkManager. Hide the keyboard and clear focus on navigation.</td>
+            <td class="t"><strong>Surtido como shopper</strong>Un spinner de 2 a 4 s por producto, el teclado numérico se queda abierto después de navegar y la pantalla anterior se funde encima de la lista.</td>
+            <td class="fx">Confirmación optimista con un outbox de surtido sincronizado por WorkManager. Ocultar el teclado y quitar el foco al navegar.</td>
             <td class="ev"><span class="dash">—</span></td>
           </tr>
           <tr>
             <td class="idc">ISS-15</td><td class="sv"><span class="sev p3">P3</span></td>
-            <td class="t"><strong>Five interruptions after each delivery</strong>Finalize (with "Cancelar" in solid red), location check, toast, "¡Pedido entregado!", restaurant rating, customer rating.</td>
-            <td class="fx">One post-delivery sheet with optional, collapsible ratings. Red only for destructive actions.</td>
+            <td class="t"><strong>Cinco interrupciones después de cada entrega</strong>Finalizar (con "Cancelar" en rojo sólido), revisión de ubicación, toast, "¡Pedido entregado!", calificación del restaurante y calificación del cliente.</td>
+            <td class="fx">Una sola hoja después de la entrega, con calificaciones opcionales y plegables. Rojo solo para acciones destructivas.</td>
             <td class="ev"><span class="dash">—</span></td>
           </tr>
           <tr>
             <td class="idc">ISS-16</td><td class="sv"><span class="sev p3">P3</span></td>
-            <td class="t"><strong>Notifications and color</strong>"Nuevos Mensajes" with no sender or preview. "Navegar" in iOS blue #007AFF (white text 4.02:1). Dark map inside a light UI on some screens, light on others.</td>
-            <td class="fx"><code>MessagingStyle</code> with sender role and preview, channels per type, inline quick replies. Colors from the token set below.</td>
+            <td class="t"><strong>Notificaciones y color</strong>"Nuevos Mensajes" sin remitente ni vista previa. "Navegar" en el azul de iOS #007AFF (texto blanco a 4.02:1). Mapa oscuro dentro de una interfaz clara en algunas pantallas, claro en otras.</td>
+            <td class="fx"><code>MessagingStyle</code> con el rol del remitente y vista previa, un canal por tipo y respuestas rápidas desde la notificación. Colores tomados de los tokens de abajo.</td>
             <td class="ev"><span class="dash">—</span></td>
+          </tr>
+          <tr>
+            <td class="idc">ISS-17</td><td class="sv"><span class="sev p2">P2</span></td>
+            <td class="t"><strong>Una encuesta de 12 pasos en pleno turno</strong>"1 de 12" en el contador, cinco calificaciones y un comentario solo en el paso 2, con la navegación activa detrás. El detalle está en <a href="#iss-17">la tarjeta de abajo</a>.</td>
+            <td class="fx">Microencuestas de 1 a 3 preguntas según el momento, con tope de frecuencia y cada respuesta guardada en cuanto se contesta.</td>
+            <td class="ev"><div class="thumbs">
+              <button class="thumb" type="button" data-full="media/06-cta-under-nav-bar-and-typo.jpg" data-cap="ISS-17 · Paso 2 de 12: cinco calificaciones de 1 a 5 y un campo de comentario en una sola pantalla."><img src="media/06-cta-under-nav-bar-and-typo.jpg" alt="Paso 2 de 12 de la encuesta, con cinco filas de calificación de 1 a 5" loading="lazy"></button>
+            </div></td>
           </tr>
         </tbody>
       </table>
     </div>
 
+    <div class="issues" style="margin-top:1.5rem">
+      <!-- ISS-17 -->
+      <article class="issue fade-in" id="iss-17">
+        <div class="issue-head"><span class="issue-id">ISS-17</span><span class="sev p2">P2</span><span class="issue-tag">Encuestas · Interrupciones</span></div>
+        <h3>Una encuesta de 12 pasos en pleno turno</h3>
+        <div class="issue-body">
+          <div class="issue-media">
+            <button class="shot" type="button" data-cap="ISS-17 · Paso 2 de 12: cinco calificaciones de 1 a 5 y un campo de comentario en una sola pantalla. Arriba, la navegación de Maps sigue activa (1.1 km).">
+              <img src="media/06-cta-under-nav-bar-and-typo.jpg" alt="Encuesta en el paso 2 de 12 con cinco filas de calificación de 1 a 5 sobre ganancias, propinas y pagos, y un campo de comentario" loading="lazy" width="540" height="1178">
+            </button>
+            <p class="shot-cap">Paso 2 de 12. La pastilla negra de arriba es Google Maps guiándome.</p>
+          </div>
+          <div class="issue-text">
+            <div><div class="blk-label">Qué pasa</div>
+              <ul>
+                <li>El 23 de octubre, a la 1:33 p.m., la app me abrió una encuesta a pantalla completa con un contador de <strong>"1 de 12"</strong>. El primer paso es tipo NPS: "Según tu experiencia de la última semana, ¿qué tan probable es que recomiendes ser Rappitendero a otra persona?", con una escala de 1 a 10 (sin el 0 que usa un NPS normal).</li>
+                <li>El paso 2 mete <strong>cinco calificaciones de 1 a 5</strong> en una sola pantalla (ganancias en pedidos dobles, ganancias en lluvia, claridad de las ganancias, propinas y puntualidad del pago) y además un campo de comentario. Con eso ya van siete preguntas en dos pasos.</li>
+                <li>El contador dice que faltan 10 pasos. Solo capturé los dos primeros, así que no sé cuántas preguntas hay en total; si el resto se parece al paso 2, pueden ser varias decenas.</li>
+                <li>En la barra de estado se ve la navegación de Maps activa (1.1 km para la siguiente vuelta): la encuesta me salió yendo en ruta, no en un rato muerto. No pude confirmar qué la dispara, y en esas pantallas no veo forma de omitirla o dejarla para después.</li>
+                <li>En la misma pantalla están el "Continuar" debajo de la barra de navegación (<a href="#more">ISS-08</a>) y la falta "algùn" (<a href="#more">ISS-13</a>).</li>
+              </ul></div>
+            <div><div class="blk-label">Impacto en el repartidor</div>
+              <p>Entre pedidos estás esperando la siguiente oferta o moviéndote a una zona con más pedidos, y cada minuto en un formulario largo compite con aceptar el siguiente. Una encuesta así se abandona: o se pierden los datos, o solo la terminan los más enojados, y las respuestas salen sesgadas justo en los temas de dinero que más importan. Si además sale con la navegación activa, es una distracción más en la calle (<a href="#iss-06">ISS-06</a>), y se suma a las interrupciones después de cada entrega (<a href="#more">ISS-15</a>).</p></div>
+            <div><div class="blk-label hyp">Hipótesis</div>
+              <p>Parece un solo formulario armado en bloque y lanzado igual a todos, sin tomar en cuenta el momento ni el contexto del repartidor. Lo más probable es que las respuestas se manden hasta el final, así que si alguien abandona en el paso 5 se pierde todo lo que ya contestó, y nadie sabe en qué paso se cae la gente.</p></div>
+          </div>
+        </div>
+        <details class="fix">
+          <summary>Cómo lo arreglaría</summary>
+          <div class="fix-inner">
+            <div class="level high"><div class="level-name">Alto <span>producto · UX · proceso</span></div>
+              <ul>
+                <li>Partir la encuesta en microencuestas de 1 a 3 preguntas, repartidas en días o semanas y disparadas cuando la pregunta tiene sentido: sobre propinas justo después de un pedido con propina, sobre las ganancias en lluvia un día que llovió, sobre pedidos dobles después de uno doble.</li>
+                <li>Siempre con "Ahora no" a la vista, y nunca con un pedido activo o la navegación abierta.</li>
+                <li>Muestreo: no todos responden todo. Cada pregunta le toca a una muestra de repartidores, y con eso alcanza para tener datos confiables.</li>
+                <li>Progreso honesto: "2 preguntas, unos 20 segundos" en vez de un contador que revela la sorpresa en el paso 1.</li>
+              </ul></div>
+            <div class="level med"><div class="level-name">Medio <span>arquitectura</span></div>
+              <ul>
+                <li>Configuración de encuestas desde el servidor: un banco de preguntas con reglas de disparo (evento más contexto), muestreo y rotación por repartidor.</li>
+                <li>Tope de frecuencia en el cliente y en el servidor, por ejemplo una microencuesta cada 3 días como máximo.</li>
+                <li>Cada respuesta se guarda en cuanto se contesta (Room más WorkManager), no al final, así que una encuesta abandonada a medias igual deja datos.</li>
+                <li>Analítica de abandono por paso y por pregunta, para saber dónde se cae la gente y qué preguntas sobran.</li>
+              </ul></div>
+            <div class="level low"><div class="level-name">Bajo <span>Kotlin</span></div>
+<pre><code class="kt">data class SurveyContext(
+    val event: CourierEvent,          // p. ej. OrderDelivered(tipped = true), RainShiftEnded
+    val hasActiveOrder: Boolean,
+    val isNavigating: Boolean,
+)
+
+class SurveyScheduler(
+    private val pool: QuestionPool,   // viene del servidor, con reglas de disparo y muestreo
+    private val history: SurveyHistoryDao,
+    private val courierId: String,
+    private val clock: Clock,
+) {
+    suspend fun pick(ctx: SurveyContext): List&lt;Question&gt; {
+        if (ctx.hasActiveOrder || ctx.isNavigating) return emptyList()   // nunca en ruta
+        val last = history.lastShownAt()
+        if (last != null &amp;&amp; Duration.between(last, clock.instant()) &lt; MIN_GAP) return emptyList()
+        return pool.questions
+            .filter { it.trigger.matches(ctx.event) &amp;&amp; it.isSampledFor(courierId) &amp;&amp; !history.answered(it.id) }
+            .sortedBy { it.priority }
+            .take(MAX_QUESTIONS)
+    }
+
+    companion object {
+        val MIN_GAP: Duration = Duration.ofDays(3)
+        const val MAX_QUESTIONS = 3
+    }
+}
+
+// Cada respuesta se guarda al momento: si el repartidor se sale a medias, no se pierde nada.
+fun onAnswer(q: Question, value: Int) = viewModelScope.launch {
+    answers.insert(Answer(q.id, value, clock.instant()))
+    SyncAnswersWorker.enqueue(appContext)
+}</code></pre></div>
+          </div>
+        </details>
+      </article>
+    </div>
+
     <div class="sketches">
       <details class="fix fade-in">
-        <summary>ISS-07 · Typed rich text</summary>
+        <summary>ISS-07 · Texto enriquecido con tipo</summary>
         <div class="fix-inner">
-          <p>The backend sends one format with an explicit type, and every system template gets a snapshot test.</p>
+          <p>El backend manda un solo formato con un tipo explícito, y cada plantilla del sistema tiene su prueba de snapshot.</p>
 <pre><code class="kt">@Composable
 fun MessageBody(m: Message) = when (m.contentType) {
-    ContentType.Html -&gt; Text(AnnotatedString.fromHtml(m.body))   // Compose 1.7+: &lt;b&gt;, &lt;br&gt;, no scripts
-    ContentType.Markdown -&gt; MarkdownText(m.body)                 // e.g. a CommonMark renderer
+    ContentType.Html -&gt; Text(AnnotatedString.fromHtml(m.body))   // Compose 1.7+: &lt;b&gt;, &lt;br&gt;, sin scripts
+    ContentType.Markdown -&gt; MarkdownText(m.body)                 // p. ej. un renderizador de CommonMark
     ContentType.Plain -&gt; Text(m.body)
 }</code></pre>
         </div>
       </details>
       <details class="fix fade-in">
-        <summary>ISS-08 · CTAs that respect insets</summary>
+        <summary>ISS-08 · Botones que respetan los insets</summary>
         <div class="fix-inner">
-          <p><code>enableEdgeToEdge()</code> once, CTAs in the <code>bottomBar</code>, and Paparazzi or Roborazzi screenshot tests at font scale 1.3 and 2.0.</p>
+          <p><code>enableEdgeToEdge()</code> una sola vez, los botones en el <code>bottomBar</code> y pruebas de capturas con Paparazzi o Roborazzi a escala de fuente 1.3 y 2.0.</p>
 <pre><code class="kt">Scaffold(
     contentWindowInsets = WindowInsets.safeDrawing,
     bottomBar = {
@@ -992,9 +1083,9 @@ fun MessageBody(m: Message) = when (m.contentType) {
         </div>
       </details>
       <details class="fix fade-in">
-        <summary>ISS-09 · A sensible first camera</summary>
+        <summary>ISS-09 · Una primera cámara con sentido</summary>
         <div class="fix-inner">
-          <p>The map should never show a place the courier isn't near. A skeleton covers it until the order bounds arrive.</p>
+          <p>El mapa nunca debería mostrar un lugar donde el repartidor no está. Un skeleton lo tapa hasta que llegan los límites del pedido.</p>
 <pre><code class="kt">val cameraState = rememberCameraPositionState {
     position = CameraPosition.fromLatLngZoom(lastKnown ?: cityCentroid, 15f)
 }
@@ -1004,9 +1095,9 @@ LaunchedEffect(order?.bounds) {
         </div>
       </details>
       <details class="fix fade-in">
-        <summary>ISS-10 · Errors that know what kind they are</summary>
+        <summary>ISS-10 · Errores que saben de qué tipo son</summary>
         <div class="fix-inner">
-          <p>Sub-lists load with a timeout so they can't sit on a skeleton forever, and the error kind drives the copy and the retry policy.</p>
+          <p>Las sublistas cargan con timeout para que no se queden en un skeleton para siempre, y el tipo de error decide el texto y la política de reintento.</p>
 <pre><code class="kt">sealed interface UiState&lt;out T&gt; {
     data object Loading : UiState&lt;Nothing&gt;
     data class Data&lt;T&gt;(val value: T) : UiState&lt;T&gt;
@@ -1018,53 +1109,53 @@ LaunchedEffect(order?.bounds) {
 suspend fun &lt;T&gt; loadWithTimeout(ms: Long = 8_000, block: suspend () -&gt; T): UiState&lt;T&gt; =
     runCatching { withTimeout(ms) { block() } }.fold(
         { UiState.Data(it) },
-        { UiState.Error(if (it is TimeoutCancellationException) UiState.Error.Kind.Timeout else it.toKind()) { /* retry */ } })</code></pre>
+        { UiState.Error(if (it is TimeoutCancellationException) UiState.Error.Kind.Timeout else it.toKind()) { /* reintentar */ } })</code></pre>
         </div>
       </details>
       <details class="fix fade-in">
-        <summary>ISS-12 · Ask only when it's needed</summary>
+        <summary>ISS-12 · Pedir solo cuando hace falta</summary>
         <div class="fix-inner">
-          <p>The server stores <code>acceptedTermsVersion</code> and a <code>VerificationPolicy</code> decides from its risk score. The client renders steps only when required.</p>
+          <p>El servidor guarda <code>acceptedTermsVersion</code> y una <code>VerificationPolicy</code> decide según su puntaje de riesgo. El cliente solo muestra los pasos que se necesitan.</p>
 <pre><code class="kt">data class ConnectRequirements(val termsVersionToAccept: Int?, val liveness: Boolean, val reason: String?)
 
 @Composable
 fun ConnectScreen(req: ConnectRequirements) {
-    req.termsVersionToAccept?.let { TermsCheckbox(version = it) }   // hidden when already accepted
+    req.termsVersionToAccept?.let { TermsCheckbox(version = it) }   // oculto si ya se aceptaron
     if (req.liveness) LivenessNotice(reason = req.reason)          // "Verificamos tu identidad porque cambiaste de teléfono"
 }</code></pre>
         </div>
       </details>
       <details class="fix fade-in">
-        <summary>ISS-13 · Localized time</summary>
+        <summary>ISS-13 · Hora localizada</summary>
         <div class="fix-inner">
-          <p>Today the same phone shows "02:19 PM–02:23 PM", "8:32 p.m." and a 24 h status bar. One formatter fixes it.</p>
+          <p>Hoy el mismo teléfono muestra "02:19 PM–02:23 PM", "8:32 p.m." y una barra de estado en formato de 24 h. Un solo formateador lo resuelve.</p>
 <pre><code class="kt">val timeFmt: DateTimeFormatter =
     DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
         .withLocale(Locale.forLanguageTag("es-MX"))</code></pre>
         </div>
       </details>
       <details class="fix fade-in">
-        <summary>ISS-14 · ISS-15 · Picking and post-delivery</summary>
+        <summary>ISS-14 · ISS-15 · Surtido y después de la entrega</summary>
         <div class="fix-inner">
-          <p>Optimistic picking with a per-item idempotency key, and a <code>PostDeliveryOrchestrator</code> that shows at most one sheet. "Volver" is outlined, not red.</p>
+          <p>Surtido optimista con una llave de idempotencia por producto, y un <code>PostDeliveryOrchestrator</code> que muestra como máximo una hoja. "Volver" va con contorno, no en rojo.</p>
 <pre><code class="kt">fun confirmItem(item: PickItem, units: Int) {
     keyboard?.hide(); focusManager.clearFocus()
-    _state.update { it.markConfirmed(item.id, units) }   // optimistic
+    _state.update { it.markConfirmed(item.id, units) }   // optimista
     outbox.enqueue(PickConfirmation(item.id, units, key = UUID.randomUUID().toString()))
 }
 
 AlertDialog(
     confirmButton = { Button(onClick = onFinish) { Text("Finalizar") } },
-    dismissButton = { OutlinedButton(onClick = onDismiss) { Text("Volver") } },   // not red
+    dismissButton = { OutlinedButton(onClick = onDismiss) { Text("Volver") } },   // no en rojo
     title = { Text("¿Finalizar pedido?") }, text = { Text("No podrás editarlo después.") },
     onDismissRequest = onDismiss,
 )</code></pre>
         </div>
       </details>
       <details class="fix fade-in">
-        <summary>ISS-16 · Notifications with content</summary>
+        <summary>ISS-16 · Notificaciones con contenido</summary>
         <div class="fix-inner">
-          <p>Sender role and a preview, so I know if it's the customer or support without unlocking the phone.</p>
+          <p>El rol del remitente y una vista previa, para saber si es el cliente o soporte sin desbloquear el teléfono.</p>
 <pre><code class="kt">val style = NotificationCompat.MessagingStyle(me)
     .addMessage(preview, ts, Person.Builder().setName(context.getString(R.string.role_customer)).build())
 NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable.ic_stat)
@@ -1076,73 +1167,73 @@ NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable
 
   <!-- DARK THEME -->
   <section id="dark">
-    <span class="section-label">Dark theme</span>
-    <h2>A dark theme that still looks like Rappi</h2>
+    <span class="section-label">Tema oscuro</span>
+    <h2>Un tema oscuro que se siga viendo como Rappi</h2>
     <p class="lead">
-      A lot of deliveries happen at night. A white screen at full brightness is tiring to glance at between turns,
-      so I sketched a dark theme. Before picking colors I checked what the app actually uses, and found something worth sharing.
+      Muchas entregas son de noche. Una pantalla blanca al máximo de brillo cansa la vista cada vez que la volteas a ver entre vuelta y vuelta,
+      así que bosquejé un tema oscuro. Antes de elegir colores revisé cuáles usa de verdad la app, y encontré algo que vale la pena contar.
     </p>
 
-    <h3 style="margin-bottom:0.9rem">The brand finding</h3>
+    <h3 style="margin-bottom:0.9rem">El hallazgo de marca</h3>
     <div class="brand-row fade-in">
-      <div class="brand-sw"><div class="chip" style="background:#FF441F"></div><div class="meta"><div class="hex">#FF441F</div><div class="what">The commonly cited Rappi orange. I didn't find it as a solid fill anywhere in my captures.</div></div></div>
-      <div class="brand-sw"><div class="chip" style="background:#FE5B4A"></div><div class="meta"><div class="hex">#FE5B4A</div><div class="what">Observed coral (connection toggle). The courier app's real brand accent is a slightly pinker coral.</div></div></div>
-      <div class="brand-sw"><div class="chip" style="background:#16625E"></div><div class="meta"><div class="hex">#16625E</div><div class="what">Observed teal on primary actions ("Lo tengo", "Continuar"). The CTA color is teal, not coral.</div></div></div>
-      <div class="brand-sw"><div class="chip" style="background:#007AFF"></div><div class="meta"><div class="hex">#007AFF</div><div class="what">"Navegar" button. iOS blue, off-brand, and white text on it is 4.02:1.</div></div></div>
+      <div class="brand-sw"><div class="chip" style="background:#FF441F"></div><div class="meta"><div class="hex">#FF441F</div><div class="what">El naranja de Rappi que suele citarse. No lo encontré como relleno sólido en ninguna de mis capturas.</div></div></div>
+      <div class="brand-sw"><div class="chip" style="background:#FE5B4A"></div><div class="meta"><div class="hex">#FE5B4A</div><div class="what">Coral observado (switch de conexión). El acento de marca real de la app de repartidores es un coral un poco más rosado.</div></div></div>
+      <div class="brand-sw"><div class="chip" style="background:#16625E"></div><div class="meta"><div class="hex">#16625E</div><div class="what">Verde azulado observado en las acciones principales ("Lo tengo", "Continuar"). El color de los botones es verde azulado, no coral.</div></div></div>
+      <div class="brand-sw"><div class="chip" style="background:#007AFF"></div><div class="meta"><div class="hex">#007AFF</div><div class="what">Botón "Navegar". Azul de iOS, fuera de la marca, y el texto blanco encima queda a 4.02:1.</div></div></div>
     </div>
-    <p class="muted small" style="margin-bottom:1rem">Colors were picked with an eyedropper on JPEG screenshots and frames, so treat them as approximate.</p>
+    <p class="muted small" style="margin-bottom:1rem">Tomé los colores con un cuentagotas sobre capturas JPEG y fotogramas, así que son aproximados.</p>
     <div class="contrast-demo fade-in">
-      <div class="cd"><div class="cd-btn" style="background:#FE5B4A;color:#fff">Aceptar</div><div><div class="verdict fail">3.08:1 · fails AA</div><p>White on the observed coral. White on #FF441F is 3.44:1, also a fail for body text.</p></div></div>
-      <div class="cd"><div class="cd-btn" style="background:#FF5A47;color:#1F0A05">Aceptar</div><div><div class="verdict pass">6.2:1 · passes AA</div><p>Dark text (#1F0A05) on the proposed coral fill. Same brand, readable in sunlight.</p></div></div>
+      <div class="cd"><div class="cd-btn" style="background:#FE5B4A;color:#fff">Aceptar</div><div><div class="verdict fail">3.08:1 · no pasa AA</div><p>Blanco sobre el coral observado. Blanco sobre #FF441F da 3.44:1, que tampoco pasa para texto normal.</p></div></div>
+      <div class="cd"><div class="cd-btn" style="background:#FF5A47;color:#1F0A05">Aceptar</div><div><div class="verdict pass">6.2:1 · pasa AA</div><p>Texto oscuro (#1F0A05) sobre el relleno coral propuesto. La misma marca, legible a pleno sol.</p></div></div>
     </div>
 
-    <p class="lead">So the proposal keeps the coral family as the brand accent and teal as the "go" color, which matches how the app already works: coral means brand and status, teal means confirm.</p>
+    <p class="lead">Por eso la propuesta mantiene la familia coral como acento de marca y el verde azulado como color de "adelante", que es como ya funciona la app: coral es marca y estado, verde azulado es confirmar.</p>
 
     <h3 style="margin-bottom:0.9rem">Tokens</h3>
     <div class="tok-wrap fade-in">
       <table class="tokens">
-        <thead><tr><th></th><th>Token</th><th>Hex</th><th>Use</th><th>Contrast (WCAG 2.x)</th></tr></thead>
+        <thead><tr><th></th><th>Token</th><th>Hex</th><th>Uso</th><th>Contraste (WCAG 2.x)</th></tr></thead>
         <tbody>
-          <tr><td><span class="sw" style="background:#161412"></span></td><td class="tn">background</td><td class="hx">#161412</td><td>App background. Warm near-black, not #000</td><td class="cr">onSurface 14.9:1</td></tr>
-          <tr><td><span class="sw" style="background:#1E1B19"></span></td><td class="tn">surface1</td><td class="hx">#1E1B19</td><td>Cards, bottom sheets</td><td class="cr">onSurface 13.9:1 · variant 8.0:1</td></tr>
-          <tr><td><span class="sw" style="background:#252220"></span></td><td class="tn">surface2</td><td class="hx">#252220</td><td>Raised cards, incoming chat bubbles</td><td class="cr">n/a</td></tr>
-          <tr><td><span class="sw" style="background:#2D2926"></span></td><td class="tn">surface3</td><td class="hx">#2D2926</td><td>Dialogs, top app bar on scroll</td><td class="cr">onSurface 11.7:1 · variant 6.7:1</td></tr>
-          <tr><td><span class="sw" style="background:#36312E"></span></td><td class="tn">surface4</td><td class="hx">#36312E</td><td>Pressed and selected states</td><td class="cr">n/a</td></tr>
-          <tr><td><span class="sw" style="background:#EDE6E3"></span></td><td class="tn">onSurface</td><td class="hx">#EDE6E3</td><td>Primary text</td><td class="cr">AAA</td></tr>
-          <tr><td><span class="sw" style="background:#B9AFAA"></span></td><td class="tn">onSurfaceVariant</td><td class="hx">#B9AFAA</td><td>Secondary text, captions</td><td class="cr">≥ 6.7:1 on every surface</td></tr>
-          <tr><td><span class="sw" style="background:#FF8A75"></span></td><td class="tn">primary</td><td class="hx">#FF8A75</td><td>Links, active icons, positive money emphasis</td><td class="cr">8.0:1 on bg · 7.5:1 on surface1</td></tr>
-          <tr><td><span class="sw" style="background:#FF5A47"></span></td><td class="tn">primaryCta</td><td class="hx">#FF5A47</td><td>The one brand CTA fill ("Aceptar pedido")</td><td class="cr">with onPrimary 6.2:1</td></tr>
-          <tr><td><span class="sw" style="background:#1F0A05"></span></td><td class="tn">onPrimary</td><td class="hx">#1F0A05</td><td>Text on coral fills</td><td class="cr">6.2:1 on #FF5A47</td></tr>
-          <tr><td><span class="sw" style="background:#5A1F14"></span></td><td class="tn">primaryContainer</td><td class="hx">#5A1F14</td><td>Low-emphasis brand surfaces (offer highlight, tier header)</td><td class="cr">with onPrimaryContainer 9.9:1</td></tr>
-          <tr><td><span class="sw" style="background:#FFDAD2"></span></td><td class="tn">onPrimaryContainer</td><td class="hx">#FFDAD2</td><td>Text on primaryContainer</td><td class="cr">9.9:1</td></tr>
-          <tr><td><span class="sw" style="background:#4FD1BE"></span></td><td class="tn">secondary</td><td class="hx">#4FD1BE</td><td>Teal confirm: "Lo tengo", "Llegué", slide track</td><td class="cr">9.1:1 on surface1 · onSecondary #00201C 9.2:1</td></tr>
-          <tr><td><span class="sw" style="background:#FFB4AB"></span></td><td class="tn">error</td><td class="hx">#FFB4AB</td><td>Error text and icons</td><td class="cr">10.1:1 on surface1</td></tr>
-          <tr><td><span class="sw" style="background:#93000A"></span></td><td class="tn">errorContainer</td><td class="hx">#93000A / #FFDAD6</td><td>Error banners (with onErrorContainer)</td><td class="cr">7.2:1</td></tr>
-          <tr><td><span class="sw" style="background:#6DD58C"></span></td><td class="tn">success</td><td class="hx">#6DD58C</td><td>Earnings up, delivered</td><td class="cr">9.4:1 on surface1</td></tr>
-          <tr><td><span class="sw" style="background:#0F3D22"></span></td><td class="tn">successContainer</td><td class="hx">#0F3D22 / #B7F1C5</td><td>"Pedido entregado" banner (with onSuccessContainer)</td><td class="cr">9.6:1</td></tr>
-          <tr><td><span class="sw" style="background:#FFC857"></span></td><td class="tn">warning</td><td class="hx">#FFC857</td><td>"Vas tarde" chip, debt warnings</td><td class="cr">11.1:1 on surface1</td></tr>
-          <tr><td><span class="sw" style="background:#7A706B"></span></td><td class="tn">outline</td><td class="hx">#7A706B</td><td>Dividers, input borders, toggles off</td><td class="cr">3.55:1 (meets 3:1 non-text)</td></tr>
-          <tr><td><span class="sw" style="background:#3A3431"></span></td><td class="tn">outlineVariant</td><td class="hx">#3A3431</td><td>Subtle dividers</td><td class="cr">decorative only</td></tr>
-          <tr><td><span class="sw" style="background:rgba(0,0,0,0.6)"></span></td><td class="tn">scrim</td><td class="hx">#000000 · 60%</td><td>Behind dialogs</td><td class="cr">n/a</td></tr>
+          <tr><td><span class="sw" style="background:#161412"></span></td><td class="tn">background</td><td class="hx">#161412</td><td>Fondo de la app. Casi negro cálido, no #000</td><td class="cr">onSurface 14.9:1</td></tr>
+          <tr><td><span class="sw" style="background:#1E1B19"></span></td><td class="tn">surface1</td><td class="hx">#1E1B19</td><td>Tarjetas, bottom sheets</td><td class="cr">onSurface 13.9:1 · variant 8.0:1</td></tr>
+          <tr><td><span class="sw" style="background:#252220"></span></td><td class="tn">surface2</td><td class="hx">#252220</td><td>Tarjetas elevadas, burbujas de chat entrantes</td><td class="cr">n/a</td></tr>
+          <tr><td><span class="sw" style="background:#2D2926"></span></td><td class="tn">surface3</td><td class="hx">#2D2926</td><td>Diálogos, barra superior al desplazar</td><td class="cr">onSurface 11.7:1 · variant 6.7:1</td></tr>
+          <tr><td><span class="sw" style="background:#36312E"></span></td><td class="tn">surface4</td><td class="hx">#36312E</td><td>Estados presionado y seleccionado</td><td class="cr">n/a</td></tr>
+          <tr><td><span class="sw" style="background:#EDE6E3"></span></td><td class="tn">onSurface</td><td class="hx">#EDE6E3</td><td>Texto principal</td><td class="cr">AAA</td></tr>
+          <tr><td><span class="sw" style="background:#B9AFAA"></span></td><td class="tn">onSurfaceVariant</td><td class="hx">#B9AFAA</td><td>Texto secundario, pies de foto</td><td class="cr">≥ 6.7:1 en todas las superficies</td></tr>
+          <tr><td><span class="sw" style="background:#FF8A75"></span></td><td class="tn">primary</td><td class="hx">#FF8A75</td><td>Enlaces, íconos activos, énfasis en montos a favor</td><td class="cr">8.0:1 sobre bg · 7.5:1 sobre surface1</td></tr>
+          <tr><td><span class="sw" style="background:#FF5A47"></span></td><td class="tn">primaryCta</td><td class="hx">#FF5A47</td><td>El único relleno de botón de marca ("Aceptar pedido")</td><td class="cr">con onPrimary 6.2:1</td></tr>
+          <tr><td><span class="sw" style="background:#1F0A05"></span></td><td class="tn">onPrimary</td><td class="hx">#1F0A05</td><td>Texto sobre rellenos coral</td><td class="cr">6.2:1 sobre #FF5A47</td></tr>
+          <tr><td><span class="sw" style="background:#5A1F14"></span></td><td class="tn">primaryContainer</td><td class="hx">#5A1F14</td><td>Superficies de marca de bajo énfasis (resaltado de oferta, encabezado de nivel)</td><td class="cr">con onPrimaryContainer 9.9:1</td></tr>
+          <tr><td><span class="sw" style="background:#FFDAD2"></span></td><td class="tn">onPrimaryContainer</td><td class="hx">#FFDAD2</td><td>Texto sobre primaryContainer</td><td class="cr">9.9:1</td></tr>
+          <tr><td><span class="sw" style="background:#4FD1BE"></span></td><td class="tn">secondary</td><td class="hx">#4FD1BE</td><td>Confirmar en verde azulado: "Lo tengo", "Llegué", carril del deslizador</td><td class="cr">9.1:1 sobre surface1 · onSecondary #00201C 9.2:1</td></tr>
+          <tr><td><span class="sw" style="background:#FFB4AB"></span></td><td class="tn">error</td><td class="hx">#FFB4AB</td><td>Texto e íconos de error</td><td class="cr">10.1:1 sobre surface1</td></tr>
+          <tr><td><span class="sw" style="background:#93000A"></span></td><td class="tn">errorContainer</td><td class="hx">#93000A / #FFDAD6</td><td>Banners de error (con onErrorContainer)</td><td class="cr">7.2:1</td></tr>
+          <tr><td><span class="sw" style="background:#6DD58C"></span></td><td class="tn">success</td><td class="hx">#6DD58C</td><td>Ganancias al alza, entregado</td><td class="cr">9.4:1 sobre surface1</td></tr>
+          <tr><td><span class="sw" style="background:#0F3D22"></span></td><td class="tn">successContainer</td><td class="hx">#0F3D22 / #B7F1C5</td><td>Banner de "Pedido entregado" (con onSuccessContainer)</td><td class="cr">9.6:1</td></tr>
+          <tr><td><span class="sw" style="background:#FFC857"></span></td><td class="tn">warning</td><td class="hx">#FFC857</td><td>Chip de "Vas tarde", avisos de deuda</td><td class="cr">11.1:1 sobre surface1</td></tr>
+          <tr><td><span class="sw" style="background:#7A706B"></span></td><td class="tn">outline</td><td class="hx">#7A706B</td><td>Divisores, bordes de campos, switches apagados</td><td class="cr">3.55:1 (cumple 3:1 para no texto)</td></tr>
+          <tr><td><span class="sw" style="background:#3A3431"></span></td><td class="tn">outlineVariant</td><td class="hx">#3A3431</td><td>Divisores sutiles</td><td class="cr">solo decorativo</td></tr>
+          <tr><td><span class="sw" style="background:rgba(0,0,0,0.6)"></span></td><td class="tn">scrim</td><td class="hx">#000000 · 60%</td><td>Detrás de los diálogos</td><td class="cr">n/a</td></tr>
         </tbody>
       </table>
     </div>
 
     <ol class="rules">
-      <li class="fade-in"><strong>No pure black.</strong> The background is a warm #161412 and elevation comes from lighter surfaces, not shadows. Pure black next to saturated coral smears on OLED screens.</li>
-      <li class="fade-in"><strong>Coral changes by role.</strong> Text and icons use #FF8A75, CTA fills #FF5A47 with dark text, and large brand areas use primaryContainer. Full-saturation coral glows at night and pulls attention while riding.</li>
-      <li class="fade-in"><strong>One coral fill per screen.</strong> It marks the money decision ("Aceptar"). Teal stays the confirm and progress color.</li>
-      <li class="fade-in"><strong>Coral is not an error color.</strong> They sit close in hue, so errors always use error tokens plus an icon plus text. Never color alone.</li>
-      <li class="fade-in"><strong>Money stays readable.</strong> Earnings in onSurface or success at 20sp or larger. Debt uses warning, not red, unless the account is blocked.</li>
-      <li class="fade-in"><strong>Respect the sun.</strong> Default to "System" and offer "Auto at sunset". Dark mode outdoors at midday is harder to read, so don't force it.</li>
-      <li class="fade-in"><strong>Gloves-sized targets.</strong> At least 48 dp, 56 dp for primary actions, and a 64 dp thumb on slide-to-confirm.</li>
+      <li class="fade-in"><strong>Nada de negro puro.</strong> El fondo es un #161412 cálido y la elevación se da con superficies más claras, no con sombras. El negro puro junto a un coral saturado se ve corrido en pantallas OLED.</li>
+      <li class="fade-in"><strong>El coral cambia según su función.</strong> Texto e íconos usan #FF8A75, los rellenos de botón #FF5A47 con texto oscuro, y las áreas grandes de marca usan primaryContainer. El coral a toda saturación brilla de noche y jala la atención mientras manejas.</li>
+      <li class="fade-in"><strong>Un solo relleno coral por pantalla.</strong> Marca la decisión de dinero ("Aceptar"). El verde azulado sigue siendo el color de confirmar y de avance.</li>
+      <li class="fade-in"><strong>El coral no es color de error.</strong> Los tonos son parecidos, así que los errores siempre usan los tokens de error más un ícono más texto. Nunca solo el color.</li>
+      <li class="fade-in"><strong>El dinero siempre se lee.</strong> Ganancias en onSurface o success, a 20sp o más. La deuda va en warning, no en rojo, salvo que la cuenta esté bloqueada.</li>
+      <li class="fade-in"><strong>Respetar el sol.</strong> Por defecto "Sistema", con la opción "Automático al atardecer". Al mediodía en la calle el modo oscuro se lee peor, así que no hay que forzarlo.</li>
+      <li class="fade-in"><strong>Botones del tamaño de un guante.</strong> Mínimo 48 dp, 56 dp para acciones principales y un control de 64 dp en el deslizador para confirmar.</li>
     </ol>
 
     <!-- Mockup 1: offer -->
     <div class="mock-block fade-in">
       <div class="mock-pair">
-        <div class="mock-col"><div class="mock-label">Light</div>
-          <div class="phone-m"><div class="scr light" aria-label="Light mockup of an order offer card">
+        <div class="mock-col"><div class="mock-label">Claro</div>
+          <div class="phone-m"><div class="scr light" aria-label="Maqueta en tema claro de una tarjeta de oferta de pedido">
             <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
             <div class="m-blur"></div>
             <div class="sheet">
@@ -1162,8 +1253,8 @@ NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable
             </div>
           </div></div>
         </div>
-        <div class="mock-col"><div class="mock-label">Dark</div>
-          <div class="phone-m"><div class="scr dark" aria-label="Dark mockup of an order offer card">
+        <div class="mock-col"><div class="mock-label">Oscuro</div>
+          <div class="phone-m"><div class="scr dark" aria-label="Maqueta en tema oscuro de una tarjeta de oferta de pedido">
             <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
             <div class="m-blur"></div>
             <div class="sheet">
@@ -1185,11 +1276,11 @@ NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable
         </div>
       </div>
       <div class="mock-notes">
-        <h3>Order offer</h3>
+        <h3>Oferta de pedido</h3>
         <ul>
-          <li>The payout is the biggest thing on screen, with a thin countdown ring around it that turns to warning in the last 5 seconds.</li>
-          <li>One coral fill, "Aceptar", with dark text at 56 dp. "Rechazar" is a text button. No red anywhere.</li>
-          <li>The bonus chip uses success containers, and times use the <code>es-MX</code> localized format.</li>
+          <li>El pago es lo más grande de la pantalla, con un anillo delgado de cuenta regresiva alrededor que cambia a warning en los últimos 5 segundos.</li>
+          <li>Un solo relleno coral, "Aceptar", con texto oscuro y 56 dp de alto. "Rechazar" es un botón de texto. Cero rojo.</li>
+          <li>El chip del bono usa los contenedores de success, y las horas usan el formato localizado de <code>es-MX</code>.</li>
         </ul>
       </div>
     </div>
@@ -1197,8 +1288,8 @@ NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable
     <!-- Mockup 2: active delivery -->
     <div class="mock-block fade-in">
       <div class="mock-pair">
-        <div class="mock-col"><div class="mock-label">Light</div>
-          <div class="phone-m"><div class="scr light" aria-label="Light mockup of an active delivery with map">
+        <div class="mock-col"><div class="mock-label">Claro</div>
+          <div class="phone-m"><div class="scr light" aria-label="Maqueta en tema claro de una entrega activa con mapa">
             <div class="map"><svg viewBox="0 0 90 190" preserveAspectRatio="none" aria-hidden="true">
               <polyline points="22,150 27,150 27,95 58,95 58,48" fill="none" stroke="var(--map-casing)" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
               <polyline points="22,150 27,150 27,95 58,95 58,48" fill="none" stroke="var(--map-route)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
@@ -1218,8 +1309,8 @@ NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable
             </div>
           </div></div>
         </div>
-        <div class="mock-col"><div class="mock-label">Dark</div>
-          <div class="phone-m"><div class="scr dark" aria-label="Dark mockup of an active delivery with dark map style">
+        <div class="mock-col"><div class="mock-label">Oscuro</div>
+          <div class="phone-m"><div class="scr dark" aria-label="Maqueta en tema oscuro de una entrega activa con mapa oscuro">
             <div class="map"><svg viewBox="0 0 90 190" preserveAspectRatio="none" aria-hidden="true">
               <polyline points="22,150 27,150 27,95 58,95 58,48" fill="none" stroke="var(--map-casing)" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
               <polyline points="22,150 27,150 27,95 58,95 58,48" fill="none" stroke="var(--map-route)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
@@ -1241,12 +1332,12 @@ NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable
         </div>
       </div>
       <div class="mock-notes">
-        <h3>Active delivery</h3>
+        <h3>Entrega activa</h3>
         <ul>
-          <li>One top bar with one state line. Offline during a delivery reads "En camino al cliente · Sin conexión", never two toolbars.</li>
-          <li>"Navegar" becomes a teal tonal button instead of iOS blue. "Llegué al destino" is a slide-to-confirm with a 64 dp thumb.</li>
-          <li>Late status is a small warning chip, not a banner over the map. The customer shows as a role, and the cash total is on the card.</li>
-          <li>Dark map style: land #1B1917, roads #2B2724, water #0E1A22, parks #17231B, and a #FF8A75 route with a dark casing so it stays visible.</li>
+          <li>Una sola barra superior con una sola línea de estado. Sin conexión durante una entrega se lee "En camino al cliente · Sin conexión", nunca dos barras.</li>
+          <li>"Navegar" pasa a ser un botón tonal verde azulado en vez del azul de iOS. "Llegué al destino" es un deslizador para confirmar con un control de 64 dp.</li>
+          <li>El retraso es un chip pequeño de warning, no un banner encima del mapa. El cliente aparece por su rol, y el total en efectivo está en la tarjeta.</li>
+          <li>Estilo de mapa oscuro: suelo #1B1917, calles #2B2724, agua #0E1A22, parques #17231B y una ruta #FF8A75 con borde oscuro para que siempre se vea.</li>
         </ul>
       </div>
     </div>
@@ -1254,8 +1345,8 @@ NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable
     <!-- Mockup 3: earnings -->
     <div class="mock-block fade-in">
       <div class="mock-pair">
-        <div class="mock-col"><div class="mock-label">Light</div>
-          <div class="phone-m"><div class="scr light" aria-label="Light mockup of the earnings and balance screen">
+        <div class="mock-col"><div class="mock-label">Claro</div>
+          <div class="phone-m"><div class="scr light" aria-label="Maqueta en tema claro de la pantalla de ganancias y saldo">
             <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
             <div class="appbar"><span>←</span>Mis finanzas</div>
             <div class="m-body">
@@ -1284,8 +1375,8 @@ NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable
             <div class="m-gnav"><span></span></div>
           </div></div>
         </div>
-        <div class="mock-col"><div class="mock-label">Dark</div>
-          <div class="phone-m"><div class="scr dark" aria-label="Dark mockup of the earnings and balance screen">
+        <div class="mock-col"><div class="mock-label">Oscuro</div>
+          <div class="phone-m"><div class="scr dark" aria-label="Maqueta en tema oscuro de la pantalla de ganancias y saldo">
             <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
             <div class="appbar"><span>←</span>Mis finanzas</div>
             <div class="m-body">
@@ -1316,90 +1407,92 @@ NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable
         </div>
       </div>
       <div class="mock-notes">
-        <h3>Earnings and balance</h3>
+        <h3>Ganancias y saldo</h3>
         <ul>
-          <li>One balance hero on primaryContainer, with debt and pending adjustments right under it. This is the direct answer to ISS-03.</li>
-          <li>Bars in primary for earnings and warning for debt, on surface1 with subtle gridlines.</li>
-          <li>Amounts right-aligned in tabular figures: success for credits, onSurface for debits, warning for debt.</li>
+          <li>Un solo saldo protagonista sobre primaryContainer, con la deuda y los ajustes pendientes justo debajo. Es la respuesta directa a ISS-03.</li>
+          <li>Barras en primary para ganancias y en warning para deuda, sobre surface1 con líneas de guía sutiles.</li>
+          <li>Montos alineados a la derecha con cifras tabulares: success para abonos, onSurface para cargos, warning para deuda.</li>
         </ul>
       </div>
     </div>
-    <p class="muted small" style="margin-top:2rem">Mockups are plain HTML and CSS. Amounts and places are placeholders. The light side uses the palette I observed in the app with the same fixes applied (dark text on coral, teal "Navegar"); the dark side uses the proposed tokens.</p>
+    <p class="muted small" style="margin-top:2rem">Las maquetas son HTML y CSS sencillos. Los montos y lugares son de ejemplo. El lado claro usa la paleta que observé en la app con los mismos arreglos aplicados (texto oscuro sobre coral, "Navegar" en verde azulado); el lado oscuro usa los tokens propuestos.</p>
   </section>
 
   <!-- ROLLOUT -->
   <section id="rollout">
     <span class="section-label">Plan</span>
-    <h2>How I'd roll this out</h2>
-    <p class="lead">Start with the fixes that are small in code and big for the courier, then move to the architecture that stops these bugs from coming back.</p>
+    <h2>Cómo lo iría liberando</h2>
+    <p class="lead">Empezar por los arreglos que son pequeños en código y grandes para el repartidor, y después pasar a la arquitectura que evita que estos bugs regresen.</p>
     <div class="grid-3">
       <div class="phase fade-in">
-        <div class="phase-when">Week 1</div>
-        <h3>Quick wins</h3>
+        <div class="phase-when">Semana 1</div>
+        <h3>Victorias rápidas</h3>
         <ul>
-          <li>Wrap the startup update check in a 3 s timeout and let the active order through.<a class="id-chip" href="#iss-01">01</a></li>
-          <li>Add <code>mode</code> to the navigation intent and remember the chosen app.<a class="id-chip" href="#iss-06">06</a></li>
-          <li>Render HTML and Markdown properly in chat and the bot.<a class="id-chip" href="#more">07</a></li>
-          <li>Stop showing raw server messages; map the known codes, generic copy for the rest.<a class="id-chip" href="#iss-02">02</a></li>
-          <li>Seed the map camera from the last known location.<a class="id-chip" href="#more">09</a></li>
-          <li>Fix the typos, the "Opcional" badge, the time format and the red "Cancelar".<a class="id-chip" href="#more">11</a><a class="id-chip" href="#more">13</a><a class="id-chip" href="#more">15</a></li>
+          <li>Poner un timeout de 3 s a la revisión de actualización al arrancar y dejar pasar el pedido activo.<a class="id-chip" href="#iss-01">01</a></li>
+          <li>Agregar <code>mode</code> al intent de navegación y recordar la app elegida.<a class="id-chip" href="#iss-06">06</a></li>
+          <li>Mostrar bien el HTML y el Markdown en el chat y en el bot.<a class="id-chip" href="#more">07</a></li>
+          <li>Dejar de mostrar mensajes crudos del servidor: traducir los códigos conocidos y un texto genérico para el resto.<a class="id-chip" href="#iss-02">02</a></li>
+          <li>Iniciar la cámara del mapa en la última ubicación conocida.<a class="id-chip" href="#more">09</a></li>
+          <li>Corregir las faltas de ortografía, la etiqueta "Opcional", el formato de hora y el "Cancelar" en rojo.<a class="id-chip" href="#more">11</a><a class="id-chip" href="#more">13</a><a class="id-chip" href="#more">15</a></li>
         </ul>
       </div>
       <div class="phase fade-in">
-        <div class="phase-when">Weeks 2–6</div>
-        <h3>Trust and consent</h3>
+        <div class="phase-when">Semanas 2 a 6</div>
+        <h3>Confianza y consentimiento</h3>
         <ul>
-          <li>Auto-accept never turns on silently; ask before a queue enables it.<a class="id-chip" href="#iss-04">04</a></li>
-          <li>Inset-aware bottom bars for every primary CTA, plus the QA matrix and screenshot tests.<a class="id-chip" href="#more">08</a></li>
-          <li>"Ajuste en proceso" state after support adjustments, and debt banners that link to their transactions.<a class="id-chip" href="#iss-03">03</a></li>
-          <li>Disabled reasons and real error kinds in the help center.<a class="id-chip" href="#more">10</a></li>
-          <li>Notifications with sender and preview.<a class="id-chip" href="#more">16</a></li>
+          <li>La autoaceptación nunca se prende sola; preguntar antes de que una fila la active.<a class="id-chip" href="#iss-04">04</a></li>
+          <li>Barras inferiores que respetan los insets para todos los botones principales, más la matriz de QA y las pruebas de capturas.<a class="id-chip" href="#more">08</a></li>
+          <li>Estado de "Ajuste en proceso" después de los ajustes de soporte, y banners de deuda que enlazan a sus transacciones.<a class="id-chip" href="#iss-03">03</a></li>
+          <li>Motivos visibles para lo deshabilitado y tipos de error reales en el centro de ayuda.<a class="id-chip" href="#more">10</a></li>
+          <li>Notificaciones con remitente y vista previa.<a class="id-chip" href="#more">16</a></li>
+          <li>Partir la encuesta larga en microencuestas con tope de frecuencia, guardando cada respuesta al momento.<a class="id-chip" href="#iss-17">17</a></li>
         </ul>
       </div>
       <div class="phase fade-in">
-        <div class="phase-when">This quarter</div>
-        <h3>Architecture</h3>
+        <div class="phase-when">Este trimestre</div>
+        <h3>Arquitectura</h3>
         <ul>
-          <li>Room-first active order and a startup path that never waits on the network.<a class="id-chip" href="#iss-01">01</a></li>
-          <li>One <code>WalletRepository</code> with a <code>ledgerVersion</code> behind every money screen.<a class="id-chip" href="#iss-03">03</a></li>
-          <li>One <code>SessionStore</code> reducer for connection, order phase and preferences.<a class="id-chip" href="#iss-04">04</a></li>
-          <li>Order states for <code>Blocked</code> and <code>UnderReview</code>, idempotent reports through WorkManager, and removals that explain themselves.<a class="id-chip" href="#iss-05">05</a></li>
-          <li>Error-code contract with the backend, risk-based verification and a post-delivery orchestrator.<a class="id-chip" href="#iss-02">02</a><a class="id-chip" href="#more">12</a><a class="id-chip" href="#more">15</a></li>
+          <li>Pedido activo primero desde Room y un arranque que nunca espera a la red.<a class="id-chip" href="#iss-01">01</a></li>
+          <li>Un solo <code>WalletRepository</code> con <code>ledgerVersion</code> detrás de todas las pantallas de dinero.<a class="id-chip" href="#iss-03">03</a></li>
+          <li>Un solo reducer en <code>SessionStore</code> para la conexión, la fase del pedido y las preferencias.<a class="id-chip" href="#iss-04">04</a></li>
+          <li>Estados de pedido <code>Blocked</code> y <code>UnderReview</code>, reportes idempotentes por WorkManager y remociones que se explican solas.<a class="id-chip" href="#iss-05">05</a></li>
+          <li>Contrato de códigos de error con el backend, verificación según el riesgo, un orquestador para después de la entrega y encuestas configuradas desde el servidor.<a class="id-chip" href="#iss-02">02</a><a class="id-chip" href="#more">12</a><a class="id-chip" href="#more">15</a><a class="id-chip" href="#iss-17">17</a></li>
         </ul>
       </div>
     </div>
 
-    <h3 style="margin-top:2.5rem">Metrics I'd watch</h3>
+    <h3 style="margin-top:2.5rem">Métricas que vigilaría</h3>
     <div class="metrics">
-      <div class="metric fade-in"><div class="mn">Crash-free sessions</div><p>The baseline. Nothing else matters if the app falls over mid-delivery.</p></div>
-      <div class="metric fade-in"><div class="mn">Cold start p90</div><p>Time to first interactive frame, with a separate cut for cold starts during an active order.</p></div>
-      <div class="metric fade-in"><div class="mn">Stuck-on-launch rate</div><p>Share of cold starts where the splash stays up for more than a few seconds, measured with the startup-gate breadcrumbs from ISS-01.</p></div>
-      <div class="metric fade-in"><div class="mn">Support contacts per 1k orders</div><p>Split by topic. Debt, dead-end orders and auto-accept should each go down on their own.</p></div>
-      <div class="metric fade-in"><div class="mn">Debt-display mismatches</div><p>Sessions where screens show different <code>ledgerVersion</code> values. The client can detect it.</p></div>
+      <div class="metric fade-in"><div class="mn">Sesiones sin crashes</div><p>La base. Nada más importa si la app se cae a media entrega.</p></div>
+      <div class="metric fade-in"><div class="mn">Arranque en frío p90</div><p>Tiempo al primer fotograma interactivo, con un corte aparte para los arranques en frío durante un pedido activo.</p></div>
+      <div class="metric fade-in"><div class="mn">Tasa de atorones al abrir</div><p>Porcentaje de arranques en frío en los que la pantalla de inicio se queda más de unos segundos, medido con los breadcrumbs de la compuerta de arranque de ISS-01.</p></div>
+      <div class="metric fade-in"><div class="mn">Contactos a soporte por cada 1,000 pedidos</div><p>Separados por tema. Deuda, pedidos atorados y autoaceptación deberían bajar cada uno por su lado.</p></div>
+      <div class="metric fade-in"><div class="mn">Deuda mostrada distinta</div><p>Sesiones en las que las pantallas muestran valores distintos de <code>ledgerVersion</code>. El cliente lo puede detectar.</p></div>
+      <div class="metric fade-in"><div class="mn">Abandono por pregunta</div><p>En qué pregunta se sale la gente de las encuestas, y cuántas respuestas llegan por cada encuesta mostrada.</p></div>
     </div>
   </section>
 
   <!-- CLOSING -->
   <section id="closing">
-    <span class="section-label">Closing</span>
-    <h2>Why this matters to me</h2>
+    <span class="section-label">Cierre</span>
+    <h2>Por qué me importa</h2>
     <p class="closing">
-      I've spent years stabilizing Android apps and the pipelines behind them, and these three weeks reminded me who the
-      work is for. A courier waiting on a splash screen at a red light doesn't care about architecture. They care that the
-      address is there. Most of what I found can be fixed with clear state, honest error messages and a few product decisions
-      made explicit. I'd love to help build that.
+      Llevo años estabilizando apps Android y los pipelines que las sostienen, y estas tres semanas me recordaron para quién es
+      ese trabajo. A un repartidor esperando en un semáforo frente a una pantalla de carga no le importa la arquitectura. Le importa que
+      la dirección esté ahí. Casi todo lo que encontré se arregla con un estado claro, mensajes de error honestos y unas cuantas decisiones
+      de producto puestas por escrito. Me encantaría ayudar a construirlo.
     </p>
   </section>
 
 </main>
 
 <footer>
-  <span>Soy Rappi field notes · by <a href="../index.html">Sinué Flores</a> · 2026</span>
-  <span>Independent case study. Not affiliated with or endorsed by Rappi.</span>
+  <span>Notas de campo de Soy Rappi · por <a href="../index.html">Sinué Flores</a> · 2026</span>
+  <span>Caso de estudio independiente. Sin afiliación ni respaldo de Rappi.</span>
 </footer>
 
-<dialog class="lb" id="lightbox" aria-label="Enlarged screenshot">
-  <button class="lb-close" type="button" aria-label="Close">✕</button>
+<dialog class="lb" id="lightbox" aria-label="Captura ampliada">
+  <button class="lb-close" type="button" aria-label="Cerrar">✕</button>
   <div class="lb-inner">
     <img src="" alt="">
     <p class="lb-cap"></p>
@@ -1407,7 +1500,7 @@ NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable
 </dialog>
 
 <script>
-  // Fade-in
+  // Aparición gradual
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
@@ -1415,7 +1508,7 @@ NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable
   }, { threshold: 0.08 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-  // Lightbox
+  // Visor de imágenes
   const lb = document.getElementById('lightbox');
   const lbImg = lb.querySelector('img');
   const lbCap = lb.querySelector('.lb-cap');
@@ -1431,7 +1524,7 @@ NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable
   lb.addEventListener('click', () => lb.close());
   lb.addEventListener('close', () => { lbImg.src = ''; });
 
-  // Minimal Kotlin highlighting
+  // Resaltado mínimo de Kotlin
   const KW = 'class|data|object|sealed|interface|enum|fun|val|var|when|if|else|is|in|return|private|override|suspend|init|null|true|false|it|this';
   const re = new RegExp('(\\/\\/[^\\n]*)|("(?:[^"\\\\\\n]|\\\\.)*")|(@\\w+)|\\b(' + KW + ')\\b', 'g');
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
