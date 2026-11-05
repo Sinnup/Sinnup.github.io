@@ -394,6 +394,7 @@
       <div class="meta-pill"><strong>Status</strong> Available on Google Play</div>
       <div class="meta-pill"><strong>Package</strong> com.espert.dogedex</div>
       <div class="meta-pill"><strong>Version</strong> 1.1.0</div>
+      <div class="meta-pill"><strong>Model</strong> 3.1 MB, on-device</div>
     </div>
     <div class="hero-ctas">
       <a href="https://play.google.com/store/apps/details?id=com.espert.dogedex" target="_blank" rel="noopener" class="btn btn-primary">Get it on Google Play</a>
@@ -568,6 +569,20 @@
         <div>
           <div class="arch-item-title">Offline-first data</div>
           <div class="arch-item-desc">On first launch the dog dataset is read from assets into Room and the images are unpacked to local storage, so every later launch works without a connection.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon"><img src="../assets/icons/zap.svg" alt="" aria-hidden="true"></div>
+        <div>
+          <div class="arch-item-title">Shipped to Google Play with one command</div>
+          <div class="arch-item-desc"><code>/release</code> is a custom Claude Code slash command: it checks for a clean tree on <code>main</code>, takes the version name, increments the version code, updates the release notes, runs <code>publishReleaseBundle</code> to build and upload the signed bundle, then commits, tags and pushes. If the build fails, it reverts the version bump. GitHub Actions builds every push and PR.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon"><img src="../assets/icons/bot.svg" alt="" aria-hidden="true"></div>
+        <div>
+          <div class="arch-item-title">A subagent team for the migration</div>
+          <div class="arch-item-desc">Five subagents: an architect that writes specs and no code, a developer that builds after every change, a tester (fakes over mocks, Turbine, every test must be able to fail for a real reason), a versioning agent for Conventional Commits, and a migration agent that moved the app to AGP 9, KSP, type-safe navigation, Compose and MVI one phase at a time. The changelog doubles as the migration state, so any new session reads it first.</div>
         </div>
       </li>
     </ul>

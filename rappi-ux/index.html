@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Field notes from riding for Soy Rappi in October 2026: 16 UX and reliability issues, root-cause hypotheses, fixes from product to Kotlin, and a dark theme that keeps the brand.">
+  <title>Soy Rappi Field Notes · Sinué Flores</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/fav-bike.svg">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e10;
+      --surface: #1a1a1e;
+      --surface-hover: #222226;
+      --border: #2a2a2e;
+      --accent: #f59e0b;
+      --accent-dim: rgba(245, 158, 11, 0.12);
+      --text: #ffffff;
+      --text-muted: #c8c8d0;
+      --text-dim: #9a9aa8;
+      --code-bg: #131316;
+      --p0: #f87171;
+      --p1: #fb923c;
+      --p2: #facc15;
+      --p3: #9a9aa8;
+    }
+
+    html { scroll-behavior: smooth; font-size: 19px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    p a, li a, td a { color: var(--accent); }
+    p a:hover, li a:hover { text-decoration: underline; }
+    strong { color: var(--text); font-weight: 650; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.86em; background: var(--surface-hover); border: 1px solid var(--border); border-radius: 5px; padding: 0.05em 0.35em; overflow-wrap: anywhere; }
+
+    /* ── Nav ─────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(14, 14, 16, 0.88);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-back { display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.875rem; font-weight: 500; transition: color 0.2s; }
+    .nav-back:hover { color: var(--accent); }
+    .nav-name { font-weight: 700; font-size: 1rem; letter-spacing: -0.02em; }
+    .nav-name span { color: var(--accent); }
+
+    /* ── Layout ──────────────────────────────────────── */
+    main { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+    section { padding: 3rem 0; }
+    section + section { border-top: 1px solid var(--border); }
+
+    .section-label { display: inline-block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.85rem; }
+    h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.2; margin-bottom: 1.25rem; }
+    h3 { font-size: 1.1rem; font-weight: 750; letter-spacing: -0.02em; line-height: 1.3; }
+    .lead { color: var(--text-muted); max-width: 720px; margin-bottom: 1.75rem; line-height: 1.75; }
+    .lead + .lead { margin-top: -0.75rem; }
+    .muted { color: var(--text-muted); }
+    .small { font-size: 0.82rem; }
+
+    /* ── Hero ────────────────────────────────────────── */
+    #hero { padding: 3rem 0 2.5rem; }
+    .hero-eyebrow { font-size: 0.875rem; color: var(--accent); font-weight: 500; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+    .hero-eyebrow::before { content: ''; display: inline-block; width: 24px; height: 2px; background: var(--accent); border-radius: 2px; }
+    .hero-icon img { width: 4rem; height: 4rem; display: block; margin-bottom: 1rem; }
+    .hero-name { font-size: clamp(2.3rem, 6vw, 4rem); font-weight: 900; letter-spacing: -0.05em; line-height: 1.02; margin-bottom: 1.25rem; }
+    .hero-name .accent { color: var(--accent); }
+    .hero-pitch { font-size: clamp(1rem, 2vw, 1.1rem); color: var(--text-muted); max-width: 680px; margin-bottom: 1.75rem; line-height: 1.75; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .meta-pill { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.8rem; color: var(--text-muted); }
+    .meta-pill strong { margin-right: 0.3rem; }
+
+    /* ── Generic cards ───────────────────────────────── */
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.25rem 1.4rem; min-width: 0; }
+    .card h3 { margin-bottom: 0.4rem; font-size: 0.98rem; }
+    .card p, .card li { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+    .card ul { padding-left: 1.1rem; display: grid; gap: 0.3rem; }
+    .step-num { display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent); background: var(--accent-dim); border-radius: 6px; padding: 0.1rem 0.5rem; margin-bottom: 0.6rem; }
+
+    .note {
+      margin-top: 1.5rem; background: var(--accent-dim); border: 1px solid rgba(245, 158, 11, 0.35);
+      border-radius: 12px; padding: 1rem 1.25rem; font-size: 0.85rem; color: var(--text-muted); line-height: 1.65;
+    }
+    .note strong { color: var(--accent); }
+
+    /* ── Summary ─────────────────────────────────────── */
+    .sev-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+    .sev-tile { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.1rem; border-top: 3px solid var(--c); }
+    .sev-tile .n { font-size: 2.2rem; font-weight: 900; letter-spacing: -0.04em; line-height: 1; color: var(--c); }
+    .sev-tile .k { font-size: 0.78rem; font-weight: 700; margin-top: 0.35rem; }
+    .sev-tile .d { font-size: 0.75rem; color: var(--text-dim); line-height: 1.45; margin-top: 0.2rem; }
+    .theme-card .ids { margin-top: 0.7rem; display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .id-chip { font-size: 0.68rem; font-weight: 600; color: var(--text-muted); background: var(--surface-hover); border: 1px solid var(--border); border-radius: 5px; padding: 0.08rem 0.4rem; font-variant-numeric: tabular-nums; }
+    .id-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Severity badges ─────────────────────────────── */
+    .sev { display: inline-flex; align-items: center; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.06em; border-radius: 6px; padding: 0.12rem 0.5rem; color: #0e0e10; background: var(--c); white-space: nowrap; }
+    .sev.p0 { --c: var(--p0); } .sev.p1 { --c: var(--p1); } .sev.p2 { --c: var(--p2); } .sev.p3 { --c: var(--p3); }
+
+    /* ── Issue cards ─────────────────────────────────── */
+    .issues { display: grid; gap: 1.5rem; }
+    .issue { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; scroll-margin-top: 80px; }
+    .issue-head { display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem 0.6rem; margin-bottom: 0.6rem; }
+    .issue-id { font-size: 0.72rem; font-weight: 700; color: var(--text-dim); letter-spacing: 0.08em; font-variant-numeric: tabular-nums; }
+    .issue-tag { font-size: 0.7rem; color: var(--text-dim); border: 1px solid var(--border); border-radius: 6px; padding: 0.08rem 0.45rem; }
+    .issue h3 { font-size: 1.2rem; margin-bottom: 1.1rem; }
+    .issue-body { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 1.75rem; align-items: start; }
+    .issue-body.no-media { grid-template-columns: minmax(0, 1fr); }
+    .issue-body.wide-media { grid-template-columns: 360px minmax(0, 1fr); }
+    .issue-text { min-width: 0; display: grid; gap: 0.9rem; }
+    .blk-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.2rem; }
+    .blk-label.hyp { color: var(--accent); }
+    .issue-text p, .issue-text li { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
+    .issue-text ul { padding-left: 1.1rem; display: grid; gap: 0.25rem; }
+
+    .shot { display: block; width: 100%; background: #000; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; cursor: zoom-in; padding: 0; position: relative; }
+    .shot img { display: block; width: 100%; height: auto; }
+    .shot::after { content: 'Click to enlarge'; position: absolute; left: 8px; bottom: 8px; font-size: 0.65rem; font-weight: 600; background: rgba(14,14,16,0.85); color: var(--text-muted); padding: 0.15rem 0.5rem; border-radius: 5px; opacity: 0; transition: opacity 0.2s; }
+    .shot:hover::after, .shot:focus-visible::after { opacity: 1; }
+    .shot:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .shot-cap { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.5rem; line-height: 1.45; }
+    .no-shot { border: 1px dashed var(--border); border-radius: 12px; padding: 0.75rem 1rem; font-size: 0.78rem; color: var(--text-dim); }
+
+    /* ── Details / fixes ─────────────────────────────── */
+    details.fix { margin-top: 1.25rem; border: 1px solid var(--border); border-radius: 12px; background: #151518; }
+    details.fix > summary {
+      cursor: pointer; list-style: none; padding: 0.85rem 1.1rem; font-size: 0.875rem; font-weight: 650;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--text);
+    }
+    details.fix > summary::-webkit-details-marker { display: none; }
+    details.fix > summary::after { content: '+'; color: var(--accent); font-size: 1.2rem; font-weight: 500; line-height: 1; }
+    details.fix[open] > summary::after { content: '−'; }
+    details.fix > summary:hover { color: var(--accent); }
+    details.fix > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 12px; }
+    .fix-inner { padding: 0 1.1rem 1.1rem; display: grid; gap: 1rem; min-width: 0; }
+    .level { border-left: 2px solid var(--border); padding-left: 0.9rem; min-width: 0; }
+    .level-name { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.3rem; display: flex; gap: 0.5rem; align-items: baseline; flex-wrap: wrap; }
+    .level-name span { font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--text-dim); font-size: 0.75rem; }
+    .level.high { border-color: var(--accent); } .level.high .level-name { color: var(--accent); }
+    .level.med { border-color: #a78bfa; } .level.med .level-name { color: #a78bfa; }
+    .level.low { border-color: #34d399; } .level.low .level-name { color: #34d399; }
+    .level p, .level li { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+    .level ul { padding-left: 1.1rem; display: grid; gap: 0.25rem; }
+
+    pre {
+      background: var(--code-bg); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1rem;
+      overflow-x: auto; max-width: 100%; margin-top: 0.5rem; -webkit-overflow-scrolling: touch;
+    }
+    pre code {
+      background: none; border: 0; padding: 0; font-size: 0.7rem; line-height: 1.65; color: #d4d4dc;
+      white-space: pre; overflow-wrap: normal; display: block; tab-size: 4;
+    }
+    .tk-k { color: #fbbf24; }
+    .tk-s { color: #86efac; }
+    .tk-c { color: #7d7d8c; font-style: italic; }
+    .tk-t { color: #93c5fd; }
+
+    /* ── P2/P3 table ─────────────────────────────────── */
+    .table-wrap { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: var(--surface); }
+    table.issues-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+    .issues-table th { text-align: left; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); font-weight: 700; padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); background: #151518; }
+    .issues-table td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-muted); line-height: 1.55; }
+    .issues-table tr:last-child td { border-bottom: 0; }
+    .issues-table td.t strong { display: block; color: var(--text); margin-bottom: 0.2rem; }
+    .issues-table .idc { font-weight: 700; color: var(--text-dim); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .thumbs { display: flex; gap: 0.4rem; }
+    .thumb { width: 44px; height: 64px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); cursor: zoom-in; background: #000; padding: 0; flex-shrink: 0; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+    .thumb:hover, .thumb:focus-visible { border-color: var(--accent); outline: none; }
+    .dash { color: var(--text-dim); }
+
+    .sketches { margin-top: 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 0.9rem; align-items: start; }
+    .sketches details.fix { margin-top: 0; }
+    .sketches .fix-inner p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── Dark theme section ──────────────────────────── */
+    .brand-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.9rem; margin-bottom: 1.25rem; }
+    .brand-sw { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .brand-sw .chip { height: 64px; }
+    .brand-sw .meta { padding: 0.7rem 0.9rem; }
+    .brand-sw .hex { font-family: ui-monospace, Menlo, monospace; font-size: 0.8rem; font-weight: 700; }
+    .brand-sw .what { font-size: 0.76rem; color: var(--text-muted); line-height: 1.45; margin-top: 0.15rem; }
+
+    .contrast-demo { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.9rem; margin-bottom: 2.25rem; }
+    .cd { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 0.9rem; }
+    .cd-btn { flex-shrink: 0; width: 120px; height: 44px; border-radius: 10px; display: grid; place-items: center; font-weight: 700; font-size: 0.85rem; }
+    .cd p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.45; }
+    .cd .verdict { font-weight: 800; font-size: 0.8rem; }
+    .pass { color: #6DD58C; } .fail { color: #f87171; }
+
+    .tok-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); -webkit-overflow-scrolling: touch; }
+    table.tokens { width: 100%; min-width: 620px; border-collapse: collapse; font-size: 0.8rem; }
+    .tokens th { text-align: left; font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); font-weight: 700; padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--border); background: #151518; }
+    .tokens td { padding: 0.55rem 0.9rem; border-bottom: 1px solid var(--border); color: var(--text-muted); vertical-align: middle; }
+    .tokens tr:last-child td { border-bottom: 0; }
+    .tokens .tn { color: var(--text); font-weight: 600; white-space: nowrap; }
+    .tokens .hx { font-family: ui-monospace, Menlo, monospace; white-space: nowrap; }
+    .sw { display: inline-block; width: 28px; height: 28px; border-radius: 7px; border: 1px solid rgba(255,255,255,0.14); vertical-align: middle; }
+    .tokens .cr { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+    .rules { counter-reset: r; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0.9rem; margin-top: 2rem; }
+    .rules li { counter-increment: r; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.1rem 1rem 3rem; position: relative; font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; }
+    .rules li::before { content: counter(r); position: absolute; left: 1rem; top: 0.95rem; width: 1.35rem; height: 1.35rem; border-radius: 50%; background: var(--accent-dim); color: var(--accent); font-size: 0.72rem; font-weight: 800; display: grid; place-items: center; }
+
+    /* ── Mockups ─────────────────────────────────────── */
+    .mock-block { display: grid; grid-template-columns: minmax(0, 520px) minmax(0, 1fr); gap: 2rem; align-items: center; margin-top: 2.5rem; }
+    .mock-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .mock-col { min-width: 0; }
+    .mock-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); text-align: center; margin-bottom: 0.5rem; }
+    .mock-notes h3 { margin-bottom: 0.5rem; }
+    .mock-notes ul { padding-left: 1.1rem; display: grid; gap: 0.35rem; }
+    .mock-notes li { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+    .phone-m { container-type: inline-size; width: 100%; max-width: 250px; margin: 0 auto; border-radius: 26px; border: 3px solid #2f2f35; background: #000; padding: 5px; }
+    .scr {
+      font-size: 5.1cqw; position: relative; aspect-ratio: 9 / 19; border-radius: 20px; overflow: hidden;
+      background: var(--m-bg); color: var(--m-on); font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; line-height: 1.3;
+      display: flex; flex-direction: column;
+    }
+    /* Light: palette observed in the app, fixes applied */
+    .scr.light {
+      --m-bg: #F3F5F6; --m-s1: #FFFFFF; --m-s2: #EEF1F2; --m-s3: #FFFFFF; --m-on: #1B1D1F; --m-var: #5A636B;
+      --m-primary: #C8372A; --m-cta: #FE5B4A; --m-on-cta: #1F0A05; --m-pc: #FFE3DD; --m-on-pc: #5A1F14;
+      --m-sec: #16625E; --m-on-sec: #FFFFFF; --m-sec-tonal: #D4ECE8; --m-on-sec-tonal: #0B3B38;
+      --m-succ: #1E7A43; --m-succ-c: #DDF5E4; --m-on-succ-c: #0F3D22; --m-warn: #8A5A00; --m-warn-c: #FFF1CC;
+      --m-outline: #D5DADD; --m-sb: #1B1D1F;
+      --map-land: #ECEEEA; --map-road: #FFFFFF; --map-art: #F7E7C6; --map-water: #BFDCEB; --map-park: #D4EBD1; --map-route: #E2483A; --map-casing: #FFFFFF;
+    }
+    /* Dark: proposed tokens */
+    .scr.dark {
+      --m-bg: #161412; --m-s1: #1E1B19; --m-s2: #252220; --m-s3: #2D2926; --m-on: #EDE6E3; --m-var: #B9AFAA;
+      --m-primary: #FF8A75; --m-cta: #FF5A47; --m-on-cta: #1F0A05; --m-pc: #5A1F14; --m-on-pc: #FFDAD2;
+      --m-sec: #4FD1BE; --m-on-sec: #00201C; --m-sec-tonal: #1D3A36; --m-on-sec-tonal: #A8EFE3;
+      --m-succ: #6DD58C; --m-succ-c: #0F3D22; --m-on-succ-c: #B7F1C5; --m-warn: #FFC857; --m-warn-c: #3A2E12;
+      --m-outline: #3A3431; --m-sb: #EDE6E3;
+      --map-land: #1B1917; --map-road: #2B2724; --map-art: #3A3431; --map-water: #0E1A22; --map-park: #17231B; --map-route: #FF8A75; --map-casing: #161412;
+    }
+    .sb { display: flex; justify-content: space-between; padding: 0.55em 1.1em 0.3em; font-size: 0.72em; font-weight: 600; color: var(--m-sb); flex-shrink: 0; position: relative; z-index: 3; }
+    .appbar { display: flex; align-items: center; gap: 0.6em; padding: 0.5em 1em; font-weight: 700; font-size: 0.95em; flex-shrink: 0; }
+    .appbar .ham { width: 1em; height: 0.75em; border-top: 2px solid currentColor; border-bottom: 2px solid currentColor; position: relative; flex-shrink: 0; }
+    .appbar .ham::after { content: ''; position: absolute; left: 0; right: 0; top: 50%; border-top: 2px solid currentColor; transform: translateY(-50%); }
+    .status-dot { width: 0.55em; height: 0.55em; border-radius: 50%; background: var(--m-succ); display: inline-block; margin-right: 0.35em; }
+    .m-body { flex: 1; padding: 0.4em 0.9em; display: flex; flex-direction: column; gap: 0.6em; min-height: 0; }
+    .m-card { background: var(--m-s1); border-radius: 0.9em; padding: 0.8em; border: 1px solid var(--m-outline); }
+    .m-muted { color: var(--m-var); font-size: 0.78em; }
+    .m-gnav { display: flex; justify-content: center; gap: 3em; padding: 0.5em 0 0.6em; flex-shrink: 0; }
+    .m-gnav span { width: 3.5em; height: 0.28em; border-radius: 1em; background: var(--m-var); opacity: 0.5; }
+
+    /* offer sheet */
+    .m-blur { flex: 1; background:
+      linear-gradient(90deg, transparent 46%, var(--map-road) 46%, var(--map-road) 52%, transparent 52%),
+      linear-gradient(0deg, transparent 38%, var(--map-art) 38%, var(--map-art) 44%, transparent 44%),
+      linear-gradient(20deg, transparent 70%, var(--map-park) 70%),
+      var(--map-land); opacity: 0.85; }
+    .sheet { background: var(--m-s1); border-top: 1px solid var(--m-outline); border-radius: 1.2em 1.2em 0 0; padding: 0.7em 1em 0; display: flex; flex-direction: column; gap: 0.55em; }
+    .grab { width: 2.6em; height: 0.25em; border-radius: 1em; background: var(--m-outline); margin: 0 auto 0.2em; }
+    .offer-top { display: flex; align-items: center; gap: 0.8em; }
+    .ring { width: 3.6em; height: 3.6em; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center;
+      background: conic-gradient(var(--m-primary) 0 72%, var(--m-outline) 72% 100%); }
+    .ring span { width: 3.05em; height: 3.05em; border-radius: 50%; background: var(--m-s1); display: grid; place-items: center; font-size: 0.8em; font-weight: 800; color: var(--m-primary); }
+    .payout { font-size: 1.85em; font-weight: 850; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+    .chip-s { display: inline-block; background: var(--m-succ-c); color: var(--m-on-succ-c); font-size: 0.68em; font-weight: 700; padding: 0.3em 0.6em; border-radius: 0.6em; margin-top: 0.35em; }
+    .route-rows { display: grid; gap: 0.45em; }
+    .rr { display: grid; grid-template-columns: 0.9em 1fr auto; gap: 0.6em; align-items: center; font-size: 0.78em; }
+    .rr .pin { width: 0.75em; height: 0.75em; border-radius: 50%; }
+    .rr .lbl { color: var(--m-var); font-size: 0.86em; display: block; }
+    .rr .val { font-weight: 700; font-variant-numeric: tabular-nums; }
+    .btn-cta { background: var(--m-cta); color: var(--m-on-cta); border-radius: 0.8em; height: 3.1em; display: grid; place-items: center; font-weight: 800; font-size: 0.9em; }
+    .btn-text { color: var(--m-var); text-align: center; font-weight: 600; font-size: 0.82em; padding: 0.3em 0 0.1em; }
+
+    /* active delivery */
+    .map { position: absolute; inset: 0; background:
+      radial-gradient(ellipse 30% 22% at 85% 18%, var(--map-water) 98%, transparent 100%),
+      linear-gradient(115deg, transparent 0 62%, var(--map-park) 62% 74%, transparent 74%),
+      linear-gradient(90deg, transparent 0 28%, var(--map-road) 28% 31%, transparent 31% 64%, var(--map-road) 64% 66%, transparent 66%),
+      linear-gradient(0deg, transparent 0 22%, var(--map-road) 22% 24%, transparent 24% 47%, var(--map-art) 47% 51%, transparent 51% 76%, var(--map-road) 76% 78%, transparent 78%),
+      linear-gradient(35deg, transparent 0 40%, var(--map-art) 40% 43%, transparent 43%),
+      var(--map-land); }
+    .map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .map-top { position: relative; z-index: 2; margin: 0.2em 0.7em 0; background: color-mix(in srgb, var(--m-s3) 92%, transparent); border-radius: 0.9em; padding: 0.6em 0.8em; display: flex; align-items: center; justify-content: space-between; gap: 0.5em; border: 1px solid var(--m-outline); }
+    .map-top b { font-size: 0.82em; }
+    .chip-w { background: var(--m-warn-c); color: var(--m-warn); font-size: 0.64em; font-weight: 800; padding: 0.25em 0.55em; border-radius: 0.6em; white-space: nowrap; }
+    .spacer { flex: 1; }
+    .sheet-a { position: relative; z-index: 2; background: var(--m-s1); border-radius: 1.2em 1.2em 0 0; padding: 0.7em 1em 0; display: flex; flex-direction: column; gap: 0.6em; border-top: 1px solid var(--m-outline); }
+    .who { display: flex; align-items: center; gap: 0.6em; }
+    .avatar { width: 2.2em; height: 2.2em; border-radius: 50%; background: var(--m-s2); display: grid; place-items: center; font-weight: 800; font-size: 0.8em; color: var(--m-var); flex-shrink: 0; }
+    .who b { font-size: 0.85em; display: block; }
+    .btn-tonal { background: var(--m-sec-tonal); color: var(--m-on-sec-tonal); border-radius: 0.8em; height: 2.6em; display: grid; place-items: center; font-weight: 750; font-size: 0.8em; }
+    .slide { background: var(--m-sec); color: var(--m-on-sec); border-radius: 2em; height: 3.3em; display: flex; align-items: center; padding: 0.3em; font-weight: 800; font-size: 0.82em; }
+    .slide .thumbk { width: 2.7em; height: 2.7em; border-radius: 50%; background: var(--m-on-sec); color: var(--m-sec); display: grid; place-items: center; font-size: 1em; flex-shrink: 0; }
+    .slide span { flex: 1; text-align: center; padding-right: 2.7em; }
+
+    /* earnings */
+    .hero-bal { background: var(--m-pc); color: var(--m-on-pc); border-radius: 1em; padding: 0.9em; }
+    .hero-bal .lbl { font-size: 0.72em; font-weight: 700; opacity: 0.9; }
+    .hero-bal .amt { font-size: 2em; font-weight: 850; letter-spacing: -0.03em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .bal-rows { margin-top: 0.55em; display: grid; gap: 0.3em; font-size: 0.72em; }
+    .bal-rows div { display: flex; justify-content: space-between; border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent); padding-top: 0.3em; }
+    .bal-rows .pend { color: inherit; font-weight: 700; }
+    .bars { display: flex; align-items: flex-end; gap: 0.45em; height: 4.2em; padding: 0.3em 0.2em 0; border-bottom: 1px solid var(--m-outline);
+      background: repeating-linear-gradient(0deg, transparent 0 1.38em, var(--m-outline) 1.38em calc(1.38em + 1px)); }
+    .bars i { flex: 1; background: var(--m-primary); border-radius: 0.25em 0.25em 0 0; display: block; }
+    .bars i.w { background: var(--m-warn); }
+    .days { display: flex; justify-content: space-between; font-size: 0.6em; color: var(--m-var); padding: 0.25em 0.2em 0; }
+    .tx { display: grid; gap: 0.35em; }
+    .tx div { background: var(--m-s2); border-radius: 0.7em; padding: 0.55em 0.7em; display: flex; justify-content: space-between; gap: 0.5em; font-size: 0.74em; }
+    .tx .a { font-weight: 800; font-variant-numeric: tabular-nums; }
+    .tx .cr { color: var(--m-succ); } .tx .db { color: var(--m-on); } .tx .dt { color: var(--m-warn); }
+
+    /* ── Rollout ─────────────────────────────────────── */
+    .phase { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.3rem 1.4rem; min-width: 0; }
+    .phase-when { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
+    .phase h3 { margin-bottom: 0.8rem; font-size: 1rem; }
+    .phase ul { padding-left: 1.1rem; display: grid; gap: 0.45rem; }
+    .phase li { font-size: 0.84rem; color: var(--text-muted); line-height: 1.55; }
+    .phase li .id-chip { margin-left: 0.2rem; }
+    .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.9rem; margin-top: 1.5rem; }
+    .metric { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.1rem; }
+    .metric .mn { font-size: 0.9rem; font-weight: 750; margin-bottom: 0.3rem; }
+    .metric p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+
+    .closing { font-size: 1.05rem; color: var(--text-muted); max-width: 720px; line-height: 1.75; }
+
+    /* ── Lightbox ────────────────────────────────────── */
+    dialog.lb { border: 0; padding: 0; background: transparent; max-width: 100vw; max-height: 100vh; width: 100vw; height: 100vh; margin: 0; }
+    dialog.lb::backdrop { background: rgba(5, 5, 7, 0.9); }
+    .lb-inner { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; padding: 3.5rem 1rem 1.25rem; cursor: zoom-out; }
+    .lb-inner img { max-width: 100%; max-height: calc(100vh - 7rem); width: auto; height: auto; border-radius: 12px; border: 1px solid var(--border); background: #000; }
+    .lb-cap { font-size: 0.8rem; color: var(--text-muted); text-align: center; max-width: 640px; }
+    .lb-close { position: fixed; top: 1rem; right: 1rem; width: 2.4rem; height: 2.4rem; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 1.1rem; cursor: pointer; }
+    .lb-close:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ── Footer ──────────────────────────────────────── */
+    footer { border-top: 1px solid var(--border); padding: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; color: var(--text-dim); }
+    footer a { color: var(--accent); }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Fade-in ─────────────────────────────────────── */
+    .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .fade-in.visible { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .fade-in { opacity: 1; transform: none; transition: none; } html { scroll-behavior: auto; } }
+
+    /* ── Responsive ──────────────────────────────────── */
+    @media (max-width: 900px) {
+      .mock-block { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+      .mock-pair { max-width: 520px; }
+    }
+    @media (max-width: 760px) {
+      .issue-body, .issue-body.wide-media { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+      .issue-media { max-width: 240px; }
+      .issue-media.wide { max-width: 100%; }
+      .issues-table thead { display: none; }
+      .issues-table, .issues-table tbody, .issues-table tr, .issues-table td { display: block; width: 100%; }
+      .issues-table tr { padding: 1rem; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: auto 1fr; gap: 0.35rem 0.6rem; }
+      .issues-table tr:last-child { border-bottom: 0; }
+      .issues-table td { padding: 0; border: 0; }
+      .issues-table td.idc { grid-column: 1; }
+      .issues-table td.sv { grid-column: 2; }
+      .issues-table td.t, .issues-table td.fx, .issues-table td.ev { grid-column: 1 / -1; }
+      .issues-table td.fx::before { content: 'First fix: '; color: var(--text); font-weight: 650; }
+      .issues-table td.ev .dash { display: none; }
+    }
+    @media (max-width: 640px) {
+      html { font-size: 18px; }
+      main { padding: 0 1rem; }
+      nav { padding: 0 1rem; }
+      section { padding: 2.25rem 0; }
+      #hero { padding: 2rem 0 1.5rem; }
+      .sev-row { grid-template-columns: repeat(2, 1fr); }
+      .issue { padding: 1.1rem; }
+      .fix-inner { padding: 0 0.8rem 0.9rem; }
+      details.fix > summary { padding: 0.8rem; }
+      .level { padding-left: 0.7rem; }
+      pre { padding: 0.75rem; }
+      pre code { font-size: 0.66rem; }
+      .mock-pair { gap: 0.6rem; }
+      .phone-m { border-radius: 20px; padding: 4px; border-width: 2px; }
+      .scr { border-radius: 15px; }
+      .cd { flex-direction: column; align-items: flex-start; }
+      .rules { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; padding: 2rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-back">← Portfolio</a>
+    <div class="nav-name">Sinué<span>.</span></div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-eyebrow">Field notes · Android · UX</div>
+    <div class="hero-icon"><img src="../assets/icons/bike.svg" alt="" aria-hidden="true"></div>
+    <h1 class="hero-name">What broke on my<br>Soy Rappi shifts<span class="accent">.</span></h1>
+    <p class="hero-pitch">
+      In October 2026 I worked real deliveries in CDMX with the Soy Rappi courier app. I'm an Android engineer,
+      so I kept recording whenever something got in my way. This page is what I found: 16 issues, why I think
+      they happen, and how I would help fix them, from the product decision down to the Kotlin.
+    </p>
+    <div class="hero-meta">
+      <div class="meta-pill"><strong>When</strong> Oct 7–28, 2026</div>
+      <div class="meta-pill"><strong>Where</strong> CDMX, one Android phone</div>
+      <div class="meta-pill"><strong>Evidence</strong> 19 screenshots · 15 recordings</div>
+      <div class="meta-pill"><strong>Output</strong> 16 issues · dark theme proposal</div>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section id="context">
+    <span class="section-label">Context</span>
+    <h2>Why I did this, and how</h2>
+    <p class="lead">
+      Most UX reviews happen at a desk. These happened on the street, with an order running and a customer waiting.
+      That changes what matters: a two-second delay on a splash screen is a minor annoyance at home, and a real problem
+      at a red light when you need the delivery address.
+    </p>
+    <p class="lead">
+      I want the app to be better for the people who use it every day. Nothing here is meant as
+      a takedown. Every issue comes with a proposal I'd be glad to build.
+    </p>
+    <div class="grid-3">
+      <div class="card fade-in">
+        <span class="step-num">01</span>
+        <h3>Capture on real shifts</h3>
+        <p>Screenshots and screen recordings taken on my own phone while working, between Oct 7 and Oct 28. No test accounts, no staged flows.</p>
+      </div>
+      <div class="card fade-in">
+        <span class="step-num">02</span>
+        <h3>Catalogue with timestamps</h3>
+        <p>I sampled each recording at one frame every two seconds and tied every finding to a source and a moment in it. Related findings were grouped into 16 issues.</p>
+      </div>
+      <div class="card fade-in">
+        <span class="step-num">03</span>
+        <h3>Rate by impact on a rider</h3>
+        <p>Severity is about the courier on the street, not about how ugly something looks. For each issue I wrote what I saw, the impact, a root-cause hypothesis and a fix at three levels.</p>
+      </div>
+    </div>
+    <div class="note fade-in">
+      <strong>To be clear:</strong> I have no access to Rappi's code, logs or backend. Everything I describe as observed
+      is visible in my captures. Root causes are hypotheses from the outside and would need client logs and network traces
+      to confirm. Several flows were captured once, so I can't speak to how often they happen. Personal data (courier and customer
+      names, addresses, order numbers) is covered with solid boxes or pixelation, and screens with IDs or faces were left out entirely.
+    </div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section id="summary">
+    <span class="section-label">Summary</span>
+    <h2>16 issues, five themes</h2>
+    <div class="sev-row fade-in">
+      <div class="sev-tile" style="--c: var(--p0)"><div class="n">1</div><div class="k">P0</div><div class="d">Blocks work or a delivery in progress</div></div>
+      <div class="sev-tile" style="--c: var(--p1)"><div class="n">5</div><div class="k">P1</div><div class="d">Costs money or real time, or is a safety risk</div></div>
+      <div class="sev-tile" style="--c: var(--p2)"><div class="n">6</div><div class="k">P2</div><div class="d">Broken or confusing, with a workaround</div></div>
+      <div class="sev-tile" style="--c: var(--p3)"><div class="n">4</div><div class="k">P3</div><div class="d">Polish</div></div>
+    </div>
+    <div class="grid-3">
+      <div class="card theme-card fade-in">
+        <h3>Resilience at startup and offline</h3>
+        <p>The app waits on the network before it shows you an order you already have. Offline and in-delivery states contradict each other on the same screen.</p>
+        <div class="ids"><a class="id-chip" href="#iss-01">ISS-01</a><a class="id-chip" href="#iss-04">ISS-04</a><a class="id-chip" href="#more">ISS-09</a><a class="id-chip" href="#more">ISS-10</a></div>
+      </div>
+      <div class="card theme-card fade-in">
+        <h3>Money consistency</h3>
+        <p>Debt showed as -$30.16, $0.00 and -$557.00 on different screens within minutes. Orders that dead-end don't tell you whether you get paid or penalized.</p>
+        <div class="ids"><a class="id-chip" href="#iss-03">ISS-03</a><a class="id-chip" href="#iss-05">ISS-05</a></div>
+      </div>
+      <div class="card theme-card fade-in">
+        <h3>Error surfaces leaking internals</h3>
+        <p>Raw backend messages in English, literal HTML and Markdown in chat, an internal store code, and generic error screens with no way forward.</p>
+        <div class="ids"><a class="id-chip" href="#iss-02">ISS-02</a><a class="id-chip" href="#more">ISS-07</a><a class="id-chip" href="#more">ISS-10</a><a class="id-chip" href="#more">ISS-13</a></div>
+      </div>
+      <div class="card theme-card fade-in">
+        <h3>Ride-safe interactions</h3>
+        <p>Navigation opens in car mode, chat needs free typing, CTAs hide under the nav bar, and reconnecting asks for a selfie every time.</p>
+        <div class="ids"><a class="id-chip" href="#iss-06">ISS-06</a><a class="id-chip" href="#more">ISS-08</a><a class="id-chip" href="#more">ISS-12</a><a class="id-chip" href="#more">ISS-15</a></div>
+      </div>
+      <div class="card theme-card fade-in">
+        <h3>Copy and i18n</h3>
+        <p>"Opcional" on a required step, English strings in a Spanish UI, typos, three time formats, and notifications that say nothing.</p>
+        <div class="ids"><a class="id-chip" href="#more">ISS-11</a><a class="id-chip" href="#more">ISS-13</a><a class="id-chip" href="#more">ISS-16</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- P0 / P1 -->
+  <section id="issues">
+    <span class="section-label">P0 · P1</span>
+    <h2>The ones that cost time and money</h2>
+    <p class="lead">Each card shows what I saw and what I think is behind it. Open "How I'd fix it" for the plan at three levels: product and process, architecture, and code.</p>
+
+    <div class="issues">
+
+      <!-- ISS-01 -->
+      <article class="issue fade-in" id="iss-01">
+        <div class="issue-head"><span class="issue-id">ISS-01</span><span class="sev p0">P0</span><span class="issue-tag">Startup</span></div>
+        <h3>Stuck on "Verificando actualización" in the middle of a delivery</h3>
+        <div class="issue-body">
+          <div class="issue-media">
+            <button class="shot" type="button" data-cap="ISS-01 · The splash screen stuck on 'Verificando actualización' while a delivery was in progress.">
+              <img src="media/03-startup-stuck-verifying-update.jpg" alt="Soy Rappi splash screen with the text Verificando actualización and a thin progress line" loading="lazy" width="540" height="1178">
+            </button>
+            <p class="shot-cap">About 36 seconds into the wait.</p>
+          </div>
+          <div class="issue-text">
+            <div><div class="blk-label">What happens</div>
+              <p>On a cold start the splash shows the logo, a thin progress line and "Verificando actualización", and it never finishes. I waited about 36 seconds, killed the app from Recents, relaunched and got the same splash. The app reached "En camino al cliente" only at about 1:25 into the recording. A delivery was in progress the whole time.</p></div>
+            <div><div class="blk-label">Impact on the courier</div>
+              <p>Around a minute and a half with no address, no chat and no "Llegué" button, while the ETA clock keeps running. That can mean a late penalty, and it means stopping in traffic to fight with the phone.</p></div>
+            <div><div class="blk-label hyp">Hypothesis</div>
+              <p>The startup gate blocks navigation until a network call finishes (an in-app update check, or a forced-update and remote-config fetch) and that call has no timeout and no fallback. On a congested connection it hangs. Killing the app doesn't help because the gate runs again on every cold start. The active order is probably not stored locally, so nothing can render before the network answers.</p></div>
+          </div>
+        </div>
+        <details class="fix">
+          <summary>How I'd fix it</summary>
+          <div class="fix-inner">
+            <div class="level high"><div class="level-name">High <span>product · UX · process</span></div>
+              <p>Never block access to an active order. "Update available" becomes a banner. Only a version the server flags as critical can block, and only when no order is active. Track cold start to first interactive frame, with a separate number for cold starts during an active order.</p></div>
+            <div class="level med"><div class="level-name">Medium <span>architecture</span></div>
+              <ul>
+                <li>Persist the active order in Room through an <code>OrderRepository</code> and render from the database first.</li>
+                <li>Run the update and config check in the background with a hard 3 s timeout.</li>
+                <li>Bind <code>setKeepOnScreenCondition</code> to local readiness only.</li>
+                <li>Add breadcrumbs (<code>startup_gate_start</code>, <code>startup_gate_timeout</code>) to Crashlytics or Sentry.</li>
+              </ul></div>
+            <div class="level low"><div class="level-name">Low <span>Kotlin</span></div>
+<pre><code class="kt">class StartupViewModel(
+    private val orders: OrderRepository,
+    private val updates: UpdateChecker,
+) : ViewModel() {
+    val ready = MutableStateFlow(false)
+    val updateBanner = MutableStateFlow&lt;UpdateInfo?&gt;(null)
+
+    init {
+        viewModelScope.launch {
+            orders.activeOrderLocal().first()   // Room, no network needed
+            ready.value = true
+        }
+        viewModelScope.launch {
+            val info = withTimeoutOrNull(3_000) { runCatching { updates.check() }.getOrNull() }
+            when {
+                info?.critical == true &amp;&amp; orders.activeOrderLocal().first() == null -&gt; navigateToForceUpdate()
+                info != null -&gt; updateBanner.value = info
+            }
+        }
+    }
+}
+// Activity
+installSplashScreen().setKeepOnScreenCondition { !vm.ready.value }</code></pre></div>
+          </div>
+        </details>
+      </article>
+
+      <!-- ISS-02 -->
+      <article class="issue fade-in" id="iss-02">
+        <div class="issue-head"><span class="issue-id">ISS-02</span><span class="sev p1">P1</span><span class="issue-tag">Errors · i18n</span></div>
+        <h3>A raw backend error, in English, on the queue screen</h3>
+        <div class="issue-body">
+          <div class="issue-media">
+            <button class="shot" type="button" data-cap="ISS-02 · 'The storekeeper is not trusted from any geo point.' shown as a red snackbar, next to the auto-accept pill and the debt banner.">
+              <img src="media/02-backend-error-leaked-in-english.jpg" alt="Virtual queue screen with a red snackbar reading The storekeeper is not trusted from any geo point" loading="lazy" width="540" height="1178">
+            </button>
+            <p class="shot-cap">Three messages at once, none of them telling me what to do.</p>
+          </div>
+          <div class="issue-text">
+            <div><div class="blk-label">What happens</div>
+              <p>In the virtual queue for a restaurant ("Estás avanzando en la fila") a red snackbar stays on screen: <strong>"The storekeeper is not trusted from any geo point."</strong> At the same time an orange pill says auto-accept was turned on when I joined the queue, and a banner says "Menos pedidos por tu deuda".</p></div>
+            <div><div class="blk-label">Impact on the courier</div>
+              <p>I couldn't tell if I was in the queue, banned from that point, or supposed to move. That is waiting time with no feedback. "Storekeeper" looks like internal vocabulary for the courier role.</p></div>
+            <div><div class="blk-label hyp">Hypothesis</div>
+              <p>The server's <code>message</code> field is displayed as is, with no mapping from error code to localized copy. The backend probably checked my position against the hub's geofence and rejected it. That's a legitimate state. It just needs a message I can act on, like "you're outside the pickup zone, move closer".</p></div>
+          </div>
+        </div>
+        <details class="fix">
+          <summary>How I'd fix it</summary>
+          <div class="fix-inner">
+            <div class="level high"><div class="level-name">High <span>product · UX · process</span></div>
+              <ul>
+                <li>A copy guide for errors: what happened, why, and what to do next.</li>
+                <li>No raw server text in production builds.</li>
+                <li>A string catalogue owned by product, with an <code>es-MX</code> linter in CI for accents and tone.</li>
+                <li>Geofence errors show the distance and a "Show me where" action.</li>
+              </ul></div>
+            <div class="level med"><div class="level-name">Medium <span>architecture</span></div>
+              <ul>
+                <li>Errors carry a stable <code>code</code>; the client maps it to a sealed <code>DomainError</code>.</li>
+                <li>Unknown codes fall back to a localized generic message and get logged with the raw payload, which is never shown.</li>
+                <li>Truly dynamic server strings come with a <code>locale</code> and are translated server-side.</li>
+              </ul></div>
+            <div class="level low"><div class="level-name">Low <span>Kotlin · Compose</span></div>
+<pre><code class="kt">sealed interface DomainError {
+    data class OutsideGeofence(val meters: Int, val hub: LatLng) : DomainError
+    data object Network : DomainError
+    data class Unknown(val code: String) : DomainError
+}
+
+fun ApiError.toDomain(): DomainError = when (code) {
+    "STOREKEEPER_UNTRUSTED_GEO" -&gt; DomainError.OutsideGeofence(meta.distanceM, meta.hub)
+    "NETWORK_TIMEOUT" -&gt; DomainError.Network
+    else -&gt; DomainError.Unknown(code).also { Telemetry.unmappedError(code, rawMessage) }
+}
+
+@Composable
+fun DomainError.message(): String = when (this) {
+    // "Estás a %d m del punto. Acércate para entrar a la fila."
+    is DomainError.OutsideGeofence -&gt; stringResource(R.string.err_outside_zone, meters)
+    DomainError.Network -&gt; stringResource(R.string.err_network)
+    is DomainError.Unknown -&gt; stringResource(R.string.err_generic_with_code, code)
+}</code></pre></div>
+          </div>
+        </details>
+      </article>
+
+      <!-- ISS-03 -->
+      <article class="issue fade-in" id="iss-03">
+        <div class="issue-head"><span class="issue-id">ISS-03</span><span class="sev p1">P1</span><span class="issue-tag">Money</span></div>
+        <h3>Debt and balance disagree across screens, and with support</h3>
+        <div class="issue-body wide-media">
+          <div class="issue-media wide">
+            <button class="shot" type="button" data-cap="ISS-03 · Home says the pending-balance limit is reached at -$30.16; Mis finanzas says total debt is $0.00. Captured minutes apart.">
+              <img src="media/04-debt-balance-mismatch.jpg" alt="Two screens side by side: home card with Balance actual -$30.16 and limit reached, and Mis finanzas showing Deuda total $0.00" loading="lazy" width="720" height="777">
+            </button>
+            <p class="shot-cap">Same session, minutes apart.</p>
+          </div>
+          <div class="issue-text">
+            <div><div class="blk-label">What happens</div>
+              <p>Within a few minutes of one recording:</p>
+              <ul>
+                <li><strong>Home:</strong> "Balance actual: -$30.16. Alcanzaste el límite de saldo pendiente", which blocks cash orders.</li>
+                <li><strong>Mis finanzas, Deuda total:</strong> $0.00.</li>
+                <li><strong>Debt detail:</strong> -$397.90 for cash received and -$557.00 for a cancelled order.</li>
+                <li><strong>Support bot:</strong> it had already removed the debt with an adjustment of $557.00 MXN.</li>
+              </ul>
+              <p>Later that evening the queue still said "Menos pedidos por tu deuda". The next night the balance was +$8.69.</p></div>
+            <div><div class="blk-label">Impact on the courier</div>
+              <p>This is my money, and it decides whether I get cash orders, so it decides what I earn. Three numbers with no reconciliation break trust fast and push people to support.</p></div>
+            <div><div class="blk-label hyp">Hypothesis</div>
+              <p>Each screen reads from a different source: the home card from a wallet or limits endpoint, Mis finanzas from a cut-off ledger aggregate, the detail from transaction rows. Caching differs per screen, nothing invalidates after a support adjustment, and no screen has an "adjustment pending" state.</p></div>
+          </div>
+        </div>
+        <details class="fix">
+          <summary>How I'd fix it</summary>
+          <div class="fix-inner">
+            <div class="level high"><div class="level-name">High <span>product · UX · process</span></div>
+              <ul>
+                <li>One balance everywhere, "Saldo", with debt shown as a part of it.</li>
+                <li>"Ajuste en proceso" with an ETA right after a support adjustment.</li>
+                <li>Every banner that restricts orders links to the exact transactions behind it.</li>
+              </ul></div>
+            <div class="level med"><div class="level-name">Medium <span>architecture</span></div>
+              <ul>
+                <li>A <code>WalletRepository</code> exposing <code>StateFlow&lt;Wallet&gt;</code> from one endpoint (or a BFF aggregate) that carries a <code>ledgerVersion</code>. Every screen observes it.</li>
+                <li>Invalidate on push: <code>wallet.updated</code>, support adjustment, order cancellation.</li>
+                <li>Track "conflicting balance shown" when home and ledger versions differ.</li>
+              </ul></div>
+            <div class="level low"><div class="level-name">Low <span>Kotlin</span></div>
+<pre><code class="kt">data class Wallet(
+    val balance: Money, val debt: Money, val cashLimitReached: Boolean,
+    val pending: List&lt;Adjustment&gt;, val ledgerVersion: Long,
+)
+
+class WalletRepository(
+    private val api: WalletApi, private val dao: WalletDao,
+    push: PushBus, scope: CoroutineScope,
+) {
+    val wallet: StateFlow&lt;Wallet?&gt; = dao.observe().stateIn(scope, SharingStarted.Eagerly, null)
+
+    init {
+        scope.launch { push.events.filter { it.type in WALLET_EVENTS }.collect { refresh() } }
+    }
+
+    suspend fun refresh() {
+        val w = api.wallet()
+        dao.upsertIfNewer(w)   // ignore responses older than the stored ledgerVersion
+    }
+}</code></pre></div>
+          </div>
+        </details>
+      </article>
+
+      <!-- ISS-04 -->
+      <article class="issue fade-in" id="iss-04">
+        <div class="issue-head"><span class="issue-id">ISS-04</span><span class="sev p1">P1</span><span class="issue-tag">State</span></div>
+        <h3>Offline and on a delivery at the same time, and auto-accept turns itself on</h3>
+        <div class="issue-body">
+          <div class="issue-media">
+            <button class="shot" type="button" data-cap="ISS-04 · Two stacked toolbars: 'Estás desconectado' and 'En camino'. The contract card says 'Opcional' on a required step (ISS-11).">
+              <img src="media/07-offline-state-double-toolbar.jpg" alt="Home screen with two stacked toolbars, one saying Estás desconectado and one saying En camino" loading="lazy" width="720" height="1569">
+            </button>
+            <p class="shot-cap">Two toolbars, two different truths.</p>
+          </div>
+          <div class="issue-text">
+            <div><div class="blk-label">What happens</div>
+              <ul>
+                <li>Two toolbars stacked on home: "Estás desconectado" with its toggle, and right below it "En camino" with its own menu and help icons.</li>
+                <li>The connect screen showed auto-accept <strong>off</strong>. Right after connecting, home said "Autoaceptación activa".</li>
+                <li>Joining a virtual queue showed "Se encendió la Auto aceptación al entrar a la fila". It was switched on as a side effect.</li>
+              </ul></div>
+            <div><div class="blk-label">Impact on the courier</div>
+              <p>Auto-accept assigns orders you didn't choose, and rejecting them hurts the acceptance rate that decides your tier. That's a consent problem and an earnings problem.</p></div>
+            <div><div class="blk-label hyp">Hypothesis</div>
+              <p>Connection, order phase and preferences live in separate holders instead of one session state. The server enforces "queue implies auto-accept", but the toggle isn't driven by server state, so it shows a stale local value. The double toolbar looks like two fragments or NavHosts attached for different states, with the old one never removed.</p></div>
+          </div>
+        </div>
+        <details class="fix">
+          <summary>How I'd fix it</summary>
+          <div class="fix-inner">
+            <div class="level high"><div class="level-name">High <span>product · UX · process</span></div>
+              <p>Auto-accept is opt-in and never switches on silently. If a queue needs it, ask: "Para entrar a la fila se activará Auto aceptación. ¿Continuar?" Show the current state in one place, the top bar.</p></div>
+            <div class="level med"><div class="level-name">Medium <span>architecture</span></div>
+              <ul>
+                <li>One <code>SessionState</code> (connection × order phase × preferences) in a <code>SessionStore</code>, server-authoritative, with optimistic local intents.</li>
+                <li>Exactly one top bar rendered from that state.</li>
+                <li>If a policy overrides a preference, the response says so (<code>autoAccept=true</code> plus a <code>reason</code>) and the UI shows the reason.</li>
+              </ul></div>
+            <div class="level low"><div class="level-name">Low <span>Kotlin · Compose</span></div>
+<pre><code class="kt">data class SessionState(
+    val connection: Connection = Connection.Offline,
+    val phase: OrderPhase = OrderPhase.Idle,
+    val autoAccept: Pref&lt;Boolean&gt; = Pref(false, source = Source.User),
+)
+data class Pref&lt;T&gt;(val value: T, val source: Source, val reason: String? = null)
+
+fun reduce(s: SessionState, e: SessionEvent): SessionState = when (e) {
+    is SessionEvent.ServerSnapshot -&gt; s.copy(
+        connection = e.connection, phase = e.phase,
+        autoAccept = Pref(e.autoAccept,
+            if (e.autoAcceptReason != null) Source.Policy else Source.User, e.autoAcceptReason))
+    SessionEvent.WentOffline -&gt; s.copy(connection = Connection.Offline) // phase kept: a delivery can be active offline
+    else -&gt; s
+}
+
+@Composable
+fun SessionTopBar(s: SessionState) = when {
+    s.phase is OrderPhase.Active &amp;&amp; s.connection == Connection.Offline -&gt; OfflineDuringDeliveryBar(s.phase) // one bar, not two
+    s.connection == Connection.Offline -&gt; OfflineBar()
+    else -&gt; PhaseBar(s.phase)
+}</code></pre></div>
+          </div>
+        </details>
+      </article>
+
+      <!-- ISS-05 -->
+      <article class="issue fade-in" id="iss-05">
+        <div class="issue-head"><span class="issue-id">ISS-05</span><span class="sev p1">P1</span><span class="issue-tag">Order flow · Money</span></div>
+        <h3>Orders that dead-end, and orders that disappear without a word</h3>
+        <div class="issue-body no-media">
+          <div class="issue-text">
+            <p class="no-shot">Captured in about six minutes of recordings. Not published here because they show the customer chat.</p>
+            <div><div class="blk-label">What happens</div>
+              <ul>
+                <li>At a convenience store, none of the 5 requested items were in stock. The customer wrote that the app wouldn't let them cancel; cancelling on my side meant a penalty; support told the customer to wait until the estimated delivery time passed. The screen stayed at "0/5 Seleccionados" with "Tengo los productos" disabled. Nothing in the app models this situation.</li>
+                <li>I reported it under "Situaciones con la tienda", where a photo is mandatory and the camera preview was almost black. After "Un momento por favor, estamos consultando el sistema" the app went back to 0/5, and about 10 seconds later jumped to "Buscando pedidos". No confirmation, no outcome, nothing about penalty or compensation.</li>
+                <li>Other captures: an order cancelled because the kitchen was slow, with me asking how to recover the money, and a "¿por qué no puedes finalizar el pedido?" menu.</li>
+              </ul></div>
+            <div><div class="blk-label">Impact on the courier</div>
+              <p>Unpaid waiting, possible penalties and more support load. The worst part is not knowing how it ended.</p></div>
+            <div><div class="blk-label hyp">Hypothesis</div>
+              <p>The order state machine has no state for "store can't fulfil" or "reported, under review". Reassignment arrives as a plain "order removed" event with no <code>reason</code>, so the client just navigates home. The report call is probably not idempotent, and the client probably doesn't wait for a ticket id.</p></div>
+          </div>
+        </div>
+        <details class="fix">
+          <summary>How I'd fix it</summary>
+          <div class="fix-inner">
+            <div class="level high"><div class="level-name">High <span>product · UX · process</span></div>
+              <ul>
+                <li>First-class exits with a guaranteed outcome: "La tienda no tiene ningún producto" (no penalty, plus a waiting fee after N minutes), "Cocina demorada &gt; X min", "El cliente pidió otra dirección".</li>
+                <li>Every report returns a visible ticket with status and outcome.</li>
+                <li>When an order is removed, a full-screen explanation: why, whether I'm paid anything, whether there's a penalty.</li>
+              </ul></div>
+            <div class="level med"><div class="level-name">Medium <span>architecture</span></div>
+              <ul>
+                <li>Extend the state machine with <code>Blocked(reason)</code> and <code>UnderReview(ticketId)</code>.</li>
+                <li>Send reports through WorkManager with an idempotency key, so a retry can't duplicate or race the reassignment.</li>
+                <li>Server pushes <code>order.removed{reason, compensation, penalty}</code>; the client renders it before going home.</li>
+                <li>CameraX with torch and exposure hints for the mandatory photo.</li>
+              </ul></div>
+            <div class="level low"><div class="level-name">Low <span>Kotlin</span></div>
+<pre><code class="kt">sealed interface OrderPhase {
+    data object Idle : OrderPhase
+    data class Picking(val id: String, val found: Int, val total: Int) : OrderPhase
+    data class Blocked(val id: String, val reason: BlockReason) : OrderPhase
+    data class UnderReview(val id: String, val ticketId: String) : OrderPhase
+    data class Removed(val id: String, val reason: String, val compensation: Money?, val penalty: Boolean) : OrderPhase
+}
+
+class SubmitReportWorker(ctx: Context, p: WorkerParameters) : CoroutineWorker(ctx, p) {
+    override suspend fun doWork(): Result {
+        val key = inputData.getString("idempotencyKey")!!   // UUID created when the report is drafted
+        return runCatching { api.submitReport(key, inputData.toReport()) }
+            .fold({ Result.success(workDataOf("ticketId" to it.ticketId)) },
+                  { if (runAttemptCount &lt; 5) Result.retry() else Result.failure() })
+    }
+}
+// enqueueUniqueWork("report-$orderId", ExistingWorkPolicy.KEEP, request)
+//   with setBackoffCriteria(EXPONENTIAL, 10, SECONDS)</code></pre></div>
+          </div>
+        </details>
+      </article>
+
+      <!-- ISS-06 -->
+      <article class="issue fade-in" id="iss-06">
+        <div class="issue-head"><span class="issue-id">ISS-06</span><span class="sev p1">P1</span><span class="issue-tag">Safety · Navigation</span></div>
+        <h3>Navigation hand-off and chat aren't built for riding</h3>
+        <div class="issue-body no-media">
+          <div class="issue-text">
+            <p class="no-shot">Captured in screen recordings. Stills not published here.</p>
+            <div><div class="blk-label">What happens</div>
+              <ul>
+                <li>Tapping "Navegar" opens a Maps-or-Waze chooser even though Maps was already selected. Google Maps then opens in <strong>car mode (22 min)</strong> and I switch to motorcycle mode (<strong>13 min</strong>) by hand.</li>
+                <li>With turn-by-turn running in picture-in-picture, I'm typing long free-text replies to a customer about a disagreement over the cash total.</li>
+                <li>"¡Vas tarde!" banners sit on top of the map, and one soft warning showed at 2:26 for an ETA window that ended at 2:23.</li>
+              </ul></div>
+            <div><div class="blk-label">Impact on the courier</div>
+              <p>Extra taps and a slower route, since car mode was about 1.7 times slower here. Typing near or while riding is a safety issue.</p></div>
+            <div><div class="blk-label hyp">Hypothesis</div>
+              <p>The navigation intent is built without a travel mode (<code>mode=l</code> selects two-wheeler in Google Maps) and the app preference isn't saved. Chat has no quick replies or structured actions like "Confirm total" or "Item unavailable".</p></div>
+          </div>
+        </div>
+        <details class="fix">
+          <summary>How I'd fix it</summary>
+          <div class="fix-inner">
+            <div class="level high"><div class="level-name">High <span>product · UX · process</span></div>
+              <ul>
+                <li>Remember the navigation app and open it in one tap, in two-wheeler or bicycle mode to match the vehicle chosen at connect.</li>
+                <li>Quick replies in chat ("Voy en camino", "Llegué", "Producto agotado: ¿reemplazo?", "Confirma el total: $X") plus voice-to-text.</li>
+                <li>Show the cash total and payment method on the order card from acceptance onward. My captures don't show whether that exists today.</li>
+                <li>Shrink "¡Vas tarde!" to a compact chip while speed is above 10 km/h.</li>
+              </ul></div>
+            <div class="level med"><div class="level-name">Medium <span>architecture</span></div>
+              <ul>
+                <li>Preferred navigation app in DataStore; vehicle mapped to Google Maps <code>mode</code> (d, b, l, w) and the Waze deep link.</li>
+                <li>Motion from the Activity Recognition API or fused-location speed. While moving: free text off, quick replies and voice on.</li>
+              </ul></div>
+            <div class="level low"><div class="level-name">Low <span>Kotlin · Compose</span></div>
+<pre><code class="kt">fun navIntent(dest: LatLng, app: NavApp, vehicle: Vehicle): Intent = when (app) {
+    NavApp.GoogleMaps -&gt; Intent(Intent.ACTION_VIEW,
+        Uri.parse("google.navigation:q=${dest.latitude},${dest.longitude}&amp;mode=${vehicle.gmapsMode}"))
+        .setPackage("com.google.android.apps.maps")
+    NavApp.Waze -&gt; Intent(Intent.ACTION_VIEW,
+        Uri.parse("https://waze.com/ul?ll=${dest.latitude},${dest.longitude}&amp;navigate=yes"))
+}
+enum class Vehicle(val gmapsMode: String) { Motorcycle("l"), Bicycle("b"), Car("d"), Walk("w") }
+
+@Composable
+fun ChatInput(isMoving: Boolean, quickReplies: List&lt;String&gt;, onSend: (String) -&gt; Unit) {
+    if (isMoving) LazyRow { items(quickReplies) { AssistChip(onClick = { onSend(it) }, label = { Text(it) }) } }
+    else MessageTextField(onSend)
+}</code></pre></div>
+          </div>
+        </details>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- P2 / P3 -->
+  <section id="more">
+    <span class="section-label">P2 · P3</span>
+    <h2>Broken states and polish</h2>
+    <p class="lead">Smaller on their own, but they add up over a full shift. Thumbnails open the full screenshot.</p>
+
+    <div class="table-wrap fade-in">
+      <table class="issues-table">
+        <thead><tr><th>ID</th><th>Sev</th><th>What I saw</th><th>First fix</th><th>Evidence</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="idc">ISS-07</td><td class="sv"><span class="sev p2">P2</span></td>
+            <td class="t"><strong>Raw markup in messages</strong>The anti-fraud warning renders as literal <code>&lt;html&gt;&lt;b&gt;ADVERTENCIA:&lt;/b&gt;…</code>, and the support bot shows <code>**$557.00 MXN**</code> with the asterisks.</td>
+            <td class="fx">A <code>contentType</code> on every message and a sanitizing renderer. Fraud warnings get their own styled component, not a chat bubble.</td>
+            <td class="ev"><div class="thumbs">
+              <button class="thumb" type="button" data-full="media/01-chat-raw-html-markup.jpg" data-cap="ISS-07 · The fraud warning in chat, shown as raw HTML tags."><img src="media/01-chat-raw-html-markup.jpg" alt="Chat with a system message showing raw HTML tags" loading="lazy"></button>
+              <button class="thumb" type="button" data-full="media/05-support-bot-raw-markdown.jpg" data-cap="ISS-07 · The support bot shows Markdown asterisks around $557.00 MXN."><img src="media/05-support-bot-raw-markdown.jpg" alt="Support bot message with visible Markdown asterisks" loading="lazy"></button>
+            </div></td>
+          </tr>
+          <tr>
+            <td class="idc">ISS-08</td><td class="sv"><span class="sev p2">P2</span></td>
+            <td class="t"><strong>Insets clip or hide CTAs</strong>"Continuar" under the 3-button nav bar, disabled state at 1.41:1 contrast, keyboard over the questions, "ENVIAR OPINIÓN" cut off, "Navegar" clipped by the bottom sheet, a "Llegaste" card over the title.</td>
+            <td class="fx">Primary CTAs live in an inset-aware bottom bar, never inside scrolling content. QA matrix: 3-button and gesture nav, font scale 1.3, keyboard open.</td>
+            <td class="ev"><div class="thumbs">
+              <button class="thumb" type="button" data-full="media/06-cta-under-nav-bar-and-typo.jpg" data-cap="ISS-08 · 'Continuar' drawn under the navigation bar; low-contrast disabled state; typo 'algùn' (ISS-13)."><img src="media/06-cta-under-nav-bar-and-typo.jpg" alt="Survey screen with the Continuar button under the navigation bar" loading="lazy"></button>
+              <button class="thumb" type="button" data-full="media/10-arrival-overlay-clipped-cta.jpg" data-cap="ISS-08 · The 'Llegaste' card covers the title and 'Navegar' is clipped by the bottom sheet. Map pixelated for privacy."><img src="media/10-arrival-overlay-clipped-cta.jpg" alt="Arrival overlay covering the title and a clipped Navegar button" loading="lazy"></button>
+            </div></td>
+          </tr>
+          <tr>
+            <td class="idc">ISS-09</td><td class="sv"><span class="sev p2">P2</span></td>
+            <td class="t"><strong>Map opens on the wrong continent</strong>"En camino al cliente" starts on Africa and Europe with a spinner, then jumps to CDMX. Same under "Buscando pedidos".</td>
+            <td class="fx">Seed the camera from the last known location, fall back to the city centroid, animate to the order bounds when ready.</td>
+            <td class="ev"><div class="thumbs">
+              <button class="thumb" type="button" data-full="media/08-map-camera-world-fallback.jpg" data-cap="ISS-09 · The map shows a world view while the order loads."><img src="media/08-map-camera-world-fallback.jpg" alt="Map zoomed out to Africa and Europe while loading" loading="lazy"></button>
+            </div></td>
+          </tr>
+          <tr>
+            <td class="idc">ISS-10</td><td class="sv"><span class="sev p2">P2</span></td>
+            <td class="t"><strong>Help center dead states</strong>Every thread previews the same CSAT text, categories greyed out with no reason, a sub-list stuck on a skeleton, a generic error with only "Refrescar", a bot handoff in English.</td>
+            <td class="fx">Every disabled item says why. Thread previews show topic and order. Errors tell "sin conexión" apart from "nuestro problema" and offer another channel.</td>
+            <td class="ev"><div class="thumbs">
+              <button class="thumb" type="button" data-full="media/09-support-bot-english-handoff.jpg" data-cap="ISS-10 · The bot hands off to a human with an English error message."><img src="media/09-support-bot-english-handoff.jpg" alt="Support chat with an English handoff message" loading="lazy"></button>
+            </div></td>
+          </tr>
+          <tr>
+            <td class="idc">ISS-11</td><td class="sv"><span class="sev p2">P2</span></td>
+            <td class="t"><strong>Contradictory copy, contract dead end</strong>"Opcional · Firma el contrato para comenzar a repartir". The flow ends on a blank screen with a spinner. The tier table truncates to "DIAMAN…".</td>
+            <td class="fx">The badge must agree with the copy. Contract flows get timeout and error states, plus "Continuar después".</td>
+            <td class="ev"><div class="thumbs">
+              <button class="thumb" type="button" data-full="media/07-offline-state-double-toolbar.jpg" data-cap="ISS-11 · 'Opcional' on the step that is required to start delivering."><img src="media/07-offline-state-double-toolbar.jpg" alt="Contract card labeled Opcional" loading="lazy"></button>
+            </div></td>
+          </tr>
+          <tr>
+            <td class="idc">ISS-12</td><td class="sv"><span class="sev p2">P2</span></td>
+            <td class="t"><strong>Reconnect friction</strong>Every connect asks for transport mode, the T&amp;C checkbox and a full liveness selfie. About 35 seconds, with a helmet and gloves on.</td>
+            <td class="fx">Risk-based step-up: selfie on a new device, a long gap or an anomaly signal. T&amp;C accepted once per version.</td>
+            <td class="ev"><span class="dash">Not published (shows my face)</span></td>
+          </tr>
+          <tr>
+            <td class="idc">ISS-13</td><td class="sv"><span class="sev p3">P3</span></td>
+            <td class="t"><strong>i18n and content quality</strong>English strings, typos ("algùn", "facil", "proporciono"), an internal store code ("MEX_10MEX50SBF_Express"), and three time formats on one phone. P2 where it shows up in an error path.</td>
+            <td class="fx">An <code>es-MX</code> string linter in CI and <code>DateTimeFormatter.ofLocalizedTime</code> instead of a hard-coded pattern.</td>
+            <td class="ev"><div class="thumbs">
+              <button class="thumb" type="button" data-full="media/06-cta-under-nav-bar-and-typo.jpg" data-cap="ISS-13 · 'algùn' with a grave accent."><img src="media/06-cta-under-nav-bar-and-typo.jpg" alt="Survey with the typo algùn" loading="lazy"></button>
+            </div></td>
+          </tr>
+          <tr>
+            <td class="idc">ISS-14</td><td class="sv"><span class="sev p3">P3</span></td>
+            <td class="t"><strong>Shopper picking</strong>A 2–4 s spinner per item, the numeric keyboard stays open after navigating, and the previous screen cross-fades on top of the list.</td>
+            <td class="fx">Optimistic confirmation with a picking outbox synced by WorkManager. Hide the keyboard and clear focus on navigation.</td>
+            <td class="ev"><span class="dash">—</span></td>
+          </tr>
+          <tr>
+            <td class="idc">ISS-15</td><td class="sv"><span class="sev p3">P3</span></td>
+            <td class="t"><strong>Five interruptions after each delivery</strong>Finalize (with "Cancelar" in solid red), location check, toast, "¡Pedido entregado!", restaurant rating, customer rating.</td>
+            <td class="fx">One post-delivery sheet with optional, collapsible ratings. Red only for destructive actions.</td>
+            <td class="ev"><span class="dash">—</span></td>
+          </tr>
+          <tr>
+            <td class="idc">ISS-16</td><td class="sv"><span class="sev p3">P3</span></td>
+            <td class="t"><strong>Notifications and color</strong>"Nuevos Mensajes" with no sender or preview. "Navegar" in iOS blue #007AFF (white text 4.02:1). Dark map inside a light UI on some screens, light on others.</td>
+            <td class="fx"><code>MessagingStyle</code> with sender role and preview, channels per type, inline quick replies. Colors from the token set below.</td>
+            <td class="ev"><span class="dash">—</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sketches">
+      <details class="fix fade-in">
+        <summary>ISS-07 · Typed rich text</summary>
+        <div class="fix-inner">
+          <p>The backend sends one format with an explicit type, and every system template gets a snapshot test.</p>
+<pre><code class="kt">@Composable
+fun MessageBody(m: Message) = when (m.contentType) {
+    ContentType.Html -&gt; Text(AnnotatedString.fromHtml(m.body))   // Compose 1.7+: &lt;b&gt;, &lt;br&gt;, no scripts
+    ContentType.Markdown -&gt; MarkdownText(m.body)                 // e.g. a CommonMark renderer
+    ContentType.Plain -&gt; Text(m.body)
+}</code></pre>
+        </div>
+      </details>
+      <details class="fix fade-in">
+        <summary>ISS-08 · CTAs that respect insets</summary>
+        <div class="fix-inner">
+          <p><code>enableEdgeToEdge()</code> once, CTAs in the <code>bottomBar</code>, and Paparazzi or Roborazzi screenshot tests at font scale 1.3 and 2.0.</p>
+<pre><code class="kt">Scaffold(
+    contentWindowInsets = WindowInsets.safeDrawing,
+    bottomBar = {
+        Surface(tonalElevation = 3.dp) {
+            Button(onClick = onContinue, enabled = canContinue,
+                modifier = Modifier.fillMaxWidth()
+                    .windowInsetsPadding(WindowInsets.navigationBars.union(WindowInsets.ime))
+                    .padding(16.dp).heightIn(min = 56.dp)) { Text(stringResource(R.string.continue_)) }
+        }
+    },
+) { pad -&gt; SurveyContent(Modifier.padding(pad).imePadding()) }</code></pre>
+        </div>
+      </details>
+      <details class="fix fade-in">
+        <summary>ISS-09 · A sensible first camera</summary>
+        <div class="fix-inner">
+          <p>The map should never show a place the courier isn't near. A skeleton covers it until the order bounds arrive.</p>
+<pre><code class="kt">val cameraState = rememberCameraPositionState {
+    position = CameraPosition.fromLatLngZoom(lastKnown ?: cityCentroid, 15f)
+}
+LaunchedEffect(order?.bounds) {
+    order?.bounds?.let { cameraState.animate(CameraUpdateFactory.newLatLngBounds(it, 64)) }
+}</code></pre>
+        </div>
+      </details>
+      <details class="fix fade-in">
+        <summary>ISS-10 · Errors that know what kind they are</summary>
+        <div class="fix-inner">
+          <p>Sub-lists load with a timeout so they can't sit on a skeleton forever, and the error kind drives the copy and the retry policy.</p>
+<pre><code class="kt">sealed interface UiState&lt;out T&gt; {
+    data object Loading : UiState&lt;Nothing&gt;
+    data class Data&lt;T&gt;(val value: T) : UiState&lt;T&gt;
+    data class Error(val kind: Kind, val retry: () -&gt; Unit) : UiState&lt;Nothing&gt; {
+        enum class Kind { Offline, Timeout, Server }
+    }
+}
+
+suspend fun &lt;T&gt; loadWithTimeout(ms: Long = 8_000, block: suspend () -&gt; T): UiState&lt;T&gt; =
+    runCatching { withTimeout(ms) { block() } }.fold(
+        { UiState.Data(it) },
+        { UiState.Error(if (it is TimeoutCancellationException) UiState.Error.Kind.Timeout else it.toKind()) { /* retry */ } })</code></pre>
+        </div>
+      </details>
+      <details class="fix fade-in">
+        <summary>ISS-12 · Ask only when it's needed</summary>
+        <div class="fix-inner">
+          <p>The server stores <code>acceptedTermsVersion</code> and a <code>VerificationPolicy</code> decides from its risk score. The client renders steps only when required.</p>
+<pre><code class="kt">data class ConnectRequirements(val termsVersionToAccept: Int?, val liveness: Boolean, val reason: String?)
+
+@Composable
+fun ConnectScreen(req: ConnectRequirements) {
+    req.termsVersionToAccept?.let { TermsCheckbox(version = it) }   // hidden when already accepted
+    if (req.liveness) LivenessNotice(reason = req.reason)          // "Verificamos tu identidad porque cambiaste de teléfono"
+}</code></pre>
+        </div>
+      </details>
+      <details class="fix fade-in">
+        <summary>ISS-13 · Localized time</summary>
+        <div class="fix-inner">
+          <p>Today the same phone shows "02:19 PM–02:23 PM", "8:32 p.m." and a 24 h status bar. One formatter fixes it.</p>
+<pre><code class="kt">val timeFmt: DateTimeFormatter =
+    DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+        .withLocale(Locale.forLanguageTag("es-MX"))</code></pre>
+        </div>
+      </details>
+      <details class="fix fade-in">
+        <summary>ISS-14 · ISS-15 · Picking and post-delivery</summary>
+        <div class="fix-inner">
+          <p>Optimistic picking with a per-item idempotency key, and a <code>PostDeliveryOrchestrator</code> that shows at most one sheet. "Volver" is outlined, not red.</p>
+<pre><code class="kt">fun confirmItem(item: PickItem, units: Int) {
+    keyboard?.hide(); focusManager.clearFocus()
+    _state.update { it.markConfirmed(item.id, units) }   // optimistic
+    outbox.enqueue(PickConfirmation(item.id, units, key = UUID.randomUUID().toString()))
+}
+
+AlertDialog(
+    confirmButton = { Button(onClick = onFinish) { Text("Finalizar") } },
+    dismissButton = { OutlinedButton(onClick = onDismiss) { Text("Volver") } },   // not red
+    title = { Text("¿Finalizar pedido?") }, text = { Text("No podrás editarlo después.") },
+    onDismissRequest = onDismiss,
+)</code></pre>
+        </div>
+      </details>
+      <details class="fix fade-in">
+        <summary>ISS-16 · Notifications with content</summary>
+        <div class="fix-inner">
+          <p>Sender role and a preview, so I know if it's the customer or support without unlocking the phone.</p>
+<pre><code class="kt">val style = NotificationCompat.MessagingStyle(me)
+    .addMessage(preview, ts, Person.Builder().setName(context.getString(R.string.role_customer)).build())
+NotificationCompat.Builder(ctx, CH_CHAT).setStyle(style).setSmallIcon(R.drawable.ic_stat)
+    .addAction(quickReplyAction("Voy en camino")).setCategory(NotificationCompat.CATEGORY_MESSAGE)</code></pre>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- DARK THEME -->
+  <section id="dark">
+    <span class="section-label">Dark theme</span>
+    <h2>A dark theme that still looks like Rappi</h2>
+    <p class="lead">
+      A lot of deliveries happen at night. A white screen at full brightness is tiring to glance at between turns,
+      so I sketched a dark theme. Before picking colors I checked what the app actually uses, and found something worth sharing.
+    </p>
+
+    <h3 style="margin-bottom:0.9rem">The brand finding</h3>
+    <div class="brand-row fade-in">
+      <div class="brand-sw"><div class="chip" style="background:#FF441F"></div><div class="meta"><div class="hex">#FF441F</div><div class="what">The commonly cited Rappi orange. I didn't find it as a solid fill anywhere in my captures.</div></div></div>
+      <div class="brand-sw"><div class="chip" style="background:#FE5B4A"></div><div class="meta"><div class="hex">#FE5B4A</div><div class="what">Observed coral (connection toggle). The courier app's real brand accent is a slightly pinker coral.</div></div></div>
+      <div class="brand-sw"><div class="chip" style="background:#16625E"></div><div class="meta"><div class="hex">#16625E</div><div class="what">Observed teal on primary actions ("Lo tengo", "Continuar"). The CTA color is teal, not coral.</div></div></div>
+      <div class="brand-sw"><div class="chip" style="background:#007AFF"></div><div class="meta"><div class="hex">#007AFF</div><div class="what">"Navegar" button. iOS blue, off-brand, and white text on it is 4.02:1.</div></div></div>
+    </div>
+    <p class="muted small" style="margin-bottom:1rem">Colors were picked with an eyedropper on JPEG screenshots and frames, so treat them as approximate.</p>
+    <div class="contrast-demo fade-in">
+      <div class="cd"><div class="cd-btn" style="background:#FE5B4A;color:#fff">Aceptar</div><div><div class="verdict fail">3.08:1 · fails AA</div><p>White on the observed coral. White on #FF441F is 3.44:1, also a fail for body text.</p></div></div>
+      <div class="cd"><div class="cd-btn" style="background:#FF5A47;color:#1F0A05">Aceptar</div><div><div class="verdict pass">6.2:1 · passes AA</div><p>Dark text (#1F0A05) on the proposed coral fill. Same brand, readable in sunlight.</p></div></div>
+    </div>
+
+    <p class="lead">So the proposal keeps the coral family as the brand accent and teal as the "go" color, which matches how the app already works: coral means brand and status, teal means confirm.</p>
+
+    <h3 style="margin-bottom:0.9rem">Tokens</h3>
+    <div class="tok-wrap fade-in">
+      <table class="tokens">
+        <thead><tr><th></th><th>Token</th><th>Hex</th><th>Use</th><th>Contrast (WCAG 2.x)</th></tr></thead>
+        <tbody>
+          <tr><td><span class="sw" style="background:#161412"></span></td><td class="tn">background</td><td class="hx">#161412</td><td>App background. Warm near-black, not #000</td><td class="cr">onSurface 14.9:1</td></tr>
+          <tr><td><span class="sw" style="background:#1E1B19"></span></td><td class="tn">surface1</td><td class="hx">#1E1B19</td><td>Cards, bottom sheets</td><td class="cr">onSurface 13.9:1 · variant 8.0:1</td></tr>
+          <tr><td><span class="sw" style="background:#252220"></span></td><td class="tn">surface2</td><td class="hx">#252220</td><td>Raised cards, incoming chat bubbles</td><td class="cr">n/a</td></tr>
+          <tr><td><span class="sw" style="background:#2D2926"></span></td><td class="tn">surface3</td><td class="hx">#2D2926</td><td>Dialogs, top app bar on scroll</td><td class="cr">onSurface 11.7:1 · variant 6.7:1</td></tr>
+          <tr><td><span class="sw" style="background:#36312E"></span></td><td class="tn">surface4</td><td class="hx">#36312E</td><td>Pressed and selected states</td><td class="cr">n/a</td></tr>
+          <tr><td><span class="sw" style="background:#EDE6E3"></span></td><td class="tn">onSurface</td><td class="hx">#EDE6E3</td><td>Primary text</td><td class="cr">AAA</td></tr>
+          <tr><td><span class="sw" style="background:#B9AFAA"></span></td><td class="tn">onSurfaceVariant</td><td class="hx">#B9AFAA</td><td>Secondary text, captions</td><td class="cr">≥ 6.7:1 on every surface</td></tr>
+          <tr><td><span class="sw" style="background:#FF8A75"></span></td><td class="tn">primary</td><td class="hx">#FF8A75</td><td>Links, active icons, positive money emphasis</td><td class="cr">8.0:1 on bg · 7.5:1 on surface1</td></tr>
+          <tr><td><span class="sw" style="background:#FF5A47"></span></td><td class="tn">primaryCta</td><td class="hx">#FF5A47</td><td>The one brand CTA fill ("Aceptar pedido")</td><td class="cr">with onPrimary 6.2:1</td></tr>
+          <tr><td><span class="sw" style="background:#1F0A05"></span></td><td class="tn">onPrimary</td><td class="hx">#1F0A05</td><td>Text on coral fills</td><td class="cr">6.2:1 on #FF5A47</td></tr>
+          <tr><td><span class="sw" style="background:#5A1F14"></span></td><td class="tn">primaryContainer</td><td class="hx">#5A1F14</td><td>Low-emphasis brand surfaces (offer highlight, tier header)</td><td class="cr">with onPrimaryContainer 9.9:1</td></tr>
+          <tr><td><span class="sw" style="background:#FFDAD2"></span></td><td class="tn">onPrimaryContainer</td><td class="hx">#FFDAD2</td><td>Text on primaryContainer</td><td class="cr">9.9:1</td></tr>
+          <tr><td><span class="sw" style="background:#4FD1BE"></span></td><td class="tn">secondary</td><td class="hx">#4FD1BE</td><td>Teal confirm: "Lo tengo", "Llegué", slide track</td><td class="cr">9.1:1 on surface1 · onSecondary #00201C 9.2:1</td></tr>
+          <tr><td><span class="sw" style="background:#FFB4AB"></span></td><td class="tn">error</td><td class="hx">#FFB4AB</td><td>Error text and icons</td><td class="cr">10.1:1 on surface1</td></tr>
+          <tr><td><span class="sw" style="background:#93000A"></span></td><td class="tn">errorContainer</td><td class="hx">#93000A / #FFDAD6</td><td>Error banners (with onErrorContainer)</td><td class="cr">7.2:1</td></tr>
+          <tr><td><span class="sw" style="background:#6DD58C"></span></td><td class="tn">success</td><td class="hx">#6DD58C</td><td>Earnings up, delivered</td><td class="cr">9.4:1 on surface1</td></tr>
+          <tr><td><span class="sw" style="background:#0F3D22"></span></td><td class="tn">successContainer</td><td class="hx">#0F3D22 / #B7F1C5</td><td>"Pedido entregado" banner (with onSuccessContainer)</td><td class="cr">9.6:1</td></tr>
+          <tr><td><span class="sw" style="background:#FFC857"></span></td><td class="tn">warning</td><td class="hx">#FFC857</td><td>"Vas tarde" chip, debt warnings</td><td class="cr">11.1:1 on surface1</td></tr>
+          <tr><td><span class="sw" style="background:#7A706B"></span></td><td class="tn">outline</td><td class="hx">#7A706B</td><td>Dividers, input borders, toggles off</td><td class="cr">3.55:1 (meets 3:1 non-text)</td></tr>
+          <tr><td><span class="sw" style="background:#3A3431"></span></td><td class="tn">outlineVariant</td><td class="hx">#3A3431</td><td>Subtle dividers</td><td class="cr">decorative only</td></tr>
+          <tr><td><span class="sw" style="background:rgba(0,0,0,0.6)"></span></td><td class="tn">scrim</td><td class="hx">#000000 · 60%</td><td>Behind dialogs</td><td class="cr">n/a</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ol class="rules">
+      <li class="fade-in"><strong>No pure black.</strong> The background is a warm #161412 and elevation comes from lighter surfaces, not shadows. Pure black next to saturated coral smears on OLED screens.</li>
+      <li class="fade-in"><strong>Coral changes by role.</strong> Text and icons use #FF8A75, CTA fills #FF5A47 with dark text, and large brand areas use primaryContainer. Full-saturation coral glows at night and pulls attention while riding.</li>
+      <li class="fade-in"><strong>One coral fill per screen.</strong> It marks the money decision ("Aceptar"). Teal stays the confirm and progress color.</li>
+      <li class="fade-in"><strong>Coral is not an error color.</strong> They sit close in hue, so errors always use error tokens plus an icon plus text. Never color alone.</li>
+      <li class="fade-in"><strong>Money stays readable.</strong> Earnings in onSurface or success at 20sp or larger. Debt uses warning, not red, unless the account is blocked.</li>
+      <li class="fade-in"><strong>Respect the sun.</strong> Default to "System" and offer "Auto at sunset". Dark mode outdoors at midday is harder to read, so don't force it.</li>
+      <li class="fade-in"><strong>Gloves-sized targets.</strong> At least 48 dp, 56 dp for primary actions, and a 64 dp thumb on slide-to-confirm.</li>
+    </ol>
+
+    <!-- Mockup 1: offer -->
+    <div class="mock-block fade-in">
+      <div class="mock-pair">
+        <div class="mock-col"><div class="mock-label">Light</div>
+          <div class="phone-m"><div class="scr light" aria-label="Light mockup of an order offer card">
+            <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
+            <div class="m-blur"></div>
+            <div class="sheet">
+              <div class="grab"></div>
+              <div class="offer-top">
+                <div class="ring"><span>12s</span></div>
+                <div><div class="m-muted">Nuevo pedido</div><div class="payout">$62.00</div><span class="chip-s">+ $79.00 al completar la ruta</span></div>
+              </div>
+              <div class="route-rows">
+                <div class="rr"><span class="pin" style="background:var(--m-sec)"></span><span><span class="lbl">Recoger</span>Restaurante</span><span class="val">1.2 km</span></div>
+                <div class="rr"><span class="pin" style="background:var(--m-cta)"></span><span><span class="lbl">Entregar</span>Cliente</span><span class="val">3.4 km</span></div>
+                <div class="rr"><span class="pin" style="background:transparent"></span><span class="lbl">Entrega estimada</span><span class="val">2:19–2:23 p.m.</span></div>
+              </div>
+              <div class="btn-cta">Aceptar</div>
+              <div class="btn-text">Rechazar</div>
+              <div class="m-gnav"><span></span></div>
+            </div>
+          </div></div>
+        </div>
+        <div class="mock-col"><div class="mock-label">Dark</div>
+          <div class="phone-m"><div class="scr dark" aria-label="Dark mockup of an order offer card">
+            <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
+            <div class="m-blur"></div>
+            <div class="sheet">
+              <div class="grab"></div>
+              <div class="offer-top">
+                <div class="ring"><span>12s</span></div>
+                <div><div class="m-muted">Nuevo pedido</div><div class="payout">$62.00</div><span class="chip-s">+ $79.00 al completar la ruta</span></div>
+              </div>
+              <div class="route-rows">
+                <div class="rr"><span class="pin" style="background:var(--m-sec)"></span><span><span class="lbl">Recoger</span>Restaurante</span><span class="val">1.2 km</span></div>
+                <div class="rr"><span class="pin" style="background:var(--m-cta)"></span><span><span class="lbl">Entregar</span>Cliente</span><span class="val">3.4 km</span></div>
+                <div class="rr"><span class="pin" style="background:transparent"></span><span class="lbl">Entrega estimada</span><span class="val">2:19–2:23 p.m.</span></div>
+              </div>
+              <div class="btn-cta">Aceptar</div>
+              <div class="btn-text">Rechazar</div>
+              <div class="m-gnav"><span></span></div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+      <div class="mock-notes">
+        <h3>Order offer</h3>
+        <ul>
+          <li>The payout is the biggest thing on screen, with a thin countdown ring around it that turns to warning in the last 5 seconds.</li>
+          <li>One coral fill, "Aceptar", with dark text at 56 dp. "Rechazar" is a text button. No red anywhere.</li>
+          <li>The bonus chip uses success containers, and times use the <code>es-MX</code> localized format.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Mockup 2: active delivery -->
+    <div class="mock-block fade-in">
+      <div class="mock-pair">
+        <div class="mock-col"><div class="mock-label">Light</div>
+          <div class="phone-m"><div class="scr light" aria-label="Light mockup of an active delivery with map">
+            <div class="map"><svg viewBox="0 0 90 190" preserveAspectRatio="none" aria-hidden="true">
+              <polyline points="22,150 27,150 27,95 58,95 58,48" fill="none" stroke="var(--map-casing)" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+              <polyline points="22,150 27,150 27,95 58,95 58,48" fill="none" stroke="var(--map-route)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+              <circle cx="58" cy="48" r="4" fill="var(--m-cta)" stroke="#fff" stroke-width="1.2"/>
+              <path d="M22 150 l-5 -9 a6 6 0 0 1 10 0 z" fill="var(--m-sec)" opacity="0.45"/>
+              <circle cx="22" cy="150" r="3" fill="var(--m-on)" stroke="var(--m-bg)" stroke-width="1"/>
+            </svg></div>
+            <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
+            <div class="map-top"><b>En camino al cliente</b><span class="chip-w">Tarde · 3 min</span></div>
+            <div class="spacer"></div>
+            <div class="sheet-a">
+              <div class="grab"></div>
+              <div class="who"><div class="avatar">C</div><div><b>Cliente</b><span class="m-muted">Efectivo · $185.00</span></div></div>
+              <div class="btn-tonal">Navegar</div>
+              <div class="slide"><div class="thumbk">→</div><span>Llegué al destino</span></div>
+              <div class="m-gnav"><span></span></div>
+            </div>
+          </div></div>
+        </div>
+        <div class="mock-col"><div class="mock-label">Dark</div>
+          <div class="phone-m"><div class="scr dark" aria-label="Dark mockup of an active delivery with dark map style">
+            <div class="map"><svg viewBox="0 0 90 190" preserveAspectRatio="none" aria-hidden="true">
+              <polyline points="22,150 27,150 27,95 58,95 58,48" fill="none" stroke="var(--map-casing)" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
+              <polyline points="22,150 27,150 27,95 58,95 58,48" fill="none" stroke="var(--map-route)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+              <circle cx="58" cy="48" r="4" fill="var(--m-cta)" stroke="#fff" stroke-width="1.2"/>
+              <path d="M22 150 l-5 -9 a6 6 0 0 1 10 0 z" fill="var(--m-sec)" opacity="0.45"/>
+              <circle cx="22" cy="150" r="3" fill="var(--m-on)" stroke="var(--m-bg)" stroke-width="1"/>
+            </svg></div>
+            <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
+            <div class="map-top"><b>En camino al cliente</b><span class="chip-w">Tarde · 3 min</span></div>
+            <div class="spacer"></div>
+            <div class="sheet-a">
+              <div class="grab"></div>
+              <div class="who"><div class="avatar">C</div><div><b>Cliente</b><span class="m-muted">Efectivo · $185.00</span></div></div>
+              <div class="btn-tonal">Navegar</div>
+              <div class="slide"><div class="thumbk">→</div><span>Llegué al destino</span></div>
+              <div class="m-gnav"><span></span></div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+      <div class="mock-notes">
+        <h3>Active delivery</h3>
+        <ul>
+          <li>One top bar with one state line. Offline during a delivery reads "En camino al cliente · Sin conexión", never two toolbars.</li>
+          <li>"Navegar" becomes a teal tonal button instead of iOS blue. "Llegué al destino" is a slide-to-confirm with a 64 dp thumb.</li>
+          <li>Late status is a small warning chip, not a banner over the map. The customer shows as a role, and the cash total is on the card.</li>
+          <li>Dark map style: land #1B1917, roads #2B2724, water #0E1A22, parks #17231B, and a #FF8A75 route with a dark casing so it stays visible.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Mockup 3: earnings -->
+    <div class="mock-block fade-in">
+      <div class="mock-pair">
+        <div class="mock-col"><div class="mock-label">Light</div>
+          <div class="phone-m"><div class="scr light" aria-label="Light mockup of the earnings and balance screen">
+            <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
+            <div class="appbar"><span>←</span>Mis finanzas</div>
+            <div class="m-body">
+              <div class="hero-bal">
+                <div class="lbl">Saldo</div>
+                <div class="amt">$8.69</div>
+                <div class="bal-rows">
+                  <div><span>Deuda</span><span>$0.00</span></div>
+                  <div><span>Ajustes en proceso</span><span class="pend">1 · ver</span></div>
+                </div>
+              </div>
+              <div class="m-card">
+                <div class="m-muted" style="margin-bottom:0.4em">Ganancias de la semana</div>
+                <div class="bars"><i style="height:45%"></i><i style="height:70%"></i><i style="height:35%"></i><i style="height:88%"></i><i class="w" style="height:18%"></i><i style="height:62%"></i><i style="height:80%"></i></div>
+                <div class="days"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+              </div>
+              <div class="tx">
+                <div><span>Pedido entregado</span><span class="a cr">+$48.00</span></div>
+                <div><span>Pago de deuda</span><span class="a db">−$30.16</span></div>
+                <div><span>Efectivo recibido</span><span class="a dt">−$185.00</span></div>
+                <div><span>Pedido entregado</span><span class="a cr">+$52.50</span></div>
+                <div><span>Propina</span><span class="a cr">+$20.00</span></div>
+              </div>
+              <div class="m-muted" style="text-align:center">Ver todos los movimientos</div>
+            </div>
+            <div class="m-gnav"><span></span></div>
+          </div></div>
+        </div>
+        <div class="mock-col"><div class="mock-label">Dark</div>
+          <div class="phone-m"><div class="scr dark" aria-label="Dark mockup of the earnings and balance screen">
+            <div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
+            <div class="appbar"><span>←</span>Mis finanzas</div>
+            <div class="m-body">
+              <div class="hero-bal">
+                <div class="lbl">Saldo</div>
+                <div class="amt">$8.69</div>
+                <div class="bal-rows">
+                  <div><span>Deuda</span><span>$0.00</span></div>
+                  <div><span>Ajustes en proceso</span><span class="pend">1 · ver</span></div>
+                </div>
+              </div>
+              <div class="m-card">
+                <div class="m-muted" style="margin-bottom:0.4em">Ganancias de la semana</div>
+                <div class="bars"><i style="height:45%"></i><i style="height:70%"></i><i style="height:35%"></i><i style="height:88%"></i><i class="w" style="height:18%"></i><i style="height:62%"></i><i style="height:80%"></i></div>
+                <div class="days"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+              </div>
+              <div class="tx">
+                <div><span>Pedido entregado</span><span class="a cr">+$48.00</span></div>
+                <div><span>Pago de deuda</span><span class="a db">−$30.16</span></div>
+                <div><span>Efectivo recibido</span><span class="a dt">−$185.00</span></div>
+                <div><span>Pedido entregado</span><span class="a cr">+$52.50</span></div>
+                <div><span>Propina</span><span class="a cr">+$20.00</span></div>
+              </div>
+              <div class="m-muted" style="text-align:center">Ver todos los movimientos</div>
+            </div>
+            <div class="m-gnav"><span></span></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="mock-notes">
+        <h3>Earnings and balance</h3>
+        <ul>
+          <li>One balance hero on primaryContainer, with debt and pending adjustments right under it. This is the direct answer to ISS-03.</li>
+          <li>Bars in primary for earnings and warning for debt, on surface1 with subtle gridlines.</li>
+          <li>Amounts right-aligned in tabular figures: success for credits, onSurface for debits, warning for debt.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="muted small" style="margin-top:2rem">Mockups are plain HTML and CSS. Amounts and places are placeholders. The light side uses the palette I observed in the app with the same fixes applied (dark text on coral, teal "Navegar"); the dark side uses the proposed tokens.</p>
+  </section>
+
+  <!-- ROLLOUT -->
+  <section id="rollout">
+    <span class="section-label">Plan</span>
+    <h2>How I'd roll this out</h2>
+    <p class="lead">Start with the fixes that are small in code and big for the courier, then move to the architecture that stops these bugs from coming back.</p>
+    <div class="grid-3">
+      <div class="phase fade-in">
+        <div class="phase-when">Week 1</div>
+        <h3>Quick wins</h3>
+        <ul>
+          <li>Wrap the startup update check in a 3 s timeout and let the active order through.<a class="id-chip" href="#iss-01">01</a></li>
+          <li>Add <code>mode</code> to the navigation intent and remember the chosen app.<a class="id-chip" href="#iss-06">06</a></li>
+          <li>Render HTML and Markdown properly in chat and the bot.<a class="id-chip" href="#more">07</a></li>
+          <li>Stop showing raw server messages; map the known codes, generic copy for the rest.<a class="id-chip" href="#iss-02">02</a></li>
+          <li>Seed the map camera from the last known location.<a class="id-chip" href="#more">09</a></li>
+          <li>Fix the typos, the "Opcional" badge, the time format and the red "Cancelar".<a class="id-chip" href="#more">11</a><a class="id-chip" href="#more">13</a><a class="id-chip" href="#more">15</a></li>
+        </ul>
+      </div>
+      <div class="phase fade-in">
+        <div class="phase-when">Weeks 2–6</div>
+        <h3>Trust and consent</h3>
+        <ul>
+          <li>Auto-accept never turns on silently; ask before a queue enables it.<a class="id-chip" href="#iss-04">04</a></li>
+          <li>Inset-aware bottom bars for every primary CTA, plus the QA matrix and screenshot tests.<a class="id-chip" href="#more">08</a></li>
+          <li>"Ajuste en proceso" state after support adjustments, and debt banners that link to their transactions.<a class="id-chip" href="#iss-03">03</a></li>
+          <li>Disabled reasons and real error kinds in the help center.<a class="id-chip" href="#more">10</a></li>
+          <li>Notifications with sender and preview.<a class="id-chip" href="#more">16</a></li>
+        </ul>
+      </div>
+      <div class="phase fade-in">
+        <div class="phase-when">This quarter</div>
+        <h3>Architecture</h3>
+        <ul>
+          <li>Room-first active order and a startup path that never waits on the network.<a class="id-chip" href="#iss-01">01</a></li>
+          <li>One <code>WalletRepository</code> with a <code>ledgerVersion</code> behind every money screen.<a class="id-chip" href="#iss-03">03</a></li>
+          <li>One <code>SessionStore</code> reducer for connection, order phase and preferences.<a class="id-chip" href="#iss-04">04</a></li>
+          <li>Order states for <code>Blocked</code> and <code>UnderReview</code>, idempotent reports through WorkManager, and removals that explain themselves.<a class="id-chip" href="#iss-05">05</a></li>
+          <li>Error-code contract with the backend, risk-based verification and a post-delivery orchestrator.<a class="id-chip" href="#iss-02">02</a><a class="id-chip" href="#more">12</a><a class="id-chip" href="#more">15</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.5rem">Metrics I'd watch</h3>
+    <div class="metrics">
+      <div class="metric fade-in"><div class="mn">Crash-free sessions</div><p>The baseline. Nothing else matters if the app falls over mid-delivery.</p></div>
+      <div class="metric fade-in"><div class="mn">Cold start p90</div><p>Time to first interactive frame, with a separate cut for cold starts during an active order.</p></div>
+      <div class="metric fade-in"><div class="mn">Stuck-on-launch rate</div><p>Share of cold starts where the splash stays up for more than a few seconds, measured with the startup-gate breadcrumbs from ISS-01.</p></div>
+      <div class="metric fade-in"><div class="mn">Support contacts per 1k orders</div><p>Split by topic. Debt, dead-end orders and auto-accept should each go down on their own.</p></div>
+      <div class="metric fade-in"><div class="mn">Debt-display mismatches</div><p>Sessions where screens show different <code>ledgerVersion</code> values. The client can detect it.</p></div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section id="closing">
+    <span class="section-label">Closing</span>
+    <h2>Why this matters to me</h2>
+    <p class="closing">
+      I've spent years stabilizing Android apps and the pipelines behind them, and these three weeks reminded me who the
+      work is for. A courier waiting on a splash screen at a red light doesn't care about architecture. They care that the
+      address is there. Most of what I found can be fixed with clear state, honest error messages and a few product decisions
+      made explicit. I'd love to help build that.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  <span>Soy Rappi field notes · by <a href="../index.html">Sinué Flores</a> · 2026</span>
+  <span>Independent case study. Not affiliated with or endorsed by Rappi.</span>
+</footer>
+
+<dialog class="lb" id="lightbox" aria-label="Enlarged screenshot">
+  <button class="lb-close" type="button" aria-label="Close">✕</button>
+  <div class="lb-inner">
+    <img src="" alt="">
+    <p class="lb-cap"></p>
+  </div>
+</dialog>
+
+<script>
+  // Fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Lightbox
+  const lb = document.getElementById('lightbox');
+  const lbImg = lb.querySelector('img');
+  const lbCap = lb.querySelector('.lb-cap');
+  document.querySelectorAll('.shot, .thumb').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const img = btn.querySelector('img');
+      lbImg.src = btn.dataset.full || img.getAttribute('src');
+      lbImg.alt = img.alt;
+      lbCap.textContent = btn.dataset.cap || img.alt;
+      lb.showModal();
+    });
+  });
+  lb.addEventListener('click', () => lb.close());
+  lb.addEventListener('close', () => { lbImg.src = ''; });
+
+  // Minimal Kotlin highlighting
+  const KW = 'class|data|object|sealed|interface|enum|fun|val|var|when|if|else|is|in|return|private|override|suspend|init|null|true|false|it|this';
+  const re = new RegExp('(\\/\\/[^\\n]*)|("(?:[^"\\\\\\n]|\\\\.)*")|(@\\w+)|\\b(' + KW + ')\\b', 'g');
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  document.querySelectorAll('code.kt').forEach(el => {
+    const src = el.textContent;
+    let out = '', last = 0, m;
+    while ((m = re.exec(src)) !== null) {
+      out += esc(src.slice(last, m.index));
+      const cls = m[1] ? 'tk-c' : m[2] ? 'tk-s' : m[3] ? 'tk-t' : 'tk-k';
+      out += '<span class="' + cls + '">' + esc(m[0]) + '</span>';
+      last = re.lastIndex;
+    }
+    el.innerHTML = out + esc(src.slice(last));
+  });
+</script>
+
+</body>
+</html>

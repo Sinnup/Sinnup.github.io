@@ -64,7 +64,7 @@
 
     .nav-links {
       display: flex;
-      gap: 1.5rem;
+      gap: 1.25rem;
       align-items: center;
     }
 
@@ -404,6 +404,58 @@
     }
     .project-link:hover { gap: 0.6rem; }
 
+    .card-spark { display: block; width: 100%; max-width: 160px; height: 40px; margin: -0.5rem 0 1.25rem; }
+    .card-spark rect { fill: var(--accent); opacity: 0.85; }
+    .card-spark rect:last-child { opacity: 1; }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.88em;
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+      padding: 0.05rem 0.3rem;
+      border-radius: 4px;
+      overflow-wrap: anywhere;
+    }
+
+    /* ── AI workflow ─────────────────────────────────── */
+    #ai { border-top: 1px solid var(--border); }
+
+    .ai-intro {
+      color: var(--text-muted);
+      max-width: 660px;
+      margin: -1rem 0 2.5rem;
+      line-height: 1.75;
+    }
+
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .ai-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+      min-width: 0;
+    }
+    .ai-card:hover { border-color: rgba(245,158,11,.5); }
+
+    .ai-kicker {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .ai-title { font-size: 1.02rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.6rem; line-height: 1.3; }
+    .ai-card p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.65; }
+    .ai-card p + p { margin-top: 0.6rem; }
+
     /* ── Stack ───────────────────────────────────────── */
     #stack { border-top: 1px solid var(--border); }
 
@@ -473,6 +525,26 @@
     .timeline-company { font-size: 0.875rem; color: var(--accent); font-weight: 600; margin-bottom: 0.6rem; }
     .timeline-summary { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
 
+    .edu-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 3rem;
+      margin-top: 2.75rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+    .edu-label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
     /* ── Contact ─────────────────────────────────────── */
     #contact { border-top: 1px solid var(--border); }
 
@@ -536,8 +608,12 @@
     .fade-in.visible { opacity: 1; transform: none; }
 
     /* ── Mobile ──────────────────────────────────────── */
+    @media (max-width: 960px) {
+      .ai-grid { grid-template-columns: 1fr 1fr; }
+    }
+
     @media (max-width: 640px) {
-      .enterprise-grid, .remarkable { grid-template-columns: 1fr; }
+      .enterprise-grid, .remarkable, .ai-grid { grid-template-columns: 1fr; }
       main { padding: 0 1.25rem; }
       nav { padding: 0 1.25rem; }
       section { padding: 2.25rem 0; }
@@ -558,6 +634,8 @@
     <div class="nav-links">
       <a href="#enterprise" class="hide-mobile">Enterprise</a>
       <a href="#projects" class="hide-mobile">Projects</a>
+      <a href="#ai" class="hide-mobile">AI workflow</a>
+      <a href="rappi-ux/index.html" class="hide-mobile">Rappi UX</a>
       <a href="#experience" class="hide-mobile">Experience</a>
       <a href="#contact" class="hide-mobile">Contact</a>
       <a href="https://github.com/Sinnup" target="_blank" rel="noopener" class="icon-link" aria-label="GitHub">
@@ -578,7 +656,8 @@
     <h1 class="hero-name">Sinué<br><span class="accent">Flores.</span></h1>
     <p class="hero-pitch">
       10+ years architecting production Android apps, leading technical teams, and automating
-      delivery with CI/CD pipelines and AI-powered tools. I turn complex mobile problems into reliable, scalable solutions.
+      delivery with CI/CD pipelines and AI-powered tools. I turn complex mobile problems into reliable, scalable solutions,
+      and lately I use the same automation to run small businesses end to end.
     </p>
     <div class="hero-tags">
       <span class="tag">Kotlin</span>
@@ -603,7 +682,7 @@
         <div class="stat-label">Years leading teams</div>
       </div>
       <div>
-        <div class="stat-number">5<span>+</span></div>
+        <div class="stat-number">10<span>+</span></div>
         <div class="stat-label">Independent projects</div>
       </div>
       <div>
@@ -624,8 +703,8 @@
         <a class="logo-tile" href="https://tech.walmart.com/content/walmart-global-tech/en_us.html" target="_blank" rel="noopener" aria-label="Walmart Global Tech">
           <img src="assets/logos/walmart.webp" alt="Walmart Global Tech" loading="lazy">
         </a>
-        <p class="enterprise-desc">Internal hybrid mobile apps for iOS and Android, plus backend, CI/CD, monitoring and data analysis. Mentored the team along the way.</p>
-        <div class="chip-row"><span class="chip">Hybrid mobile</span><span class="chip">Backend</span><span class="chip">CI/CD</span><span class="chip">Monitoring</span><span class="chip">Data analysis</span><span class="chip">Mentoring</span></div>
+        <p class="enterprise-desc">Internal hybrid mobile apps for iOS and Android, plus backend and REST web services for store operations in MX, CA, CN, UK, Central America and Latam, CI/CD, monitoring and data analysis. Mentored the team along the way.</p>
+        <div class="chip-row"><span class="chip">Hybrid mobile</span><span class="chip">iOS</span><span class="chip">Android</span><span class="chip">Backend</span><span class="chip">CI/CD</span><span class="chip">Monitoring</span><span class="chip">Data analysis</span><span class="chip">Mentoring</span></div>
       </div>
       <div class="enterprise-card fade-in">
         <a class="logo-tile logo-icon" href="https://www.nike.com/mx/nrc-app" target="_blank" rel="noopener" aria-label="Nike Run Club">
@@ -639,16 +718,16 @@
         <a class="logo-tile" href="https://www.profuturo.mx/" target="_blank" rel="noopener" aria-label="Profuturo">
           <img src="assets/logos/profuturo.svg" alt="Profuturo" loading="lazy">
         </a>
-        <p class="enterprise-desc">Android app for Afore management, plus an internal Android app for user registration with a Zebra fingerprint biometrics reader.</p>
-        <div class="chip-row"><span class="chip">Android</span><span class="chip">Biometrics</span><span class="chip">Zebra</span></div>
+        <p class="enterprise-desc">Android app for Afore management, plus an internal Android app for user registration with a Futronic FS10 fingerprint scanner.</p>
+        <div class="chip-row"><span class="chip">Android</span><span class="chip">MVP</span><span class="chip">Biometrics</span><span class="chip">Futronic FS10</span></div>
           <div class="enterprise-links"><a href="https://play.google.com/store/apps/details?id=com.Sitio&hl=es_MX" target="_blank" rel="noopener">View on Google Play →</a></div>
       </div>
       <div class="enterprise-card fade-in">
         <a class="logo-tile" href="https://ine.mx/" target="_blank" rel="noopener" aria-label="Instituto Nacional Electoral">
           <img src="assets/logos/ine.png" alt="Instituto Nacional Electoral" loading="lazy">
         </a>
-        <p class="enterprise-desc">Supervision of backend work and continuous integration, with team mentoring.</p>
-        <div class="chip-row"><span class="chip">Backend</span><span class="chip">CI</span><span class="chip">Mentoring</span></div>
+        <p class="enterprise-desc">Supervised Spring Boot components that update the national voter list, set up Gradle and Docker builds for Jenkins, and paired with the team to take Checkmarx findings from ~50% to ~98% resolved.</p>
+        <div class="chip-row"><span class="chip">Spring Boot</span><span class="chip">CI</span><span class="chip">Security</span><span class="chip">Mentoring</span></div>
       </div>
       <div class="enterprise-card fade-in">
         <a class="logo-tile" href="https://www.kavak.com/mx" target="_blank" rel="noopener" aria-label="Kavak">
@@ -682,6 +761,7 @@
       <button class="filter-btn active" data-filter="all">All</button>
       <button class="filter-btn" data-filter="mobile">Mobile</button>
       <button class="filter-btn" data-filter="ai">AI</button>
+      <button class="filter-btn" data-filter="automation">Automation</button>
       <button class="filter-btn" data-filter="data">Data</button>
       <button class="filter-btn" data-filter="web">Web</button>
     </div>
@@ -691,7 +771,7 @@
       <div class="project-card fade-in" data-tags="mobile,ai">
         <div class="project-icon"><img src="assets/icons/kite.svg" alt="" aria-hidden="true"></div>
         <div class="project-title">Papalote</div>
-        <div class="project-desc">AI-powered no-code app builder for Android. Describe what you want in plain language and get a fully functional, styled app — instantly. Built with an agentic pipeline, Kotlin, and a locally bundled Material 3 design system.</div>
+        <div class="project-desc">Android no-code app builder: describe an app in one sentence and get a working, styled, offline mini-app. A Koog agent on DeepSeek writes it and a zero-token validator checks it, so one generation never takes more than 2 LLM calls. Live on Google Play.</div>
         <div class="chip-row">
           <span class="chip">Kotlin</span>
           <span class="chip">Jetpack Compose</span>
@@ -703,13 +783,27 @@
         <a class="project-link" href="papalote/index.html">View project →</a>
       </div>
 
+      <div class="project-card fade-in" data-tags="mobile">
+        <div class="project-icon"><img src="assets/icons/bike.svg" alt="" aria-hidden="true"></div>
+        <div class="project-title">Soy Rappi: UX field notes</div>
+        <div class="project-desc">I worked real shifts as a Soy Rappi courier and recorded what broke: an app stuck on launch mid-delivery, debt balances that didn't match, internal errors shown in English. 16 issues, each with a product, architecture and Kotlin-level fix, plus a dark theme that keeps Rappi's coral.</div>
+        <div class="chip-row">
+          <span class="chip">Android UX</span>
+          <span class="chip">Jetpack Compose</span>
+          <span class="chip">Offline-first</span>
+          <span class="chip">Dark theme</span>
+          <span class="chip">WCAG</span>
+        </div>
+        <a class="project-link" href="rappi-ux/index.html">Read the case study →</a>
+      </div>
+
       <div class="project-card fade-in" data-tags="ai,data">
         <div class="project-icon"><img src="assets/icons/trending-up.svg" alt="" aria-hidden="true"></div>
         <div class="project-title">Trading Expert</div>
-        <div class="project-desc">AI-powered trading signal system for US semiconductor and Mexican BMV stocks. Monitors financial news, analyzes sentiment with DeepSeek, maps supply chain ripple effects across a company graph, and pushes real-time signals to Telegram with an R1-powered chat advisor.</div>
+        <div class="project-desc">Trading signals for US semiconductor and Mexican BMV stocks. A free VADER prefilter decides what reaches the LLM: DeepSeek V3 handles the analysis and R1 only steps in when |VADER| ≥ 0.8 or for the Telegram advisor. Signals feed a learning loop that recalibrates its own weights from graded outcomes. 133 tests.</div>
         <div class="chip-row">
           <span class="chip">Python</span>
-          <span class="chip">DeepSeek R1</span>
+          <span class="chip">DeepSeek V3 / R1</span>
           <span class="chip">Celery</span>
           <span class="chip">Redis</span>
           <span class="chip">Docker</span>
@@ -718,10 +812,25 @@
         <a class="project-link" href="https://sinnup.github.io/trading-expert/" target="_blank" rel="noopener">View live →</a>
       </div>
 
+      <div class="project-card fade-in" data-tags="ai,automation,web,data">
+        <div class="project-icon"><img src="assets/icons/package.svg" alt="" aria-hidden="true"></div>
+        <div class="project-title">Faci</div>
+        <div class="project-desc">My one-person import business, run as a pipeline: Google Sheets as the database, AppSheet as the POS, a PWA catalog, and one Claude Code command that goes from an AliExpress link to a published Marketplace listing with no API. Revenue grew 5.2x from July to October 2026 at a ~50% margin.</div>
+        <svg class="card-spark" viewBox="0 0 160 40" role="img" aria-label="Faci monthly revenue March to October 2026, peaking at $5,650 MXN in October"><rect x="2" y="37.7" width="14" height="2.3" rx="2"/><rect x="22" y="27" width="14" height="13" rx="2"/><rect x="42" y="38" width="14" height="2" rx="1"/><rect x="62" y="37.5" width="14" height="2.5" rx="2"/><rect x="82" y="32.4" width="14" height="7.6" rx="2"/><rect x="102" y="29.9" width="14" height="10.1" rx="2"/><rect x="122" y="17.5" width="14" height="22.5" rx="2"/><rect x="142" y="0" width="14" height="40" rx="2"/></svg>
+        <div class="chip-row">
+          <span class="chip">Claude Code</span>
+          <span class="chip">Claude in Chrome</span>
+          <span class="chip">Sheets API</span>
+          <span class="chip">AppSheet</span>
+          <span class="chip">PWA</span>
+        </div>
+        <a class="project-link" href="faci/index.html">View project →</a>
+      </div>
+
       <div class="project-card fade-in" data-tags="mobile,ai">
         <div class="project-icon"><img src="assets/icons/paw.svg" alt="" aria-hidden="true"></div>
         <div class="project-title">Doggito poio</div>
-        <div class="project-desc">Android app that identifies dog breeds from the live camera using an on-device TensorFlow Lite model — fully offline, no cloud calls, instant results on any Android 7+ device. Lets you build a collection of the dogs you recognize.</div>
+        <div class="project-desc">Android app that identifies dog breeds from the live camera with a 3.1 MB TensorFlow Lite model, fully offline, and lets you collect the dogs you find. Ships to Google Play with a <code>/release</code> slash command that bumps the version, builds and uploads the signed bundle, and tags the commit.</div>
         <div class="chip-row">
           <span class="chip">Kotlin</span>
           <span class="chip">Jetpack Compose</span>
@@ -730,6 +839,61 @@
           <span class="chip">Room</span>
         </div>
         <a class="project-link" href="doggito/index.html">View project →</a>
+      </div>
+
+      <div class="project-card fade-in" data-tags="mobile,automation">
+        <div class="project-icon"><img src="assets/icons/message.svg" alt="" aria-hidden="true"></div>
+        <div class="project-title">Ping</div>
+        <div class="project-desc">Android app that answers "is it still available?" on Messenger and WhatsApp Business in 5 to 9 seconds, 24/7, so a hot lead gets a reply while they are still interested and not whenever the seller checks the phone. No Meta API, no business profile, no server. 74 unit tests.</div>
+        <div class="chip-row">
+          <span class="chip">Kotlin</span>
+          <span class="chip">Jetpack Compose</span>
+          <span class="chip">NotificationListenerService</span>
+          <span class="chip">Firebase</span>
+        </div>
+        <a class="project-link" href="ping/index.html">View project →</a>
+      </div>
+
+      <div class="project-card fade-in" data-tags="ai,automation,data">
+        <div class="project-icon"><img src="assets/icons/flame.svg" alt="" aria-hidden="true"></div>
+        <div class="project-title">La Estación del Antojo</div>
+        <div class="project-desc">Took a Mexico City restaurant onto Rappi, DiDi Food and Google Maps. A price calculator grosses up commission, IVA and ISR so the restaurant nets the same per item on Rappi, DiDi and Uber Eats, and Claude skills update the whole DiDi menu from a Google Sheet without an API.</div>
+        <div class="chip-row">
+          <span class="chip">Claude skills</span>
+          <span class="chip">Claude in Chrome</span>
+          <span class="chip">Google Sheets</span>
+          <span class="chip">Rappi</span>
+          <span class="chip">DiDi Food</span>
+        </div>
+        <a class="project-link" href="estacion/index.html">View project →</a>
+      </div>
+
+      <div class="project-card fade-in" data-tags="automation,web">
+        <div class="project-icon"><img src="assets/icons/camera.svg" alt="" aria-hidden="true"></div>
+        <div class="project-title">Frusé</div>
+        <div class="project-desc">Nuts and dried fruit sold by weight, 49 SKUs, running on the same automation as Faci. New here: a photo pipeline driven by a JSON spec that turns phone shots into catalog photos, a PWA catalog with a weight selector, and images prepared for Rappi.</div>
+        <div class="chip-row">
+          <span class="chip">Python</span>
+          <span class="chip">OpenCV</span>
+          <span class="chip">Pillow</span>
+          <span class="chip">Sheets API</span>
+          <span class="chip">PWA</span>
+        </div>
+        <a class="project-link" href="fruse/index.html">View project →</a>
+      </div>
+
+      <div class="project-card fade-in" data-tags="ai,web,automation">
+        <div class="project-icon"><img src="assets/icons/file.svg" alt="" aria-hidden="true"></div>
+        <div class="project-title">TramitesAI</div>
+        <div class="project-desc">Local-first web app where an AI agent drives a real browser to do Mexican paperwork without official APIs: 24 tools, an encrypted personal vault, and Touch ID approval before any payment. Built with Claude Code subagents pinned to models: Opus plans, Sonnet builds, Haiku reviews.</div>
+        <div class="chip-row">
+          <span class="chip">Python</span>
+          <span class="chip">FastAPI</span>
+          <span class="chip">Playwright</span>
+          <span class="chip">Claude</span>
+          <span class="chip">DeepSeek</span>
+        </div>
+        <span class="project-link" style="color: var(--text-dim); cursor: default; font-weight: 500;">In development</span>
       </div>
 
       <div class="project-card fade-in" data-tags="mobile">
@@ -743,19 +907,6 @@
           <span class="chip">Firebase</span>
         </div>
         <a class="project-link" href="geolux/index.html">View project →</a>
-      </div>
-
-      <div class="project-card fade-in" data-tags="mobile">
-        <div class="project-icon"><img src="assets/icons/message.svg" alt="" aria-hidden="true"></div>
-        <div class="project-title">Ping</div>
-        <div class="project-desc">Android app that auto-replies to Marketplace buyers asking if an item is still available, so sellers close sales sooner without being insistent. Works for any seller, personal or business account — no Meta API, no business profile, no server; just install it on the phone signed in to Messenger.</div>
-        <div class="chip-row">
-          <span class="chip">Kotlin</span>
-          <span class="chip">Jetpack Compose</span>
-          <span class="chip">NotificationListenerService</span>
-          <span class="chip">Firebase</span>
-        </div>
-        <a class="project-link" href="ping/index.html">View project →</a>
       </div>
 
       <div class="project-card fade-in" data-tags="data">
@@ -783,18 +934,55 @@
         <a class="project-link" href="https://covid-19-mexico-charts.web.app" target="_blank" rel="noopener">View live →</a>
       </div>
 
-      <div class="project-card fade-in" data-tags="ai,web">
-        <div class="project-icon"><img src="assets/icons/file.svg" alt="" aria-hidden="true"></div>
-        <div class="project-title">TramitesAI</div>
-        <div class="project-desc">Web tool that helps users retrieve Mexican personal documents without depending on an official API — powered by AI agents and context engineering techniques.</div>
-        <div class="chip-row">
-          <span class="chip">AI Agents</span>
-          <span class="chip">Context Engineering</span>
-          <span class="chip">Web</span>
-        </div>
-        <span class="project-link" style="color: var(--text-dim); cursor: default; font-weight: 500;">In development</span>
-      </div>
+    </div>
+  </section>
 
+  <!-- AI WORKFLOW -->
+  <section id="ai">
+    <span class="section-label">AI workflow</span>
+    <h2>How I work with AI</h2>
+    <p class="ai-intro">
+      I set up AI tools the way I would set up a team: clear roles, written context, repeatable commands, and a
+      check after every step. Everything below is running in the projects above, not a list of tools I have tried once.
+    </p>
+
+    <div class="ai-grid">
+      <div class="ai-card fade-in">
+        <div class="ai-kicker">Subagents</div>
+        <div class="ai-title">Roles, each pinned to the right model</div>
+        <p>In TramitesAI an Opus architect designs without writing code, a Sonnet developer implements, a Haiku QA agent can only read and run tests, and a Haiku versioning agent makes the atomic commits and updates the changelog.</p>
+        <p>Trading Expert (6 agents) and Doggito (5) use the same architect → developer → tester → versioning chain. Doggito adds a migration agent that never touches more than one phase at a time.</p>
+      </div>
+      <div class="ai-card fade-in">
+        <div class="ai-kicker">Slash commands</div>
+        <div class="ai-title">Releases and batches in one command</div>
+        <p><code>/release</code> in Doggito checks for a clean tree, bumps the version, builds the signed bundle, uploads it to Google Play, tags and pushes, and reverts the bump if the build fails.</p>
+        <p><code>/ofrecer-nuevos-productos</code> in Faci chains five commands, from an AliExpress link to a live Marketplace listing, and stops at the first failure.</p>
+      </div>
+      <div class="ai-card fade-in">
+        <div class="ai-kicker">Custom skills</div>
+        <div class="ai-title">Domain knowledge written once</div>
+        <p><code>price-return-formulas</code> in Trading Expert holds every price, return and P&amp;L formula, and has to be loaded before touching any number. The code implements each one once, with tests.</p>
+        <p>For the businesses: DiDi Food bulk and single update, menu copywriting, and a Marketplace publisher that keeps notes on every selector that broke.</p>
+      </div>
+      <div class="ai-card fade-in">
+        <div class="ai-kicker">Context &amp; memory</div>
+        <div class="ai-title">Each session starts where the last one ended</div>
+        <p>Every repo has a CLAUDE.md with architecture, invariants and release rules. Papalote keeps ~19 memory files indexed in <code>MEMORY.md</code>, like the OEM background-kill fix or "verify every UI change with an on-device screenshot". Doggito's changelog doubles as migration state.</p>
+        <p>TramitesAI has a token budget (CLAUDE.md under 300 lines, agent files under 40). Saying "feature complete" runs changelog, commits and push in Papalote, Ping and Faci, and a Stop hook snippet in Papalote warns about staged changes left uncommitted.</p>
+      </div>
+      <div class="ai-card fade-in">
+        <div class="ai-kicker">Model management</div>
+        <div class="ai-title">Expensive models only where they pay off</div>
+        <p>Trading Expert: VADER filters news for free, DeepSeek V3 does the analysis, R1 only runs when |VADER| ≥ 0.8. Papalote: a zero-token validator runs before any repair, so a generation never takes more than 2 LLM calls, and "Fix" returns nothing-to-fix without calling the model.</p>
+        <p>Faci routes mechanical steps to Haiku and vision or browser steps to Sonnet. TramitesAI uses Claude for vision and DeepSeek for cheap text.</p>
+      </div>
+      <div class="ai-card fade-in">
+        <div class="ai-kicker">Verification</div>
+        <div class="ai-title">Nothing ships without a check</div>
+        <p>In Trading Expert the workflow agent won't commit until <code>uv run pytest</code> is green (133 tests). Papalote has ~90 unit tests and Ping 74. At Global Payments I brought AI-assisted code review into the team before every PR and bugs dropped by more than 50%.</p>
+        <p>When an agent can't be trusted with something, it doesn't get it: TramitesAI's model never sees a full card number, and payments need Touch ID.</p>
+      </div>
     </div>
   </section>
 
@@ -828,7 +1016,8 @@
       <div class="fade-in">
         <div class="stack-group-title">AI &amp; Agents</div>
         <div class="stack-chips">
-          <span class="stack-chip">Claude</span>
+          <span class="stack-chip">Claude Code</span>
+          <span class="stack-chip">Subagents &amp; skills</span>
           <span class="stack-chip">DeepSeek</span>
           <span class="stack-chip">Koog</span>
           <span class="stack-chip">RAG</span>
@@ -864,7 +1053,19 @@
           <span class="stack-chip">MockK / Mockito</span>
           <span class="stack-chip">JaCoCo</span>
           <span class="stack-chip">SonarQube</span>
+          <span class="stack-chip">Checkmarx</span>
           <span class="stack-chip">EMV L3</span>
+        </div>
+      </div>
+      <div class="fade-in">
+        <div class="stack-group-title">Automation</div>
+        <div class="stack-chips">
+          <span class="stack-chip">Bash</span>
+          <span class="stack-chip">Claude in Chrome</span>
+          <span class="stack-chip">Playwright</span>
+          <span class="stack-chip">Google Sheets API</span>
+          <span class="stack-chip">AppSheet</span>
+          <span class="stack-chip">Apps Script</span>
         </div>
       </div>
     </div>
@@ -880,37 +1081,70 @@
         <div class="timeline-period">Jan 2026 — Present</div>
         <div class="timeline-role">Context Engineer · Freelance</div>
         <div class="timeline-company">Independent — Mexico City</div>
-        <div class="timeline-summary">Building AI-powered Android and web products: an AI-powered app builder (Papalote), an on-device dog breed recognition app (Doggito poio), and AI agent pipelines for automation and data retrieval use cases.</div>
+        <div class="timeline-summary">Building AI-powered Android and web products and automating real businesses: Papalote and Doggito poio on Google Play, Ping, Trading Expert, TramitesAI, an AI agent + RAG system for a contractor company, and the operations behind Faci, Frusé and La Estación del Antojo.</div>
       </div>
 
       <div class="timeline-item fade-in">
         <div class="timeline-period">Mar 2024 — Dec 2025</div>
         <div class="timeline-role">Lead Android Terminal Development</div>
         <div class="timeline-company">Global Payments Inc. — Mexico City</div>
-        <div class="timeline-summary">Led Android POS development (Unified Payment Application) for Verifone terminals. Raised CI/CD pipeline stability from 20% to 94%. Performed EMV L3 certification for Visa, Mastercard, and Amex. Reduced team bugs 50%+ by introducing AI-assisted code review workflows.</div>
+        <div class="timeline-summary">Led Android POS development (Unified Payment Application) for Evo Mexico clients on Verifone TC650 C, P and V660P terminals. Raised Azure DevOps pipeline stability from 20% to 94% and internal-library build stability from 80% to 90%. Wrote Bash scripts around Gradle that sped up daily build and test work by 10%. Performed EMV L3 and host-to-host certification with Visa, Mastercard and Amex for offline and online PIN. Cut team bugs by more than 50% with AI-assisted code review before every PR, and wrote the project's copilot-instructions.md. Defined the business requirements for the Evo Mexico market.</div>
       </div>
 
       <div class="timeline-item fade-in">
         <div class="timeline-period">Nov 2021 — Dec 2022</div>
         <div class="timeline-role">Senior Android Developer</div>
         <div class="timeline-company">Kavak · via Globant — Mexico City</div>
-        <div class="timeline-summary">Raised app stability from 80% to 98% (Crashlytics). Migrated MVVM→MVI, LiveData→Kotlin Flows. Unit test coverage up to 90%. Cut worker support calls from 15 to 5/week. Improved worker satisfaction from 76% to 94%.</div>
+        <div class="timeline-summary">Raised app stability from 80% to 98% (Crashlytics). Migrated MVVM→MVI, LiveData→Kotlin Flows, and planned Dagger 2→Hilt. Unit test coverage up to 90%, with a new 80% minimum for new code. Cut worker support calls from 15 to 5/week. Improved worker satisfaction from 76% to 94%.</div>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-period">Oct 2021 — Dec 2021</div>
+        <div class="timeline-role">Senior Programming Supervisor</div>
+        <div class="timeline-company">INE — Mexico City</div>
+        <div class="timeline-summary">Developed and supervised Spring Boot components that process ID data to update the national voter list. Paired with the team on Checkmarx findings, raising the resolution rate from ~50% to ~98%. Added Gradle builds and Docker image publishing for Jenkins, and wrote the team's versioning and branching standard. Worked on digitizing the voter ID card.</div>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-period">Sep 2020 — Apr 2021</div>
+        <div class="timeline-role">Lead Android Developer</div>
+        <div class="timeline-company">Profuturo · via Noosbit — Mexico City</div>
+        <div class="timeline-summary">MVP with reactive programming on a system of 2 apps and 3 modules talking through a content provider. Integrated a Futronic FS10 fingerprint scanner, refactored the "Beneficiarios" section and delivered an app to the Play Store. Two engagements: Sep–Nov 2020 and Mar–Apr 2021.</div>
       </div>
 
       <div class="timeline-item fade-in">
         <div class="timeline-period">Sep 2019 — Jun 2020</div>
         <div class="timeline-role">Senior Android Developer</div>
         <div class="timeline-company">Nike · via Aptivist — Beaverton, Oregon</div>
-        <div class="timeline-summary">Features on Nike Run Club wearable and mobile apps. Centralized Gradle build configuration. Contributed to Nike's internal open-source DevOps library. Used JFrog Artifactory for dependency management.</div>
+        <div class="timeline-summary">Features on Nike Run Club wearable and mobile apps. Centralized Gradle build configuration into a single file for environment-specific commands. Wrote a script that finds and runs every unit test and publishes results to the Jenkins console. Contributed to Nike's internal open-source DevOps library. Used JFrog Artifactory for dependency management.</div>
+      </div>
+
+      <div class="timeline-item fade-in">
+        <div class="timeline-period">Dec 2018 — Jun 2019</div>
+        <div class="timeline-role">Mobile Developer · Freelance</div>
+        <div class="timeline-company">Geolux — Mexico City</div>
+        <div class="timeline-summary">Hybrid app for Android and web that reads the coordinates inside a photo to place it on a map, with Firebase Realtime Database, Storage and Hosting.</div>
       </div>
 
       <div class="timeline-item fade-in">
         <div class="timeline-period">Oct 2016 — May 2019</div>
         <div class="timeline-role">Full Stack Developer</div>
         <div class="timeline-company">Walmart Tech — Mexico City</div>
-        <div class="timeline-summary">Android + REST web services for internal operations apps used across MX, CA, CN, UK, and Latam. Used Nexus for dependency management. Grew the app from a niche utility to a daily-use essential for merchandising operations. Applied unsupervised learning scripts in R and Python.</div>
+        <div class="timeline-summary">Android apps (MVVM, data binding, barcode scanning) and REST web services for internal operations in MX, CA, CN, UK, Central America and Latam. Built a custom store-information service for the UK with the Tech Expert. Released to store devices and BYOD through AirWatch. Used Nexus for dependency management. Grew the app from a niche utility to a daily-use tool for merchandising decisions. Applied unsupervised learning scripts in R and Python.</div>
       </div>
 
+      <div class="timeline-item fade-in">
+        <div class="timeline-period">Nov 2015 — Aug 2016</div>
+        <div class="timeline-role">Android Developer Jr.</div>
+        <div class="timeline-company">Pulsech · Global Human Services — Mexico City</div>
+        <div class="timeline-summary">OAuth 2.0 sign-in, Realm, OkHttp, Google Maps, Camera2 and media APIs at Pulsech. Sign-in and walkthrough for Claro 360, GCM alerts and image lazy-loading at Global Human Services.</div>
+      </div>
+
+    </div>
+
+    <div class="edu-row fade-in">
+      <div><span class="edu-label">Education</span>Mechatronics Engineering, Instituto Politécnico Nacional (UPIITA), 2010–2015</div>
+      <div><span class="edu-label">Languages</span>Spanish (native) · English (professional) · German (basic)</div>
     </div>
   </section>
 

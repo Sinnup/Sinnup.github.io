@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Ping — an Android app that auto-replies to Marketplace buyers asking if an item is still available. No Meta API, no business profile, no server.">
+  <meta name="description" content="Ping — an Android app that answers buyers asking if an item is still available on Messenger and WhatsApp Business in 5–9 seconds, 24/7. No Meta API, no business profile, no server.">
   <title>Ping — Marketplace Auto-Reply · Sinué Flores</title>
   <link rel="icon" type="image/svg+xml" href="../assets/icons/fav-message.svg">
   <style>
@@ -350,7 +350,8 @@
       nav { padding: 0 1.25rem; }
       section { padding: 2.25rem 0; }
       #hero { padding: 2rem 0 1.5rem; }
-      .stack-groups { grid-template-columns: 1fr 1fr; }
+      .stack-groups { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+      .stack-chip { overflow-wrap: anywhere; }
       footer { flex-direction: column; align-items: flex-start; }
     }
   
@@ -385,15 +386,18 @@
     <div class="hero-icon"><img src="../assets/icons/message.svg" alt="" aria-hidden="true"></div>
     <h1 class="hero-name">Ping<span class="accent">.</span></h1>
     <p class="hero-pitch">
-      Ping is an Android app that automatically answers Marketplace buyers who ask whether an item is
-      still available. It works for <strong>any Marketplace seller</strong> — personal or business
-      account — with no registered Meta business profile, no API and no server. Install it on the
-      phone that is signed in to the seller's Messenger, grant one permission, and it is ready.
+      Ping is an Android app that answers buyers who ask whether an item is still available, on
+      <strong>Messenger and WhatsApp Business</strong>, within 5 to 9 seconds, day or night. It works for
+      any Marketplace seller, personal or business account, with no registered Meta business profile, no API
+      and no server. Install it on the phone that is signed in to the seller's Messenger or WhatsApp Business,
+      grant one permission, and it is ready.
     </p>
     <div class="hero-meta">
       <div class="meta-pill"><strong>Platform</strong> Android</div>
       <div class="meta-pill"><strong>Channels</strong> Messenger · WhatsApp Business</div>
+      <div class="meta-pill"><strong>Reply time</strong> 5–9 s, 24/7</div>
       <div class="meta-pill"><strong>Setup</strong> One permission, no server</div>
+      <div class="meta-pill"><strong>Tests</strong> 74 unit tests</div>
       <div class="meta-pill"><strong>Distribution</strong> Personal use (sideload)</div>
     </div>
   </section>
@@ -407,7 +411,7 @@
         <div class="arch-item-icon"><img src="../assets/icons/zap.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Reply while the buyer is still interested</div>
-          <div class="arch-item-desc">Ping was built to close sales as soon as possible: the buyer gets an answer and a proposal to arrange the delivery right away, without the seller being intrusive or insistent.</div>
+          <div class="arch-item-desc">A buyer who asks "is it still available?" can message another seller just as easily, so the first one to answer has the advantage. Ping answers in 5 to 9 seconds, at 3 a.m. or in the middle of a meeting, with a proposal to arrange the delivery. The seller stops losing hot leads to slow replies, without being intrusive or insistent. That speed-to-lead is the bet; I haven't measured a sales lift yet, but every reply is logged per product and channel so I can.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
@@ -509,7 +513,7 @@
         <div class="arch-item-icon"><img src="../assets/icons/dice.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Replies that feel human</div>
-          <div class="arch-item-desc">Each reply is picked at random from several wordings, addressed by the buyer's first name and sent after a short typing delay. Users can also provide their own messages.</div>
+          <div class="arch-item-desc">Each reply is picked at random from several wordings, addressed by the buyer's first name when the app provides it, and sent after a typing delay of 5 to 9 seconds based on message length: fast, but not instant like a bot. Users can also provide their own messages.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
@@ -524,6 +528,20 @@
         <div>
           <div class="arch-item-title">Never double-replies, recovers missed messages</div>
           <div class="arch-item-desc">A persisted record of delivered replies prevents duplicates, and a reconnect catch-up answers messages that arrived while the OS had the listener killed.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon"><img src="../assets/icons/repeat.svg" alt="" aria-hidden="true"></div>
+        <div>
+          <div class="arch-item-title">It doesn't talk to itself</div>
+          <div class="arch-item-desc">On WhatsApp, the notification came back with Ping's own reply in it, which contains "disponible", and Ping answered itself in a loop. The fix has two layers: the parser skips notifications whose latest message is from the device owner, and a persisted guard stores hashes (never the text) of sent replies to catch any echo that slips through.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon"><img src="../assets/icons/flask.svg" alt="" aria-hidden="true"></div>
+        <div>
+          <div class="arch-item-title">Pure-Kotlin core, 74 unit tests</div>
+          <div class="arch-item-desc">The domain (keyword matching, schedule rules, typing delay, deduplication, echo guard, event outbox) has no Android dependencies, so it runs in plain unit tests: 74 of them across 15 files. Android adapters plug in through ports with manual DI.</div>
         </div>
       </li>
       <li class="arch-item fade-in">

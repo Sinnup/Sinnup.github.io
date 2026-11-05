@@ -640,7 +640,7 @@
         <div class="arch-item-icon"><img src="../assets/icons/bot.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Koog AI Agent</div>
-          <div class="arch-item-desc">A Koog <code>AIAgent</code> runs a multi-role pipeline (Architect → Builder → Reviewer → Fixer → Finalizer). A deterministic <code>HtmlValidator</code> enforces hard invariants (shell, offline, no-gradient) with zero extra tokens — violations trigger a single targeted repair call, never a loop.</div>
+          <div class="arch-item-desc">A Koog <code>AIAgent</code> runs a multi-role pipeline (Architect → Builder → Reviewer → Fixer → Finalizer). A deterministic <code>HtmlValidator</code> enforces hard invariants (shell, offline, no-gradient) with zero extra tokens — violations trigger a single targeted repair call, never a loop. Worst case, a generation costs 2 LLM calls. The user's "Fix" button runs the same free check first and answers "nothing to fix" without calling the model at all.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
@@ -669,6 +669,13 @@
         <div>
           <div class="arch-item-title">Privacy-first analytics</div>
           <div class="arch-item-desc">21 typed events via a backend-agnostic <code>Analytics</code> interface backed by Firebase. <code>AnalyticsSchema</code> (pure, no Android deps) is the single source of truth — unit-tested to enforce that payloads carry only lengths/counts/flags/enums, never prompt or HTML text.</div>
+        </div>
+      </li>
+      <li class="arch-item fade-in">
+        <div class="arch-item-icon"><img src="../assets/icons/kite.svg" alt="" aria-hidden="true"></div>
+        <div>
+          <div class="arch-item-title">Built with Claude Code, with memory between sessions</div>
+          <div class="arch-item-desc">A 266-line <code>CLAUDE.md</code> holds the architecture map, the invariants the prompt and the validator both enforce, and the Play and secrets rules. About 19 memory files indexed in <code>MEMORY.md</code> keep what was learned the hard way: the OEM network kill behind background failures, the Play versionCode lesson, and the rule to verify every UI change with an on-device screenshot instead of fixed tap coordinates. Saying "feature complete" runs changelog, context refresh, atomic commits and push. ~90 unit tests.</div>
         </div>
       </li>
     </ul>
