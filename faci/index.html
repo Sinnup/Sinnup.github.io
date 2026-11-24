@@ -342,7 +342,7 @@
       Neither AliExpress nor Marketplace gave me an API for this, so the agent uses the browser.
     </p>
     <div class="hero-meta">
-      <div class="meta-pill"><strong>Revenue</strong> $25,666 MXN (Mar–Nov 24, 2026)</div>
+      <div class="meta-pill"><strong>Growth</strong> 10.7x revenue, Jul → Nov 2026</div>
       <div class="meta-pill"><strong>Margin</strong> ~48%</div>
       <div class="meta-pill"><strong>Orders</strong> 146</div>
       <div class="meta-pill"><strong>Catalog</strong> 42 products, 29 on Marketplace</div>
@@ -357,77 +357,78 @@
   <section id="results">
     <span class="section-label">Results</span>
     <h2>Monthly sales grew 10x since July</h2>
-    <p class="lead">These numbers come straight from the "Ventas mensuales" tab, which an Apps Script trigger rebuilds every time the Sheet changes. After a flat May and June, revenue and profit have grown every month since. November is still open: it covers the 1st to the 24th and already doubles October.</p>
+    <p class="lead">These numbers come straight from the "Ventas mensuales" tab, which an Apps Script trigger rebuilds every time the Sheet changes. I show them as multiples of July, the month Ping went live, so July is 1x. After a flat May and June, revenue and profit have grown every month since. November is still open: it covers the 1st to the 24th and already doubles October.</p>
 
     <div class="stats-row">
-      <div class="stat fade-in"><div class="stat-number">10.7<span>x</span></div><div class="stat-label">Monthly revenue, July to November ($1,078 to $11,561)</div></div>
-      <div class="stat fade-in"><div class="stat-number">10<span>x</span></div><div class="stat-label">Monthly profit, same months ($525 to $5,251)</div></div>
-      <div class="stat fade-in"><div class="stat-number">~48<span>%</span></div><div class="stat-label">Profit margin, Mar–Nov ($12,435 on $25,666)</div></div>
+      <div class="stat fade-in"><div class="stat-number">10.7<span>x</span></div><div class="stat-label">Monthly revenue, November vs July</div></div>
+      <div class="stat fade-in"><div class="stat-number">10<span>x</span></div><div class="stat-label">Monthly profit, November vs July</div></div>
+      <div class="stat fade-in"><div class="stat-number">~48<span>%</span></div><div class="stat-label">Profit margin, Mar–Nov</div></div>
       <div class="stat fade-in"><div class="stat-number">5<span>→</span>22</div><div class="stat-label">Different products sold per month, July to November</div></div>
     </div>
 
     <figure class="chart-card fade-in">
-      <div class="chart-title">Monthly revenue, 2026 (MXN)</div>
+      <div class="chart-title">Monthly revenue as a multiple of July 2026</div>
       <div class="chart-sub">Hover a bar for revenue, profit and orders</div>
       <div class="chart-scroll">
       <svg viewBox="0 0 640 236" role="img" aria-labelledby="chart-desc">
-        <desc id="chart-desc">Bar chart of Faci monthly revenue in 2026: March $319, April $1,967, May $70, June $420, July $1,078, August $1,429, September $3,172, October $5,650, November 1 to 24 $11,561.</desc>
+        <desc id="chart-desc">Bar chart of Faci monthly revenue in 2026 as a multiple of July: March 0.3x, April 1.8x, May 0.1x, June 0.4x, July 1x, August 1.3x, September 2.9x, October 5.2x, November 1 to 24 10.7x.</desc>
         <line x1="44" x2="632" y1="210.0" y2="210.0" class="grid"/>
         <text x="36" y="214.0" class="axis" text-anchor="end">0</text>
         <line x1="44" x2="632" y1="148.0" y2="148.0" class="grid"/>
-        <text x="36" y="152.0" class="axis" text-anchor="end">$4k</text>
+        <text x="36" y="152.0" class="axis" text-anchor="end">4x</text>
         <line x1="44" x2="632" y1="86.0" y2="86.0" class="grid"/>
-        <text x="36" y="90.0" class="axis" text-anchor="end">$8k</text>
+        <text x="36" y="90.0" class="axis" text-anchor="end">8x</text>
         <line x1="44" x2="632" y1="24.0" y2="24.0" class="grid"/>
-        <text x="36" y="28.0" class="axis" text-anchor="end">$12k</text>
-        <g class="bar-g"><title>Mar 2026: $319 revenue, $211 profit, 3 orders</title><rect x="44.0" y="24" width="65.3" height="186" class="hit"/><path d="M56.4,210 V207.5 Q56.4,205.1 58.9,205.1 H94.4 Q96.9,205.1 96.9,207.5 V210 Z" class="bar"/></g>
+        <text x="36" y="28.0" class="axis" text-anchor="end">12x</text>
+        <g class="bar-g"><title>Mar 2026: 0.3x July revenue, 0.4x July profit, 3 orders</title><rect x="44.0" y="24" width="65.3" height="186" class="hit"/><path d="M56.4,210 V207.7 Q56.4,205.4 58.7,205.4 H94.6 Q96.9,205.4 96.9,207.7 V210 Z" class="bar"/></g>
         <text x="76.7" y="228" class="axis" text-anchor="middle">Mar</text>
-        <text x="76.7" y="199.1" class="val" text-anchor="middle">$319</text>
-        <g class="bar-g"><title>Apr 2026: $1,967 revenue, $1,113 profit, 14 orders</title><rect x="109.3" y="24" width="65.3" height="186" class="hit"/><path d="M121.7,210 V183.5 Q121.7,179.5 125.7,179.5 H158.2 Q162.2,179.5 162.2,183.5 V210 Z" class="bar"/></g>
+        <text x="76.7" y="199.4" class="val" text-anchor="middle">0.3x</text>
+        <g class="bar-g"><title>Apr 2026: 1.8x July revenue, 2.1x July profit, 14 orders</title><rect x="109.3" y="24" width="65.3" height="186" class="hit"/><path d="M121.7,210 V185.7 Q121.7,181.7 125.7,181.7 H158.2 Q162.2,181.7 162.2,185.7 V210 Z" class="bar"/></g>
         <text x="142.0" y="228" class="axis" text-anchor="middle">Apr</text>
-        <text x="142.0" y="173.5" class="val" text-anchor="middle">$1,967</text>
-        <g class="bar-g"><title>May 2026: $70 revenue, $38 profit, 1 orders</title><rect x="174.7" y="24" width="65.3" height="186" class="hit"/><path d="M187.1,210 V209.5 Q187.1,208.9 187.6,208.9 H227.0 Q227.6,208.9 227.6,209.5 V210 Z" class="bar"/></g>
+        <text x="142.0" y="175.7" class="val" text-anchor="middle">1.8x</text>
+        <g class="bar-g"><title>May 2026: 0.1x July revenue, 0.1x July profit, 1 orders</title><rect x="174.7" y="24" width="65.3" height="186" class="hit"/><path d="M187.1,210 V209.5 Q187.1,209.0 187.6,209.0 H227.1 Q227.6,209.0 227.6,209.5 V210 Z" class="bar"/></g>
         <text x="207.4" y="228" class="axis" text-anchor="middle">May</text>
-        <text x="207.4" y="202.9" class="val" text-anchor="middle">$70</text>
-        <g class="bar-g"><title>Jun 2026: $420 revenue, $253 profit, 1 orders</title><rect x="240.0" y="24" width="65.3" height="186" class="hit"/><path d="M252.4,210 V206.7 Q252.4,203.5 255.7,203.5 H289.6 Q292.9,203.5 292.9,206.7 V210 Z" class="bar"/></g>
+        <text x="207.4" y="203.0" class="val" text-anchor="middle">0.1x</text>
+        <g class="bar-g"><title>Jun 2026: 0.4x July revenue, 0.5x July profit, 1 orders</title><rect x="240.0" y="24" width="65.3" height="186" class="hit"/><path d="M252.4,210 V207.0 Q252.4,204.0 255.4,204.0 H289.9 Q292.9,204.0 292.9,207.0 V210 Z" class="bar"/></g>
         <text x="272.7" y="228" class="axis" text-anchor="middle">Jun</text>
-        <text x="272.7" y="197.5" class="val" text-anchor="middle">$420</text>
-        <g class="bar-g"><title>Jul 2026: $1,078 revenue, $525 profit, 9 orders</title><rect x="305.3" y="24" width="65.3" height="186" class="hit"/><path d="M317.7,210 V197.3 Q317.7,193.3 321.7,193.3 H354.2 Q358.2,193.3 358.2,197.3 V210 Z" class="bar"/></g>
+        <text x="272.7" y="198.0" class="val" text-anchor="middle">0.4x</text>
+        <g class="bar-g"><title>Jul 2026: 1x July revenue, 1x July profit, 9 orders</title><rect x="305.3" y="24" width="65.3" height="186" class="hit"/><path d="M317.7,210 V198.5 Q317.7,194.5 321.7,194.5 H354.2 Q358.2,194.5 358.2,198.5 V210 Z" class="bar"/></g>
         <text x="338.0" y="228" class="axis" text-anchor="middle">Jul</text>
-        <text x="338.0" y="187.3" class="val" text-anchor="middle">$1,078</text>
-        <g class="bar-g"><title>Aug 2026: $1,429 revenue, $803 profit, 8 orders</title><rect x="370.7" y="24" width="65.3" height="186" class="hit"/><path d="M383.1,210 V191.9 Q383.1,187.9 387.1,187.9 H419.6 Q423.6,187.9 423.6,191.9 V210 Z" class="bar"/></g>
+        <text x="338.0" y="188.5" class="val" text-anchor="middle">1x</text>
+        <g class="bar-g"><title>Aug 2026: 1.3x July revenue, 1.5x July profit, 8 orders</title><rect x="370.7" y="24" width="65.3" height="186" class="hit"/><path d="M383.1,210 V193.5 Q383.1,189.5 387.1,189.5 H419.6 Q423.6,189.5 423.6,193.5 V210 Z" class="bar"/></g>
         <text x="403.4" y="228" class="axis" text-anchor="middle">Aug</text>
-        <text x="403.4" y="181.9" class="val" text-anchor="middle">$1,429</text>
-        <g class="bar-g"><title>Sep 2026: $3,172 revenue, $1,254 profit, 18 orders</title><rect x="436.0" y="24" width="65.3" height="186" class="hit"/><path d="M448.4,210 V164.8 Q448.4,160.8 452.4,160.8 H484.9 Q488.9,160.8 488.9,164.8 V210 Z" class="bar"/></g>
+        <text x="403.4" y="183.5" class="val" text-anchor="middle">1.3x</text>
+        <g class="bar-g"><title>Sep 2026: 2.9x July revenue, 2.4x July profit, 18 orders</title><rect x="436.0" y="24" width="65.3" height="186" class="hit"/><path d="M448.4,210 V168.4 Q448.4,164.4 452.4,164.4 H484.9 Q488.9,164.4 488.9,168.4 V210 Z" class="bar"/></g>
         <text x="468.7" y="228" class="axis" text-anchor="middle">Sep</text>
-        <text x="468.7" y="154.8" class="val" text-anchor="middle">$3,172</text>
-        <g class="bar-g"><title>Oct 2026: $5,650 revenue, $2,987 profit, 29 orders</title><rect x="501.3" y="24" width="65.3" height="186" class="hit"/><path d="M513.7,210 V126.4 Q513.7,122.4 517.7,122.4 H550.2 Q554.2,122.4 554.2,126.4 V210 Z" class="bar"/></g>
+        <text x="468.7" y="158.4" class="val" text-anchor="middle">2.9x</text>
+        <g class="bar-g"><title>Oct 2026: 5.2x July revenue, 5.7x July profit, 29 orders</title><rect x="501.3" y="24" width="65.3" height="186" class="hit"/><path d="M513.7,210 V132.8 Q513.7,128.8 517.7,128.8 H550.2 Q554.2,128.8 554.2,132.8 V210 Z" class="bar"/></g>
         <text x="534.0" y="228" class="axis" text-anchor="middle">Oct</text>
-        <text x="534.0" y="116.4" class="val" text-anchor="middle">$5,650</text>
-        <g class="bar-g"><title>Nov 2026 (Nov 1–24): $11,561 revenue, $5,251 profit, 63 orders</title><rect x="566.7" y="24" width="65.3" height="186" class="hit"/><path d="M579.1,210 V34.8 Q579.1,30.8 583.1,30.8 H615.6 Q619.6,30.8 619.6,34.8 V210 Z" class="bar partial"/></g>
+        <text x="534.0" y="122.8" class="val" text-anchor="middle">5.2x</text>
+        <g class="bar-g"><title>Nov 2026 (Nov 1–24): 10.7x July revenue, 10x July profit, 63 orders</title><rect x="566.7" y="24" width="65.3" height="186" class="hit"/><path d="M579.1,210 V47.8 Q579.1,43.8 583.1,43.8 H615.6 Q619.6,43.8 619.6,47.8 V210 Z" class="bar partial"/></g>
         <text x="599.4" y="228" class="axis" text-anchor="middle">Nov*</text>
-        <text x="599.4" y="24.8" class="val" text-anchor="middle">$11,561</text>
+        <text x="599.4" y="37.8" class="val" text-anchor="middle">10.7x</text>
         <line x1="44" x2="632" y1="210" y2="210" class="base"/>
       </svg>
       </div>
-      <p class="chart-note">* November covers the 1st to the 24th only. Profit is the "Ganancia" column of the same Sheet. Small numbers in absolute terms, but every peso is a real order from a real customer.</p>
+      <p class="chart-note">* November covers the 1st to the 24th only. Profit follows the same shape (the "Ganancia" column of the same Sheet). Small numbers in absolute terms, but every sale is a real order from a real customer.</p>
       <details class="data-table">
         <summary>Show the data as a table</summary>
         <table>
           <thead><tr><th>Month</th><th>Revenue</th><th>Profit</th><th>Orders</th><th>Products sold</th></tr></thead>
           <tbody>
-            <tr><td>Mar</td><td>$319</td><td>$211</td><td>3</td><td>3</td></tr>
-            <tr><td>Apr</td><td>$1,967</td><td>$1,113</td><td>14</td><td>4</td></tr>
-            <tr><td>May</td><td>$70</td><td>$38</td><td>1</td><td>1</td></tr>
-            <tr><td>Jun</td><td>$420</td><td>$253</td><td>1</td><td>1</td></tr>
-            <tr><td>Jul</td><td>$1,078</td><td>$525</td><td>9</td><td>5</td></tr>
-            <tr><td>Aug</td><td>$1,429</td><td>$803</td><td>8</td><td>7</td></tr>
-            <tr><td>Sep</td><td>$3,172</td><td>$1,254</td><td>18</td><td>9</td></tr>
-            <tr><td>Oct</td><td>$5,650</td><td>$2,987</td><td>29</td><td>16</td></tr>
-            <tr><td>Nov  1–24</td><td>$11,561</td><td>$5,251</td><td>63</td><td>22</td></tr>
-            <tr><td><strong>Total</strong></td><td><strong>$25,666</strong></td><td><strong>$12,435</strong></td><td><strong>146</strong></td><td></td></tr>
+            <tr><td>Mar</td><td>0.3x</td><td>0.4x</td><td>3</td><td>3</td></tr>
+            <tr><td>Apr</td><td>1.8x</td><td>2.1x</td><td>14</td><td>4</td></tr>
+            <tr><td>May</td><td>0.1x</td><td>0.1x</td><td>1</td><td>1</td></tr>
+            <tr><td>Jun</td><td>0.4x</td><td>0.5x</td><td>1</td><td>1</td></tr>
+            <tr><td>Jul</td><td>1x</td><td>1x</td><td>9</td><td>5</td></tr>
+            <tr><td>Aug</td><td>1.3x</td><td>1.5x</td><td>8</td><td>7</td></tr>
+            <tr><td>Sep</td><td>2.9x</td><td>2.4x</td><td>18</td><td>9</td></tr>
+            <tr><td>Oct</td><td>5.2x</td><td>5.7x</td><td>29</td><td>16</td></tr>
+            <tr><td>Nov 1–24</td><td>10.7x</td><td>10x</td><td>63</td><td>22</td></tr>
+            <tr><td><strong>Total</strong></td><td colspan="2"><strong>~48% margin</strong></td><td><strong>146</strong></td><td></td></tr>
           </tbody>
         </table>
+        <p class="chart-note">Revenue and profit as multiples of July (1x).</p>
       </details>
     </figure>
   </section>
@@ -490,7 +491,7 @@
         <div class="arch-item-icon"><img src="../assets/icons/zap.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Buyers get an answer in seconds (Ping)</div>
-          <div class="arch-item-desc">Ping, the Android app I built to answer "is it still available?" on Messenger and WhatsApp, started on July 25. Since then it got a same-day delivery cutoff (Sep 10), recovery of replies missed while the phone was busy (Sep 24) and, on Nov 20, automatic answers for price, stock, delivery and transfer straight from this same Sheet. Over those months revenue went from $1,078 (Jul) to $3,172 (Sep) to $11,561 (Nov, partial). A hot lead that gets a reply in 5 to 9 seconds is a lead that doesn't go to another seller. Ping logs every reply per product, so I can start measuring exactly that.</div>
+          <div class="arch-item-desc">Ping, the Android app I built to answer "is it still available?" on Messenger and WhatsApp, started on July 25. Since then it got a same-day delivery cutoff (Sep 10), recovery of replies missed while the phone was busy (Sep 24) and, on Nov 20, automatic answers for price, stock, delivery and transfer straight from this same Sheet. Over those months revenue went from 1x (Jul) to 2.9x (Sep) to 10.7x (Nov, partial). A hot lead that gets a reply in 5 to 9 seconds is a lead that doesn't go to another seller. Ping logs every reply per product, so I can start measuring exactly that.</div>
         </div>
       </li>
       <li class="arch-item fade-in">
@@ -511,7 +512,7 @@
         <div class="arch-item-icon"><img src="../assets/icons/chart.svg" alt="" aria-hidden="true"></div>
         <div>
           <div class="arch-item-title">Same setup on Frusé, different result</div>
-          <div class="arch-item-desc">Frusé (nuts and dried fruit by weight) runs on the same Sheet, AppSheet and catalog setup. It made $16,529 in revenue and $6,754 in profit from June to November, but it peaked in July at $5,026 and has slowed since ($1,228 so far in November). The growth on this page is Faci. Combined, the two brands moved from $6,104 in July to $12,789 in November. Frusé is where I'm still working out the demand, with the same data in hand.</div>
+          <div class="arch-item-desc">Frusé (nuts and dried fruit by weight) runs on the same Sheet, AppSheet and catalog setup. It peaked in July and has slowed since: November so far is about 0.2x of its July level. The growth on this page is Faci. Combined, the two brands are at 2.1x their July level. Frusé is where I'm still working out the demand, with the same data in hand.</div>
         </div>
       </li>
     </ul>
